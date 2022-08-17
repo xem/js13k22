@@ -29,6 +29,7 @@
 <div id=hero></div>
 <div id=dialog></div>
 <div id=dialog2></div>
+<div id=woop></div>
 
 
 </div>
@@ -39,6 +40,10 @@
 @keyframes fire {
   50% { background-position: 0 -150px; }
 }
+@keyframes wooop {
+  0%, 100% { transform: scale(.01); }
+  50% { transform: scale(3); }
+}
 body { background: #111 }
 #v { width:800px;height:600px;overflow:hidden;margin:auto;position: relative; }
 #s { width: 100%; height: 100%}
@@ -48,7 +53,8 @@ body { background: #111 }
 #devil { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 99Q4 64 30 60Q18 50 25 35Q14 26 27 15Q21 25 31 32Q39 25 50 32Q58 22 50 16Q65 18 56 35Q64 51 50 61Q81 61 91 99Z' fill='%23ff0000'/%3E%3C/svg%3E"); opacity: .01}
 h1 { opacity: 0; position: absolute; top: 0; left: 0; color: #fff; text-align: center; font: 30px arial; margin: 0; padding: 250px 0 0; background: #000; width: 100%; height: 100%; }
 #light { background: #fff; }
-#hero { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z' fill='%23000000'/%3E%3Cpath d='M22 29L22 46A1 1 0 0 1 17 46L17 25Z' fill='%23000000'/%3E%3Cpath d='M3 28L3 47A1 1 0 1 0 8 47L8 25Z' fill='%23000000'/%3E%3Cpath d='M12 45L12 71A2 1 0 1 0 17 71L17 43Z' fill='%23000000'/%3E%3Cpath d='M9 44L9 70A2 2 0 1 0 14 70L14 45Z' fill='%23000000'/%3E%3C/svg%3E"); display: none;}
+#hero { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z' fill='%23000000'/%3E%3Cpath d='M22 29L22 46A1 1 0 0 1 17 46L17 25Z' fill='%23000000'/%3E%3Cpath d='M3 28L3 47A1 1 0 1 0 8 47L8 25Z' fill='%23000000'/%3E%3Cpath d='M12 45L12 71A2 1 0 1 0 17 71L17 43Z' fill='%23000000'/%3E%3Cpath d='M9 44L9 70A2 2 0 1 0 14 70L14 45Z' fill='%23000000'/%3E%3C/svg%3E"); display: none}
+#woop { width: 200px; height: 200px; background: radial-gradient(#000, #0000 50%); opacity: 0; position: absolute; left: 340px; top: 380px; }
 </style>
 
 <script>
@@ -67,7 +73,7 @@ intro = () => {
   setTimeout(()=>head.style.transform = "translateX(150px) translateY(455px) scale(2)",6000);
   setTimeout(()=>devil.style.opacity = ".05",6000);
   setTimeout(()=>devil.style.transform = "translateX(500px) translateY(220px) scale(7)",6000);
-  setTimeout(()=>dialog2.innerHTML = "YOU ARE<br>IN A PLACE<br>BEYOND SPACE<br>AND TIME...",10000);
+  setTimeout(()=>dialog2.innerHTML = "IN A PLACE<br>BEYOND SPACE<br>AND TIME...",10000);
     setTimeout(()=>devil.style.transition = "all 16s", 10000);
   setTimeout(()=>head.style.transition = "all 16s", 10000);
   setTimeout(()=>devil.style.transform = "translateX(450px) translateY(220px) scale(7)",10000);
@@ -77,7 +83,7 @@ intro = () => {
   setTimeout(()=>dialog.innerHTML = "", 19000);
   setTimeout(()=>dialog2.innerHTML = "WORSE THAN<br>THAT...", 20000);
   setTimeout(()=>dialog2.innerHTML = "", 22000);
-  setTimeout(()=>dialog2.innerHTML = "<br><br>YOU ARE...", 23000);
+  setTimeout(()=>dialog2.innerHTML = "<br><br>YOU ARE...", 23300);
   setTimeout(()=>dialog2.innerHTML = "", 24000);
   setTimeout(()=>dialog2.innerHTML = "<br><br><br>IN A<br>PUZZLE<br>GAME!", 25000);
   setTimeout(()=>devil.style.transition = "all .5s", 25000);
@@ -85,10 +91,10 @@ intro = () => {
   setTimeout(()=>devil.style.transform = "translateX(540px) translateY(365px) scale(12)", 25000);
   setTimeout(()=>head.style.transform = "translateX(85px) translateY(574px) scale(5)", 25000);
   setTimeout(()=>dialog2.innerHTML = "", 28000);
-  setTimeout(()=>light.style.opacity = .7, 26500);
+  setTimeout(()=>light.style.opacity = 1, 26500);
   setTimeout(()=>light.style.opacity = 0, 26570);
   setTimeout(()=>light.style.opacity = .7, 26800);
-  setTimeout(()=>light.style.opacity = 0, 26950);
+  setTimeout(()=>light.style.opacity = 0, 26980);
   setTimeout(()=>caption.style.opacity = 1, 27500);
   setTimeout(()=>intro2(), 30000);
 }
@@ -110,13 +116,22 @@ intro2 = () => {
   setTimeout(()=>devil.style.transform = "translateX(610px) translateY(340px) scale(3)",500);
   setTimeout(()=>dialog2.innerHTML = "THIS PLACE<br>IS BETWEEN<br>HEAVEN & HELL<br>...",500);
   setTimeout(()=>dialog2.innerHTML = "",4000);
-  setTimeout(()=>dialog2.innerHTML = "AND TO CHOOSE A<br>PATH, YOU WILL<br> HAVE TO SOLVE<br>MY PUZZLES!",4500);
+  setTimeout(()=>dialog2.innerHTML = "TO CHOOSE A<br>PATH, YOU WILL<br> HAVE TO SOLVE<br>MY PUZZLES!",4500);
   setTimeout(()=>dialog2.innerHTML = "",8500);
+  setTimeout(()=>woop.style.opacity = 1,8500);
+  setTimeout(()=>woop.style.animation = "wooop 1s forwards",8500);
+  setTimeout(()=>hero.style.transition = "none",8500);
+  setTimeout(()=>hero.style.opacity = "0",9000);
+  setTimeout(()=>dialog2.innerHTML = "<br><br>HE HE HE...",9000);
+  setTimeout(()=>dialog2.innerHTML = "",11000);
+  setTimeout(()=>caption.style.font = "100px arial", 11500);
+  setTimeout(()=>caption.innerHTML = "PUZZLATORY", 11500);
+  setTimeout(()=>caption.style.opacity = 1, 11500);
   
   
 }
 
-onload=()=>intro2();
+onload=()=>intro();
 
 </script>
 
