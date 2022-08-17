@@ -11,18 +11,28 @@
 
 <svg id=bubble2 width=99 height=99 xmlns='http://www.w3.org/2000/svg'><path d="M15 85L34 60L21 63L25 52L8 51L19 41L7 29L18 27L13 11L30 18L34 5L45 15L56 5L61 14L73 7L71 15L89 8L86 16L97 15L87 30L97 37L85 40L95 58L76 51L81 66L61 57L61 68L41 60Z" fill="#ffffff" stroke="#000000"/></svg>
 -->
+
+<!--svg width=99 height=99 xmlns='http://www.w3.org/2000/svg' style="transform:scale(3)">
+<path d="M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z" fill="#000000"/>
+<path d="M22 29L22 46A1 1 0 0 1 17 46L17 25Z" fill="#000000"/>
+<path d="M3 28L3 47A1 1 0 1 0 8 47L8 25Z" fill="#000000"/>
+<path d="M12 45L12 71A2 1 0 1 0 17 71L17 43Z" fill="#000000"/>
+<path d="M9 44L9 70A2 2 0 1 0 14 70L14 45Z" fill="#000000"/>
+</svg-->
+
 <div id=v>
 <h1 id=light></h1>
 <div id=s>
 
 <div id=devil></div>
 <div id=head></div>
+<div id=hero></div>
 <div id=dialog></div>
 <div id=dialog2></div>
 
 
 </div>
-<!--h1 id=caption>JS13kGames presents</h1-->
+<h1 id=caption>JS13kGames<br>presents...</h1>
 </div>
 
 <style>
@@ -30,18 +40,25 @@
   50% { background-position: 0 -150px; }
 }
 body { background: #111 }
-#v { width:800px;height:600px;overflow:hidden;margin:auto; background: linear-gradient(#000,#700);background-size: 200% 200%; animation: fire infinite 2s; ; position: relative; }
+#v { width:800px;height:600px;overflow:hidden;margin:auto;position: relative; }
 #s { width: 100%; height: 100%}
 #head { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 99A20 19 0 0 1 30 80L20 40L13 34L23 38L20 31L27 36L28 28L31 36L33 25L36 34L40 27L42 34L47 25L47 33L56 23L52 33L61 28L56 37L68 30L62 38L55 80A23 19 0 0 1 80 99Z' fill='%23000000'/%3E%3C/svg%3E"); transform: translateX(200px) translateY(700px) scale(4) rotate(45deg); transition: all .5s;}
-#dialog { position: absolute; top: 0; left: 0; color: #fff; font: 40px calibri, arial; width: 350px; height: 99px; transform: translateX(350px) translateY(450px); }
-#dialog2 { position: absolute; top: 0; left: 0; color: #f00; font: 35px bold serif; width: 550px; height: 99px; transform: translateX(30px) translateY(30px); }
-#devil { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 99Q4 64 30 60Q18 50 25 35Q14 26 27 15Q21 25 31 32Q39 25 50 32Q58 22 50 16Q65 18 56 35Q64 51 50 61Q81 61 91 99Z' fill='%23ff0000'/%3E%3C/svg%3E"); transform: translateX(500px) translateY(-220px) scale(17); transition: all 5s; opacity: .01}
-h1 { opacity: 0; position: absolute; top: 0; left: 0; color: #000; text-align: center; font: 30px arial; margin: 0; padding: 250px 0 0; background: #fff; width: 100%; height: 100%; }
+#dialog { position: absolute; top: 0; left: 0; color: #fff; font: 40px calibri, arial; width: 350px; transform: translateX(350px) translateY(450px); }
+#dialog2 { position: absolute; top: 30px; left: -50px; color: #f00; font: bold 35px monospace; width: 400px; text-align: center;}
+#devil { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 99Q4 64 30 60Q18 50 25 35Q14 26 27 15Q21 25 31 32Q39 25 50 32Q58 22 50 16Q65 18 56 35Q64 51 50 61Q81 61 91 99Z' fill='%23ff0000'/%3E%3C/svg%3E"); opacity: .01}
+h1 { opacity: 0; position: absolute; top: 0; left: 0; color: #fff; text-align: center; font: 30px arial; margin: 0; padding: 250px 0 0; background: #000; width: 100%; height: 100%; }
+#light { background: #fff; }
+#hero { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z' fill='%23000000'/%3E%3Cpath d='M22 29L22 46A1 1 0 0 1 17 46L17 25Z' fill='%23000000'/%3E%3Cpath d='M3 28L3 47A1 1 0 1 0 8 47L8 25Z' fill='%23000000'/%3E%3Cpath d='M12 45L12 71A2 1 0 1 0 17 71L17 43Z' fill='%23000000'/%3E%3Cpath d='M9 44L9 70A2 2 0 1 0 14 70L14 45Z' fill='%23000000'/%3E%3C/svg%3E"); display: none;}
 </style>
 
 <script>
-onload = () => {
+intro = () => {
+  v.style.background = "linear-gradient(#000,#700)";
+  v.style.backgroundSize = "200% 200%";
+  v.style.animation = "fire infinite 2s";
+  devil.style.transform = "translateX(500px) translateY(-220px) scale(17)";
   setTimeout(()=>head.style.transform = "translateX(200px) translateY(355px) scale(4)",1000);
+  setTimeout(()=>devil.style.transition = "all 5s",1000);
   setTimeout(()=>dialog.innerHTML = "WH... WHERE AM I?",3000);
   setTimeout(()=>dialog.style.left = "-50px",6000);
   setTimeout(()=>dialog.innerHTML = "",6000);
@@ -56,46 +73,50 @@ onload = () => {
   setTimeout(()=>devil.style.transform = "translateX(450px) translateY(220px) scale(7)",10000);
   setTimeout(()=>head.style.transform = "translateX(180px) translateY(455px) scale(2)",10000);
   setTimeout(()=>dialog2.innerHTML = "", 15000);
-  setTimeout(()=>dialog.innerHTML = "OH MY GOD... AM I DEAD?", 16000);
+  setTimeout(()=>dialog.innerHTML = "OH MY GOD...<br>AM I DEAD?", 16000);
   setTimeout(()=>dialog.innerHTML = "", 19000);
   setTimeout(()=>dialog2.innerHTML = "WORSE THAN<br>THAT...", 20000);
   setTimeout(()=>dialog2.innerHTML = "", 22000);
   setTimeout(()=>dialog2.innerHTML = "<br><br>YOU ARE...", 23000);
   setTimeout(()=>dialog2.innerHTML = "", 24000);
-  setTimeout(()=>dialog2.innerHTML = "<br>IN A<br>PUZZLE<br>GAME!", 25000);
+  setTimeout(()=>dialog2.innerHTML = "<br><br><br>IN A<br>PUZZLE<br>GAME!", 25000);
   setTimeout(()=>devil.style.transition = "all .5s", 25000);
   setTimeout(()=>head.style.transition = "all .5s", 25000);
-  setTimeout(()=>devil.style.transform = "translateX(515px) translateY(365px) scale(12)", 25000);
+  setTimeout(()=>devil.style.transform = "translateX(540px) translateY(365px) scale(12)", 25000);
   setTimeout(()=>head.style.transform = "translateX(85px) translateY(574px) scale(5)", 25000);
   setTimeout(()=>dialog2.innerHTML = "", 28000);
   setTimeout(()=>light.style.opacity = .7, 26500);
   setTimeout(()=>light.style.opacity = 0, 26570);
   setTimeout(()=>light.style.opacity = .7, 26800);
   setTimeout(()=>light.style.opacity = 0, 26950);
-  /*setTimeout(()=>devil.style.transition = "none", 31000);
-  setTimeout(()=>head.style.transition = "none", 31000);
-  setTimeout(()=>dialog.style.left = "-330px", 31000);
-  setTimeout(()=>dialog.style.top = "-55px", 31000);
-  setTimeout(()=>dialog2.style.left = "300px", 31000);
-  setTimeout(()=>dialog2.style.top = "350px", 31000);
-  setTimeout(()=>devil.style.transform = "translateX(575px) translateY(365px) scale(4)", 31000);
-  setTimeout(()=>head.style.transform = "translateX(85px) translateY(505px) scale(1)", 31000);
-  setTimeout(()=>dialog.innerHTML = "SO... I'M ALIVE?", 32000);
-  setTimeout(()=>dialog.innerHTML = "", 33500);
-  setTimeout(()=>dialog2.innerHTML = "NO.", 34000);
-  setTimeout(()=>dialog2.innerHTML = "", 35000);
-  setTimeout(()=>caption.innerHTML = "a game by xem", 35000);
-  setTimeout(()=>caption.style.opacity = 1, 35500);
-  setTimeout(()=>caption.style.opacity = 0, 39000);
-  setTimeout(()=>devil.style.transform = "translateX(475px) translateY(450px) scale(2)", 39000);
-  setTimeout(()=>head.style.transform = "translateX(185px) translateY(530px) scale(.5)", 39000);
-  setTimeout(()=>dialog.innerHTML = "BUT I HATE PUZZLES", 40000);
-  setTimeout(()=>dialog.innerHTML = "", 41500);
-  setTimeout(()=>dialog2.innerHTML = "WE ALL DO", 42000);
-  setTimeout(()=>dialog2.innerHTML = "", 43000);*/
-  
-
+  setTimeout(()=>caption.style.opacity = 1, 27500);
+  setTimeout(()=>intro2(), 30000);
 }
+
+intro2 = () => {
+  v.style.animation = "none";
+  hero.style.display = "block";
+  head.style.display = "none";
+  devil.style.transition = "none";
+  caption.style.opacity = 0;
+  v.style.background = "linear-gradient(#0000 90%, #000 90%), radial-gradient(at top left, #6bf 25%,#744 45%, #600 65%, #000)";
+  devil.style.transform = "translateX(660px) translateY(340px) scale(3)";
+  devil.style.opacity = ".2";
+  dialog2.style.left = "430px";
+  hero.style.transform = "translateX(415px) translateY(446px) scale(2)";
+  setTimeout(()=>hero.style.transition = "all 8s",500);
+  setTimeout(()=>devil.style.transition = "all 8s",500);
+  setTimeout(()=>hero.style.transform = "translateX(465px) translateY(446px) scale(2)",500);
+  setTimeout(()=>devil.style.transform = "translateX(610px) translateY(340px) scale(3)",500);
+  setTimeout(()=>dialog2.innerHTML = "THIS PLACE<br>IS BETWEEN<br>HEAVEN & HELL<br>...",500);
+  setTimeout(()=>dialog2.innerHTML = "",4000);
+  setTimeout(()=>dialog2.innerHTML = "AND TO CHOOSE A<br>PATH, YOU WILL<br> HAVE TO SOLVE<br>MY PUZZLES!",4500);
+  setTimeout(()=>dialog2.innerHTML = "",8500);
+  
+  
+}
+
+onload=()=>intro2();
 
 </script>
 
