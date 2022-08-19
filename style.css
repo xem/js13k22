@@ -5,7 +5,7 @@
   0%, 100% { transform: scale(.01); }
   50% { transform: scale(3); }
 }
-body { background: #111 }
+body { background: #111; overflow: hidden; }
 #v { width:800px;height:600px;overflow:hidden;margin:auto;position: relative; }
 #s { width: 100%; height: 100%}
 #head { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 99A20 19 0 0 1 30 80L20 40L13 34L23 38L20 31L27 36L28 28L31 36L33 25L36 34L40 27L42 34L47 25L47 33L56 23L52 33L61 28L56 37L68 30L62 38L55 80A23 19 0 0 1 80 99Z' fill='%23000000'/%3E%3C/svg%3E"); transform: translateX(200px) translateY(700px) scale(4) rotate(45deg); transition: all .5s;}

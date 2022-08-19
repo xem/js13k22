@@ -9,17 +9,21 @@
 </div>
 <script>
 
+u=r=d=l=s=0;
+onkeydown=onkeyup=e=>this['s****lurd************************l**r************l*d***u**u'[e.which-32]]=e.type[5];
+
+
 hero = (x, y, arms, legs, mirror_h, mirror_v) => {
   ctx.save();
 
   
   if(mirror_v){
     if(mirror_h) {
-      ctx.translate(x+70,y+110);
+      ctx.translate(x+70,y+115);
       ctx.scale(1.5,1.5);
     }
     else {
-      ctx.translate(x+30,y+110);
+      ctx.translate(x+30,y+115);
       ctx.scale(-1.5,1.5);
     }
     ctx.rotate(Math.PI);
@@ -27,18 +31,18 @@ hero = (x, y, arms, legs, mirror_h, mirror_v) => {
   
   else {
     if(mirror_h) {
-      ctx.translate(x+70,y-10);
+      ctx.translate(x+70,y-55);
       ctx.scale(-1.5,1.5);
     }
     else {
-      ctx.translate(x+30,y-10);
+      ctx.translate(x+30,y-55);
       ctx.scale(1.5,1.5);
     }
   }
   
   ctx.fill(new Path2D("M17 15L20 20L16 21ZM8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z")); // body
   
-  if(arms == "idle"){
+  if(arms == "idle" || arms == "walk1"){
     ctx.fill(new Path2D("M3 28L3 47A1 1 0 1 0 8 47L8 25Z"));
     ctx.fill(new Path2D("M22 29L22 46A1 1 0 0 1 17 46L17 25Z"));
   }
@@ -47,30 +51,133 @@ hero = (x, y, arms, legs, mirror_h, mirror_v) => {
     ctx.fill(new Path2D("M15 26L19 38L32 38A2 2 0 0 0 32 32L24 32L20 26Z"));
   }
   
+  else if(arms == "walk0") {
+    ctx.fill(new Path2D("M16 27L18 46A1 1 0 0 0 24 44L21 26Z"));
+    ctx.fill(new Path2D("M4 28L1 47A1 1 0 0 0 6 48L10 26Z"));
+  }
+  
+  else if(arms == "walk2") {
+    ctx.fill(new Path2D("M4 28L6 49A2 2 0 0 0 12 48L9 26Z"));
+    ctx.fill(new Path2D("M16 26L14 45A1 1 0 0 0 18 47L21 28Z"));
+  }
+  
+  
+  
+  
+  
   if(legs == "idle"){
     ctx.fill(new Path2D("M12 45L12 71A2 1 0 1 0 17 71L17 43Z"));
     ctx.fill(new Path2D("M9 44L9 70A2 2 0 1 0 14 70L14 45Z"));
   }
   
-  else if(legs == "walk1"){
+  else if(legs == "walk2"){
     ctx.fill(new Path2D("M9 46L13 71A4 3 0 0 0 20 69L14 46Z"));
     ctx.fill(new Path2D("M11 45L6 68A2 2 0 0 0 11 70L16 46Z"));
   }
   
-  else if(legs == "walk2"){
+  else if(legs == "walk0"){
     ctx.fill(new Path2D("M9 46L10 69A3 5 0 0 0 15 69L14 46Z"));
     ctx.fill(new Path2D("M12 47L14 56L6 64A1 1 0 0 0 10 68L21 57L15 46Z"));
   }
   
-  else if(legs == "jump"){
+  else if(legs == "jump" || legs == "walk1"){
     ctx.fill(new Path2D("M9 46L11 58L8 68A2 2 0 0 0 12 70L16 58L13 46Z"));
     ctx.fill(new Path2D("M12 47L18 56L17 67A2 2 0 0 0 22 68L23 56L17 46Z"));
   }
-  
-  
-  
+
   ctx.restore();
 };
+
+
+hero_x = 100;
+hero_y = 100;
+hero_vy = 0;
+gravity = 2;
+hero_grounded = 0;
+hero_h = 0;
+hero_walk = 0;
+hero_hold = 0;
+hold_timer = 0;
+
+cube_x = 400;
+cube_y = 200;
+cube_vy = 0;
+cube_grounded = 0;
+
+draw = () => {
+  canvas.width ^= 0;
+  ctx.fillRect(0,550,800,600); // ground
+  ctx.fillRect(cube_x, cube_y, 50, 50); // cube
+  hero(
+    hero_x,
+    hero_y,
+    hero_hold ? "hold" : (hero_grounded ? ((l || r) ? "walk" + (~~(hero_walk / 5) % 3) : "idle") : "idle"),
+    hero_grounded ? ((l || r) ? "walk" + (~~(hero_walk / 4) % 3) : "idle") : "jump",
+    hero_h,
+    0
+  );
+  
+  if(hero_y < 500){
+    hero_grounded = 0;
+    hero_vy += gravity;
+    hero_y += hero_vy;
+  }
+  else {
+    hero_grounded = 1;
+    hero_y = 500;
+    hero_vy = 0;
+  }
+  
+  if(!hero_hold){
+    if(cube_y < 500){
+      cube_grounded = 0;
+      cube_vy += gravity;
+      cube_y += cube_vy;
+    }
+    else {
+      cube_grounded = 1;
+      cube_y = 500;
+      cube_vy = 0;
+    }
+  }
+  console.log(cube_vy);
+  
+  if(l){
+    hero_x -= 5;
+    hero_h = 1;
+    hero_walk++;
+  }
+  if(r){
+    hero_x += 5;
+    hero_h = 0;
+    hero_walk++;
+  }
+  if(u && hero_grounded) {
+    hero_vy += -20;
+    hero_y += -20;
+    hero_grounded = 0;
+  }
+  if(s && hold_timer == 0) {
+    if(hero_hold) {
+      hero_hold = 0;
+    }
+    else if(Math.abs(hero_x-cube_x) < 70 && Math.abs(hero_y-cube_y) < 60) {
+      hero_hold = 1;
+    }
+    hold_timer = 10;
+  }
+  if(hero_hold) {
+    cube_x = hero_x + (hero_h ? -10 : 60);
+    cube_y = hero_y - 55;
+  }
+  
+  if(hold_timer){
+    hold_timer--;
+  }
+  //console.log(hero_y, hero_grounded);
+}
+
+
 
 play = () => {
   // BG
@@ -82,7 +189,15 @@ play = () => {
   
   // Canvas
   ctx = canvas.getContext("2d");
-  ctx.fillRect(0,550,800,600); // ground
+  
+  
+  setInterval(draw, 33);
+  
+  
+  
+  
+  
+  /*
   for(x = 1; x < 7; x++){
   for(y = 1; y < 5; y++){
     ctx.rect(x*100,y*100, 100,100);
@@ -117,6 +232,7 @@ play = () => {
   hero(400,400,"idle", "jump", 1, 1);
   hero(500,400,"hold", "idle", 1, 1);
   hero(600,400,"hold", "jump", 1, 1);
+  */
   
   
   
