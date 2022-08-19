@@ -1,0 +1,95 @@
+<link rel=stylesheet href=style.css>
+
+<div id=v>
+<h1 id=light></h1>
+<div id=s>
+
+<div id=devil></div>
+<div id=head></div>
+<div id=hero></div>
+<div id=dialog></div>
+<div id=dialog2></div>
+<div id=woop></div>
+
+
+</div>
+<h1 id=caption>JS13kGames<br>presents...</h1>
+</div>
+
+<script>
+intro = () => {
+  v.style.background = "linear-gradient(#000,#700)";
+  v.style.backgroundSize = "200% 200%";
+  v.style.animation = "fire infinite 2s";
+  devil.style.transform = "translateX(500px) translateY(-220px) scale(17)";
+  setTimeout(()=>head.style.transform = "translateX(200px) translateY(355px) scale(4)",1000);
+  setTimeout(()=>devil.style.transition = "all 5s",1000);
+  setTimeout(()=>dialog.innerHTML = "WH... WHERE AM I?",3000);
+  setTimeout(()=>dialog.style.left = "-50px",6000);
+  setTimeout(()=>dialog.innerHTML = "",6000);
+  setTimeout(()=>dialog.style.fontSize = "30px", 6000);
+  setTimeout(()=>head.style.transition = "all 5s",6000);
+  setTimeout(()=>head.style.transform = "translateX(150px) translateY(455px) scale(2)",6000);
+  setTimeout(()=>devil.style.opacity = ".05",6000);
+  setTimeout(()=>devil.style.transform = "translateX(500px) translateY(220px) scale(7)",6000);
+  setTimeout(()=>dialog2.innerHTML = "IN A PLACE<br>BEYOND SPACE<br>AND TIME...",10000);
+    setTimeout(()=>devil.style.transition = "all 16s", 10000);
+  setTimeout(()=>head.style.transition = "all 16s", 10000);
+  setTimeout(()=>devil.style.transform = "translateX(450px) translateY(220px) scale(7)",10000);
+  setTimeout(()=>head.style.transform = "translateX(180px) translateY(455px) scale(2)",10000);
+  setTimeout(()=>dialog2.innerHTML = "", 15000);
+  setTimeout(()=>dialog.innerHTML = "OH MY GOD...<br>AM I DEAD?", 16000);
+  setTimeout(()=>dialog.innerHTML = "", 19000);
+  setTimeout(()=>dialog2.innerHTML = "WORSE THAN<br>THAT...", 20000);
+  setTimeout(()=>dialog2.innerHTML = "", 22000);
+  setTimeout(()=>dialog2.innerHTML = "<br><br>YOU ARE...", 23300);
+  setTimeout(()=>dialog2.innerHTML = "", 24300);
+  setTimeout(()=>dialog2.innerHTML = "<br><br><br>IN A<br>PUZZLE<br>GAME!", 25000);
+  setTimeout(()=>devil.style.transition = "all .5s", 25000);
+  setTimeout(()=>head.style.transition = "all .5s", 25000);
+  setTimeout(()=>devil.style.transform = "translateX(540px) translateY(365px) scale(12)", 25000);
+  setTimeout(()=>head.style.transform = "translateX(85px) translateY(574px) scale(5)", 25000);
+  setTimeout(()=>dialog2.innerHTML = "", 28000);
+  setTimeout(()=>light.style.opacity = 1, 26500);
+  setTimeout(()=>light.style.opacity = 0, 26570);
+  setTimeout(()=>light.style.opacity = .7, 26800);
+  setTimeout(()=>light.style.opacity = 0, 26980);
+  setTimeout(()=>caption.style.opacity = 1, 27500);
+  setTimeout(()=>intro2(), 30000);
+}
+
+intro2 = () => {
+  v.style.animation = "none";
+  hero.style.display = "block";
+  head.style.display = "none";
+  devil.style.transition = "none";
+  caption.style.opacity = 0;
+  v.style.background = "linear-gradient(#0000 90%, #000 90%), radial-gradient(at top left, #6bf 25%,#744 45%, #600 65%, #000)";
+  devil.style.transform = "translateX(660px) translateY(340px) scale(3)";
+  devil.style.opacity = ".2";
+  dialog2.style.left = "430px";
+  hero.style.transform = "translateX(415px) translateY(446px) scale(2)";
+  setTimeout(()=>hero.style.transition = "all 8s",500);
+  setTimeout(()=>devil.style.transition = "all 8s",500);
+  setTimeout(()=>hero.style.transform = "translateX(465px) translateY(446px) scale(2)",500);
+  setTimeout(()=>devil.style.transform = "translateX(610px) translateY(340px) scale(3)",500);
+  setTimeout(()=>dialog2.innerHTML = "THIS PLACE<br>IS BETWEEN<br>HEAVEN & HELL<br>...",500);
+  setTimeout(()=>dialog2.innerHTML = "",4000);
+  setTimeout(()=>dialog2.innerHTML = "TO CHOOSE A<br>PATH, YOU WILL<br> HAVE TO SOLVE<br>MY PUZZLES!",4500);
+  setTimeout(()=>dialog2.innerHTML = "",8500);
+  setTimeout(()=>woop.style.opacity = 1,8500);
+  setTimeout(()=>woop.style.animation = "wooop 1s forwards",8500);
+  setTimeout(()=>hero.style.transition = "none",8500);
+  setTimeout(()=>hero.style.opacity = "0",9000);
+  setTimeout(()=>dialog2.innerHTML = "<br><br>HE HE HE...",9000);
+  setTimeout(()=>dialog2.innerHTML = "",11000);
+  setTimeout(()=>caption.style.font = "100px arial", 11500);
+  setTimeout(()=>caption.innerHTML = "PUZZLATORY", 11500);
+  setTimeout(()=>caption.style.opacity = 1, 11500);
+  
+  
+}
+
+onload=()=>intro();
+
+</script>

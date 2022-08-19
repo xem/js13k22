@@ -1,0 +1,19 @@
+@keyframes fire {
+  50% { background-position: 0 -150px; }
+}
+@keyframes wooop {
+  0%, 100% { transform: scale(.01); }
+  50% { transform: scale(3); }
+}
+body { background: #111 }
+#v { width:800px;height:600px;overflow:hidden;margin:auto;position: relative; }
+#s { width: 100%; height: 100%}
+#head { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 99A20 19 0 0 1 30 80L20 40L13 34L23 38L20 31L27 36L28 28L31 36L33 25L36 34L40 27L42 34L47 25L47 33L56 23L52 33L61 28L56 37L68 30L62 38L55 80A23 19 0 0 1 80 99Z' fill='%23000000'/%3E%3C/svg%3E"); transform: translateX(200px) translateY(700px) scale(4) rotate(45deg); transition: all .5s;}
+#dialog { position: absolute; top: 0; left: 0; color: #fff; font: 40px calibri, arial; width: 350px; transform: translateX(350px) translateY(450px); }
+#dialog2 { position: absolute; top: 30px; left: -50px; color: #f00; font: bold 35px monospace; width: 400px; text-align: center;}
+#devil { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 99Q4 64 30 60Q18 50 25 35Q14 26 27 15Q21 25 31 32Q39 25 50 32Q58 22 50 16Q65 18 56 35Q64 51 50 61Q81 61 91 99Z' fill='%23ff0000'/%3E%3C/svg%3E"); opacity: .01}
+h1 { opacity: 0; position: absolute; top: 0; left: 0; color: #fff; text-align: center; font: 30px arial; margin: 0; padding: 250px 0 0; background: #000; width: 100%; height: 100%; }
+#light { background: #fff; }
+#hero { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z' fill='%23000000'/%3E%3Cpath d='M22 29L22 46A1 1 0 0 1 17 46L17 25Z' fill='%23000000'/%3E%3Cpath d='M3 28L3 47A1 1 0 1 0 8 47L8 25Z' fill='%23000000'/%3E%3Cpath d='M12 45L12 71A2 1 0 1 0 17 71L17 43Z' fill='%23000000'/%3E%3Cpath d='M9 44L9 70A2 2 0 1 0 14 70L14 45Z' fill='%23000000'/%3E%3C/svg%3E"); display: none}
+#woop { width: 200px; height: 200px; background: radial-gradient(#000, #0000 50%); opacity: 0; position: absolute; left: 340px; top: 380px; }
+canvas { position: absolute; top: 0; left: 0 }
