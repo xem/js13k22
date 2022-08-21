@@ -1,0 +1,129 @@
+
+
+<svg id=hero_idle width=99 height=99 xmlns='http://www.w3.org/2000/svg' style="transform:translateX(300px) translateY(300px) scale(3)">
+<path d="M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z" fill="#000000"/>
+<path d="M22 29L22 46A1 1 0 0 1 17 46L17 25Z" fill="#000000"/>
+<path d="M3 28L3 47A1 1 0 1 0 8 47L8 25Z" fill="#000000"/>
+<path d="M12 45L12 71A2 1 0 1 0 17 71L17 43Z" fill="#000000"/>
+<path d="M9 44L9 70A2 2 0 1 0 14 70L14 45Z" fill="#000000"/>
+</svg>
+
+<svg id=hero_walk1 width=99 height=99 xmlns='http://www.w3.org/2000/svg' style="transform:translateX(300px) translateY(300px) scale(3)">
+<path d="M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z" fill="#000000"/>
+<path d="M22 29L22 46A1 1 0 0 1 17 46L17 25Z" fill="#000000"/>
+<path d="M3 28L3 47A1 1 0 1 0 8 47L8 25Z" fill="#000000"/>
+<path d="M9 46L13 71A4 3 0 0 0 20 69L14 46Z" fill="#000000"/>
+<path d="M11 45L6 68A2 2 0 0 0 11 70L16 46Z" fill="#000000"/>
+</svg>
+
+<svg id=hero_walk2 width=99 height=99 xmlns='http://www.w3.org/2000/svg' style="transform:translateX(300px) translateY(300px) scale(3)">
+<path d="M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z" fill="#000000"/>
+<path d="M22 29L22 46A1 1 0 0 1 17 46L17 25Z" fill="#000000"/>
+<path d="M3 28L3 47A1 1 0 1 0 8 47L8 25Z" fill="#000000"/>
+<path d="M9 46L10 69A3 5 0 0 0 15 69L14 46Z" fill="#000000"/>
+<path d="M12 47L14 56L6 64A1 1 0 0 0 10 68L21 57L15 46Z" fill="#000000"/>
+</svg>
+
+<svg id=hero_hold width=99 height=99 xmlns='http://www.w3.org/2000/svg' style="transform:translateX(300px) translateY(300px) scale(3)">
+<path d="M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z" fill="#000000"/>
+<path d="M3 28L7 41L23 41A3 3 0 0 0 23 34L11 34L9 26Z" fill="#000000"/>
+<path d="M15 26L19 38L32 38A2 2 0 0 0 32 32L24 32L20 26Z" fill="#000000"/>
+<path d="M12 45L12 71A2 1 0 1 0 17 71L17 43Z" fill="#000000"/>
+<path d="M9 44L9 70A2 2 0 1 0 14 70L14 45Z" fill="#000000"/>
+</svg>
+
+<svg id=hero_jump width=99 height=99 xmlns='http://www.w3.org/2000/svg' style="transform:translateX(300px) translateY(300px) scale(3)">
+<path d="M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z" fill="#000000"/>
+<path d="M22 29L22 46A1 1 0 0 1 17 46L17 25Z" fill="#000000"/>
+<path d="M3 28L3 47A1 1 0 1 0 8 47L8 25Z" fill="#000000"/>
+<path d="M9 46L11 58L8 68A2 2 0 0 0 12 70L16 58L13 46Z" fill="#000000"/>
+<path d="M12 47L18 56L17 67A2 2 0 0 0 22 68L23 56L17 46Z" fill="#000000"/>
+</svg>
+
+
+
+
+<script>
+
+// Mini Piano
+
+// params: note value / inversed 1 / inversed 2
+n = (e, i1, i2) => {
+   for(
+  
+    // V: note length in seconds
+    V = 2,
+    
+    // O: piano is selected
+    u = i2,
+    
+    // Temp vars for guitar synthesis
+    v = [],
+    p = c = 0,
+    
+    // Modulation
+    // This function generates the i'th sample of a sinusoidal signal with a specific frequency and amplitude
+    b = (e, t, a, i) => Math.sin(e / t * 6.28 * a + i),
+    
+    // Instrument synthesis
+    w = (e, t) =>
+    
+      u 
+
+      // Piano
+      ? Math.sin(e / 44100 * t * 6.28 + b(e, 44100, t, 0) ** 2 + .75 * b(e, 44100, t, .25) + .1 * b(e, 44100, t, .5))
+      
+      // Guitar
+      : (
+        P = 44100 / t,
+        r = 0,
+        v.length <= 1 + ~~P
+        ? (v.push(2 * Math.random() - 1), v[v.length - 1])
+        : (v[p] = .5 * (
+          v[p >= v.length - 1 ? 0 : p + 1] + v[p]
+          ),
+          p >= ~~P && (
+            p < 1 + ~~P 
+            ? c % 100 >= ~~(100 * (P - ~~P)) &&(r = 1, v[p+1] = .5 * (v[0] + v[p + 1]), c++)
+            : r = 1
+          ),
+          p = r ? 0 : p + 1,
+          v[p]
+        )
+      ),
+    
+    // Sound samples
+    D = [],
+    
+    // Loop on all the samples
+    i = 0;
+    i < 44100 * V;
+    i++
+  ){
+  
+    // Fill the samples array
+    D[i] =
+    
+      // The first 88 samples represent the note's attack
+      i < 120 
+      ? i / 120.2 * w(i, e) 
+      
+      // The other samples represent the rest of the note
+      : ((1 - (i - 88.2) / (44100 * (V - .002))) ** (u ? (.5 * Math.log(1e4 * e / 44100)) ** 2 : 1) * w(i, e)) / (u ? 1 : 5);
+  }
+  
+  // Play the note
+  A = new AudioContext,
+  m = A.createBuffer(1, 1e6, 44100),
+  m.getChannelData(0).set(i1 ? D.reverse() : D),
+  s = A.createBufferSource(),
+  s.buffer = m,
+  s.connect(A.destination),
+  s.start()
+}
+</script>
+<!--
+<button onclick=n(70,0,0)>70,normal,guitar</button>
+<button onclick=n(70,1,0)>70,reversed,guitar</button>
+<button onclick=n(70,0,1)>70,normal,piano</button>
+<button onclick=n(70,1,1)>70,reversed,piano</button>-->
