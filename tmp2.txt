@@ -1,98 +1,78 @@
 <link rel=stylesheet href=style.css>
+
 <div id=v>
+
+
 <div id=devil></div>
 <canvas id=canvas width=800 height=600></canvas>
-</div>
 
+</div>
 <script>
 
-// Keyboard controls (Up Left Down Right Space)
 u=r=d=l=s=0;
 onkeydown=onkeyup=e=>this['s****lurd************************l**r************l*d***u**u'[e.which-32]]=e.type[5];
 
+// hitbox
+tl = tr = dl = dr = ml = mr = [];
 
-// Render hero and update its hitbox if it is the current one
-hero = (x, y, arms, legs, mirror_h, mirror_v, current = 1) => {
+// Render hero and update its hitbox
+hero = (x, y, arms, legs, mirror_h, mirror_v) => {
   ctx.save();
 
-  // Position the hero:
   
-  // Reversed gravity
   if(mirror_v){
-    
-    /*// Look left
     if(mirror_h) {
       ctx.translate(x+70,y+115);
       ctx.scale(1.5,1.5);
     }
-    
-    // Look right
     else {
       ctx.translate(x+30,y+115);
       ctx.scale(-1.5,1.5);
     }
-    ctx.rotate(Math.PI);*/
+    ctx.rotate(Math.PI);
   }
   
-  // Normal gravity
   else {
-  
-    // Look left
     if(mirror_h) {
       ctx.translate(x+70,y-55);
       ctx.scale(-1.5,1.5);
     }
-    
-    // Look right
     else {
       ctx.translate(x+30,y-55);
       ctx.scale(1.5,1.5);
     }
     
-    // Compute hitbox
-    if(current){
-      
-      // Hold a cube
-      if(arms == "hold"){
-      
-        // Look left
-        if(hero_h){
-          tl = [hero_x + 0, hero_y - 50];
-          tr = [hero_x + 60, hero_y - 45];
-          bl = [hero_x + 30, hero_y + 45];
-          br = [hero_x + 60, hero_y + 45];
-          ml = [hero_x + 0, hero_y];
-          mr = [hero_x + 60, hero_y];
-        }
-        
-        // Look right
-        else {
-          tl = [hero_x + 30, hero_y - 50];
-          tr = [hero_x + 90, hero_y - 45];
-          bl = [hero_x + 30, hero_y + 45];
-          br = [hero_x + 60, hero_y + 45];
-          ml = [hero_x + 30, hero_y];
-          mr = [hero_x + 90, hero_y];
-        }
+    if(arms == "hold"){
+      if(hero_h){
+        tl = [hero_x + 0, hero_y - 50];
+        tr = [hero_x + 60, hero_y - 45];
+        bl = [hero_x + 30, hero_y + 45];
+        br = [hero_x + 60, hero_y + 45];
+        ml = [hero_x + 0, hero_y];
+        mr = [hero_x + 60, hero_y];
       }
-      
-      // Not holding stuff
       else {
-        tl = [hero_x + 30, hero_y - 35];
-        tr = [hero_x + 60, hero_y - 35];
+        tl = [hero_x + 30, hero_y - 50];
+        tr = [hero_x + 90, hero_y - 45];
         bl = [hero_x + 30, hero_y + 45];
         br = [hero_x + 60, hero_y + 45];
         ml = [hero_x + 30, hero_y];
-        mr = [hero_x + 60, hero_y];
+        mr = [hero_x + 90, hero_y];
       }
+      
+    }
+    else {
+      tl = [hero_x + 30, hero_y - 35];
+      tr = [hero_x + 60, hero_y - 35];
+      bl = [hero_x + 30, hero_y + 45];
+      br = [hero_x + 60, hero_y + 45];
+      ml = [hero_x + 30, hero_y];
+      mr = [hero_x + 60, hero_y];
     }
   }
   
-  // Draw:
-  // Body
   ctx.fill(new Path2D("M17 15L20 20L16 21ZM8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z")); // body
   
-  // Arms
   if(arms == "idle" || arms == "walk1"){
     ctx.fill(new Path2D("M3 28L3 47A1 1 0 1 0 8 47L8 25Z"));
     ctx.fill(new Path2D("M22 29L22 46A1 1 0 0 1 17 46L17 25Z"));
@@ -101,28 +81,36 @@ hero = (x, y, arms, legs, mirror_h, mirror_v, current = 1) => {
     ctx.fill(new Path2D("M3 28L7 41L23 41A3 3 0 0 0 23 34L11 34L9 26Z"));
     ctx.fill(new Path2D("M15 26L19 38L32 38A2 2 0 0 0 32 32L24 32L20 26Z"));
   }
+  
   else if(arms == "walk0") {
     ctx.fill(new Path2D("M16 27L18 46A1 1 0 0 0 24 44L21 26Z"));
     ctx.fill(new Path2D("M4 28L1 47A1 1 0 0 0 6 48L10 26Z"));
   }
+  
   else if(arms == "walk2") {
     ctx.fill(new Path2D("M4 28L6 49A2 2 0 0 0 12 48L9 26Z"));
     ctx.fill(new Path2D("M16 26L14 45A1 1 0 0 0 18 47L21 28Z"));
   }
   
-  // Legs
+  
+  
+  
+  
   if(legs == "idle"){
     ctx.fill(new Path2D("M12 45L12 71A2 1 0 1 0 17 71L17 43Z"));
     ctx.fill(new Path2D("M9 44L9 70A2 2 0 1 0 14 70L14 45Z"));
   }
+  
   else if(legs == "walk2"){
     ctx.fill(new Path2D("M9 46L13 71A4 3 0 0 0 20 69L14 46Z"));
     ctx.fill(new Path2D("M11 45L6 68A2 2 0 0 0 11 70L16 46Z"));
   }
+  
   else if(legs == "walk0"){
     ctx.fill(new Path2D("M9 46L10 69A3 5 0 0 0 15 69L14 46Z"));
     ctx.fill(new Path2D("M12 47L14 56L6 64A1 1 0 0 0 10 68L21 57L15 46Z"));
   }
+  
   else if(legs == "jump" || legs == "walk1"){
     ctx.fill(new Path2D("M9 46L11 58L8 68A2 2 0 0 0 12 70L16 58L13 46Z"));
     ctx.fill(new Path2D("M12 47L18 56L17 67A2 2 0 0 0 22 68L23 56L17 46Z"));
@@ -131,23 +119,48 @@ hero = (x, y, arms, legs, mirror_h, mirror_v, current = 1) => {
   ctx.restore();
 };
 
-// What's on the map at coords x,y ? 0: sky, 1: solid block, 2: cube
+
+hero_x = 100;
+hero_y = 100;
+hero_vy = 0;
+gravity = 2;
+hero_grounded = 0;
+hero_h = 0;
+hero_walk = 0;
+hero_hold = 0;
+hold_timer = 0;
+
+cube_x = 400;
+cube_y = 400;
+cube_vy = 0;
+cube_grounded = 0;
+u_release = 0;
+s_release = 0;
+
+map = [
+  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,
+  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,
+  0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,
+  0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,
+  1,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,
+  1,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,
+  0,0,1,1,0,0,0,0,0,0,1,0,0,0,1,1,
+  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+];
+
+// What's on the map at x,y ?
 hit = (x, y) => {
   if(map[(y/50|0) * 16 + (x/50|0)]) return 1;
-  for(i in cubes){
-    if(hero_hold != +i && cubes[i].x < x && cubes[i].x + 50 > x && cubes[i].y < y && cubes[i].y + 50 > y) {
-      console.log("hit " +i);
-      return 2;
-    }
-  }
+  cube_x > x
+  if(!hero_hold && cube_x < x && cube_x + 50 > x && cube_y < y && cube_y + 50 > y) return 2;
   return 0;
 }
 
-// Draw one frame (and run the physics)
 draw = () => {
-
-  var i;
-  
   canvas.width ^= 0;
   
   // map
@@ -157,12 +170,10 @@ draw = () => {
     }
   }
   
-  // cubes
-  for(i in cubes){
-    ctx.fillStyle = "#200";
-    ctx.fillRect(cubes[i].x, cubes[i].y, 50, 50);
-    ctx.fillStyle = "#000";
-  }
+  // cube
+  ctx.fillStyle = "#200";
+  ctx.fillRect(cube_x, cube_y, 50, 50);
+  ctx.fillStyle = "#000";
   
   // hero
   hero(
@@ -186,7 +197,7 @@ draw = () => {
     else {
       console.log("hit ceiling");
       hero_vy = 0;
-      hero_y = ~~(hero_y / 50) * 50 + (hero_hold ? 30 : 10);
+      hero_y = hero_y = ~~(hero_y / 50) * 50 + (hero_hold ? 30 : 10);
     }
   }
   
@@ -196,7 +207,7 @@ draw = () => {
       console.log("fall");
       hero_grounded = 0;
       hero_vy += gravity;
-      hero_vy = Math.min(hero_vy, 25);
+      hero_vy = Math.min(hero_vy, 30);
       hero_y += hero_vy;
     }
     
@@ -209,22 +220,17 @@ draw = () => {
     }
   }
   
-  // Apply physics to non-held cubes
-  for(i in cubes){
-    if(!cubes[i].holding){
-      //console.log(i, hit(cubes[i].x + 5, cubes[i].y + 55), hit(cubes[i].x + 45, cubes[i].y + 55));
-      if(!hit(cubes[i].x + 5, cubes[i].y + 55) && !hit(cubes[i].x + 45, cubes[i].y + 55)){
-        console.log("cube " + i + " not grounded");
-        cubes[i].vy += gravity; // vy
-        cubes[i].vy = Math.min(cubes[i].vy, 25);
-        cubes[i].y += cubes[i].vy; // y += vy
-      }
-      else {
-        console.log("cube " + i + " grounded");
-        //cubes[i].grounded = 1;
-        cubes[i].y = ~~(cubes[i].y / 50) * 50;
-        cubes[i].vy = 0;
-      }
+  // Hold / release
+  if(!hero_hold){
+    if(cube_y < 500){
+      cube_grounded = 0;
+      cube_vy += gravity;
+      cube_y += cube_vy;
+    }
+    else {
+      cube_grounded = 1;
+      cube_y = 500;
+      cube_vy = 0;
     }
   }
   
@@ -267,27 +273,18 @@ draw = () => {
   if(s && s_release) {
     s_release = 0;
     if(hero_hold) {
-      console.log("release " + hero_hold);
-      if(hero_h) cubes[hero_hold].x -= 15;
-      else cubes[hero_hold].x += 15;
-      cubes[hero_hold].holding = 0;
       hero_hold = 0;
+      if(hero_h) cube_x -= 15;
+      else cube_x += 15;
     }
-    else{
-      for(i in cubes){
-        if(Math.abs(hero_x-cubes[i].x) < 70 && Math.abs(hero_y-cubes[i].y) < 60) {
-          console.log("grab " + i);
-          hero_hold = +i;
-          cubes[i].holding = current_self;
-          break;
-        }
-      }
+    else if(Math.abs(hero_x-cube_x) < 70 && Math.abs(hero_y-cube_y) < 60) {
+      hero_hold = 1;
     }
     hold_timer = 10;
   }
   if(hero_hold) {
-    cubes[hero_hold].x = hero_x + (hero_h ? 5 : 45);
-    cubes[hero_hold].y = hero_y - 45;
+    cube_x = hero_x + (hero_h ? 5 : 45);
+    cube_y = hero_y - 45;
   }
 
   //console.log(hero_y, hero_grounded);
@@ -302,7 +299,7 @@ draw = () => {
 }
 
 
-// Launch the game
+
 play = () => {
   // BG
   v.style.background = "linear-gradient(#300,#a00)";
@@ -314,65 +311,9 @@ play = () => {
   // Canvas
   ctx = canvas.getContext("2d");
   
-  // Map
-  map = [
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,2,0,0,0,0,2,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,
-    0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,
-    0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,
-    0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,
-    1,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,
-    1,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,
-    0,0,1,1,0,0,0,0,0,0,1,0,0,0,1,1,
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  ];
-
-  // Gameplay data:
-  // At each frame, save:
-  // - heros id, positions, orientation (left/right), gravity (up/down), time (forward/backward), if it's the current one, and what they're holding.
-  // - for each cube: id, position, gravity, time, who holds it
-  // - for each button: if it's pressed
-  // The data is saved in "past" if time < 0 and in "future" if time >= 0
-  past = [];
-
-  future = [];
-
-  present = 0; // frame number
   
-  current_self = 1;
-
-  cubes = [{x: 999, y: 999, vy: 0, grounded: 0, holding: 0}, ]; // x, y, vy, grounded. cube 0 doesn't exist
-  
-  // Set cubes
-  for(i in map){
-    if(map[i] == 2) {
-      cubes.push({x: ~~(i%16) * 50, y: ~~(i/16) * 50, vy: 0, grounded: 0, holding: 0});
-      map[i] = 0;
-    }
-  }
-  console.log(cubes);
-  
-  hero_x = 100;
-  hero_y = 100;
-  hero_vy = 0;
-  gravity = 2;
-  hero_grounded = 0;
-  hero_h = 0;
-  hero_walk = 0;
-  hero_hold = 0;
-  hold_timer = 0;
-  
-  // hitbox
-  tl = tr = bl = br = ml = mr = [];
-  
-  // Game loop
   setInterval(draw, 33);
   
 }
 onload = () => play();
-
-
 </script>
