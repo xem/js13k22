@@ -39,13 +39,13 @@ hero = (x, y, arms, legs, mirror_h, mirror_v, current = 1) => {
   
     // Look left
     if(mirror_h) {
-      ctx.translate(x+70,y-55);
+      ctx.translate(x+15,y-55);
       ctx.scale(-1.5,1.5);
     }
     
     // Look right
     else {
-      ctx.translate(x+30,y-55);
+      ctx.translate(x-15,y-55);
       ctx.scale(1.5,1.5);
     }
     
@@ -57,33 +57,33 @@ hero = (x, y, arms, legs, mirror_h, mirror_v, current = 1) => {
       
         // Look left
         if(hero_h){
-          tl = [hero_x + 0, hero_y - 50];
-          tr = [hero_x + 60, hero_y - 45];
-          bl = [hero_x + 30, hero_y + 45];
-          br = [hero_x + 60, hero_y + 45];
-          ml = [hero_x + 0, hero_y];
-          mr = [hero_x + 60, hero_y];
+          tl = [hero_x + -45, hero_y - 45];
+          tr = [hero_x + 25, hero_y - 45];
+          bl = [hero_x + -15, hero_y + 45];
+          br = [hero_x + 15, hero_y + 45];
+          ml = [hero_x + -45, hero_y];
+          mr = [hero_x + 15, hero_y];
         }
         
         // Look right
         else {
-          tl = [hero_x + 30, hero_y - 50];
-          tr = [hero_x + 90, hero_y - 45];
-          bl = [hero_x + 30, hero_y + 45];
-          br = [hero_x + 60, hero_y + 45];
-          ml = [hero_x + 30, hero_y];
-          mr = [hero_x + 90, hero_y];
+          tl = [hero_x + -15, hero_y - 45];
+          tr = [hero_x + 45, hero_y - 45];
+          bl = [hero_x + -15, hero_y + 45];
+          br = [hero_x + 15, hero_y + 45];
+          ml = [hero_x + -15, hero_y];
+          mr = [hero_x + 45, hero_y];
         }
       }
       
       // Not holding stuff
       else {
-        tl = [hero_x + 30, hero_y - 35];
-        tr = [hero_x + 60, hero_y - 35];
-        bl = [hero_x + 30, hero_y + 45];
-        br = [hero_x + 60, hero_y + 45];
-        ml = [hero_x + 30, hero_y];
-        mr = [hero_x + 60, hero_y];
+        tl = [hero_x + -15, hero_y - 35];
+        tr = [hero_x + 15, hero_y - 35];
+        bl = [hero_x + -15, hero_y + 45];
+        br = [hero_x + 15, hero_y + 45];
+        ml = [hero_x + -15, hero_y];
+        mr = [hero_x + 15, hero_y];
       }
     }
   }
@@ -135,8 +135,8 @@ hero = (x, y, arms, legs, mirror_h, mirror_v, current = 1) => {
 hit = (x, y) => {
   if(map[(y/50|0) * 16 + (x/50|0)]) return 1;
   for(i in cubes){
-    if(hero_hold != +i && cubes[i].x < x && cubes[i].x + 50 > x && cubes[i].y < y && cubes[i].y + 50 > y) {
-      console.log("hit " +i);
+    if(hero_hold != +i && cubes[i].x - 25 < x && cubes[i].x + 25 > x && cubes[i].y - 25 < y && cubes[i].y + 25 > y) {
+      //console.log("hit " +i);
       return 2;
     }
   }
@@ -160,7 +160,7 @@ draw = () => {
   // cubes
   for(i in cubes){
     ctx.fillStyle = "#200";
-    ctx.fillRect(cubes[i].x, cubes[i].y, 50, 50);
+    ctx.fillRect(cubes[i].x-25, cubes[i].y-25, 50, 50);
     ctx.fillStyle = "#000";
   }
   
@@ -176,7 +176,7 @@ draw = () => {
   
   // Ascend
   if(hero_vy < 0){
-    if(!hit(tl[0] +5, tl[1] + 10) && !hit(tr[0]-5, tr[1]) + 10){
+    if(!hit(tl[0] +5, tl[1]) && !hit(tr[0]-5, tr[1])){
       console.log("ascend");
       hero_grounded = 0;
       hero_vy += gravity;
@@ -202,7 +202,7 @@ draw = () => {
     
     // Land
     else {
-      console.log("land");
+      //console.log("land");
       hero_grounded = 1;
       hero_y = ~~(hero_y / 50) * 50 + 5;
       hero_vy = 0;
@@ -212,17 +212,17 @@ draw = () => {
   // Apply physics to non-held cubes
   for(i in cubes){
     if(!cubes[i].holding){
-      //console.log(i, hit(cubes[i].x + 5, cubes[i].y + 55), hit(cubes[i].x + 45, cubes[i].y + 55));
-      if(!hit(cubes[i].x + 5, cubes[i].y + 55) && !hit(cubes[i].x + 45, cubes[i].y + 55)){
-        console.log("cube " + i + " not grounded");
+      if(i != 0) console.log(i, hit(cubes[i].x + -24, cubes[i].y + 26), hit(cubes[i].x + 24, cubes[i].y + 26));
+      if(!hit(cubes[i].x + -24, cubes[i].y + 26) && !hit(cubes[i].x + 24, cubes[i].y + 26)){
+        if(i != 0) console.log("cube " + i + " not grounded");
         cubes[i].vy += gravity; // vy
         cubes[i].vy = Math.min(cubes[i].vy, 25);
         cubes[i].y += cubes[i].vy; // y += vy
       }
       else {
-        console.log("cube " + i + " grounded");
+        //if(i != 0)console.log("cube " + i + " grounded");
         //cubes[i].grounded = 1;
-        cubes[i].y = ~~(cubes[i].y / 50) * 50;
+        cubes[i].y = (~~(cubes[i].y / 50)) * 50+25;
         cubes[i].vy = 0;
       }
     }
@@ -262,20 +262,20 @@ draw = () => {
     u_release = 0;
   }
   
-  // Hold
+  // Hold a cube
   if(!s) s_release = 1;
   if(s && s_release) {
     s_release = 0;
     if(hero_hold) {
       console.log("release " + hero_hold);
-      if(hero_h) cubes[hero_hold].x -= 15;
-      else cubes[hero_hold].x += 15;
+      if(hero_h) cubes[hero_hold].x -= (hit(cubes[hero_hold].x - 40, cubes[hero_hold].y - 25) || hit(cubes[hero_hold].x - 40, cubes[hero_hold].y + 25)) ? 0 : 15;
+      else cubes[hero_hold].x += (hit(cubes[hero_hold].x + 40, cubes[hero_hold].y - 25) || hit(cubes[hero_hold].x + 40, cubes[hero_hold].y + 25)) ? 0 : 15;;
       cubes[hero_hold].holding = 0;
       hero_hold = 0;
     }
     else{
       for(i in cubes){
-        if(Math.abs(hero_x-cubes[i].x) < 70 && Math.abs(hero_y-cubes[i].y) < 60) {
+        if(Math.abs(hero_x-cubes[i].x) < 40 && Math.abs(hero_y-cubes[i].y) < 80) {
           console.log("grab " + i);
           hero_hold = +i;
           cubes[i].holding = current_self;
@@ -286,8 +286,8 @@ draw = () => {
     hold_timer = 10;
   }
   if(hero_hold) {
-    cubes[hero_hold].x = hero_x + (hero_h ? 5 : 45);
-    cubes[hero_hold].y = hero_y - 45;
+    cubes[hero_hold].x = hero_x + (hero_h ? -20 : 20);
+    cubes[hero_hold].y = hero_y - 20;
   }
 
   //console.log(hero_y, hero_grounded);
@@ -299,6 +299,9 @@ draw = () => {
   ctx.fillRect(br[0], br[1], 3,3);
   ctx.fillRect(ml[0], ml[1], 3,3);
   ctx.fillRect(mr[0], mr[1], 3,3);
+  ctx.fillRect(hero_x, hero_y, 3,3);
+  for(i in cubes)
+    ctx.fillRect(cubes[i].x, cubes[i].y, 3,3);
 }
 
 
@@ -316,17 +319,17 @@ play = () => {
   
   // Map
   map = [
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,2,0,0,0,0,2,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,
+    0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,
     0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,
     0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,
-    1,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,
+    1,0,0,0,1,1,1,2,0,0,0,0,1,0,0,1,
     1,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,
-    0,0,1,1,0,0,0,0,0,0,1,0,0,0,1,1,
+    0,0,1,1,0,0,0,2,0,0,1,0,0,0,1,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
   ];
 
@@ -349,10 +352,11 @@ play = () => {
   // Set cubes
   for(i in map){
     if(map[i] == 2) {
-      cubes.push({x: ~~(i%16) * 50, y: ~~(i/16) * 50, vy: 0, grounded: 0, holding: 0});
+      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0});
       map[i] = 0;
     }
   }
+  console.log(cubes[1]);
   console.log(cubes);
   
   hero_x = 100;
