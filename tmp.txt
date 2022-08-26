@@ -127,3 +127,24 @@ n = (e, i1, i2) => {
 <button onclick=n(70,1,0)>70,reversed,guitar</button>
 <button onclick=n(70,0,1)>70,normal,piano</button>
 <button onclick=n(70,1,1)>70,reversed,piano</button>-->
+
+
+
+  // Gravity reverser
+  ctx.fillStyle = "#000";
+  ctx.fill(new Path2D("M48 99L48 75A25 25 0 1 1 52 75L52 99ZM53 60L53 40L57 40L50 30L43 40L47 40L47 60L42 60L50 70L58 60Z"));
+  ctx.translate(100,0);
+  ctx.fill(new Path2D("M48 99L48 75A25 25 0 1 1 52 75L52 99ZM45 40L55 51L55 42A4 4 0 0 1 60 57L60 61A6 6 0 0 0 55 37L55 30ZM55 61L45 50L45 57A2 2 0 1 1 40 44L40 39A8 8 0 0 0 45 62L45 70Z"));
+  ctx.translate(100,0);
+  ctx.fill(new Path2D("M0 99L9 85Q9 96 15 96L54 96Q59 96 59 85L69 99ZM15 40L52 40L52 70L15 70ZM47 67L47 44L19 44L19 67Z"));
+  ctx.translate(100,0);
+  ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+  ctx.translate(-300,0);
+  
+  ctx.beginPath();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "000";
+  ctx.setLineDash([5, 2]);
+  ctx.rect(400,100,50,50);
+  ctx.stroke();
+  ctx.fillStyle = "#000";
