@@ -361,7 +361,7 @@ draw = () => {
   }
   
   
-  // gravity inverter
+  // gravity inverter for hero
   if(herogravitydelay == 0) {
     for(i in gravity_inverters){
       if(gravity_inverters[i].x + 25 > bl[0] && gravity_inverters[i].x - 25 < br[0] && gravity_inverters[i].y + 25 > tl[1] && gravity_inverters[i].y - 25 < bl[1]){
@@ -379,10 +379,34 @@ draw = () => {
   }
   else {
     herogravitydelay --;
-    if(herogravitydelay == 13) canvas.style.transform = "rotateX(" + (canvasrx = 180 - canvasrx) + "deg)";
+    if(herogravitydelay == 13) v.style.transform = "rotateX(" + (canvasrx = 180 - canvasrx) + "deg)";
   }
   
-  console.log(herogravitydelay, hero_mirror_v);
+  
+  // gravity inverter for cubes
+  for(j in cubes){
+    /*if(herogravitydelay == 0) {
+      for(i in gravity_inverters){
+        if(gravity_inverters[i].x + 25 > bl[0] && gravity_inverters[i].x - 25 < br[0] && gravity_inverters[i].y + 25 > tl[1] && gravity_inverters[i].y - 25 < bl[1]){
+          gravity_inverters[i].active = 1;
+          hero_mirror_v = 1 - hero_mirror_v;
+          if(hero_hold){
+            cubes[hero_hold].mirror_v = 1 - cubes[hero_hold].mirror_v;
+          }
+          herogravitydelay = 15;
+        }
+        else {
+          gravity_inverters[i].active = 0;
+        }
+      }
+    }
+    else {
+      herogravitydelay --;
+      if(herogravitydelay == 13) v.style.transform = "rotateX(" + (canvasrx = 180 - canvasrx) + "deg)";
+    }*/
+  }
+  
+  //console.log(herogravitydelay, hero_mirror_v);
 
   //console.log(hero_y, hero_grounded);
   
@@ -441,14 +465,14 @@ play = () => {
   
   current_self = 1;
 
-  cubes = [{x: 999, y: 999, vy: 0, grounded: 0, holding: 0, mirror_v:0}, ]; // x, y, vy, grounded. cube 0 doesn't exist
+  cubes = [{x: 999, y: 999, vy: 0, grounded: 0, holding: 0, mirror_v:0, gravitydelay: 0}, ]; // x, y, vy, grounded. cube 0 doesn't exist
   
   gravity_inverters = [];
   
   // Set cubes and inverters
   for(i in map){
     if(map[i] == 2) {
-      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 0});
+      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 0, gravitydelay: 0});
       map[i] = 0;
     }
     
