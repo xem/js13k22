@@ -385,25 +385,21 @@ draw = () => {
   
   // gravity inverter for cubes
   for(j in cubes){
-    /*if(herogravitydelay == 0) {
+    if(cubes[j].gravitydelay == 0 && !cubes.holding) {
       for(i in gravity_inverters){
-        if(gravity_inverters[i].x + 25 > bl[0] && gravity_inverters[i].x - 25 < br[0] && gravity_inverters[i].y + 25 > tl[1] && gravity_inverters[i].y - 25 < bl[1]){
+        if(gravity_inverters[i].x + 25 > cubes[j].x - 25 && gravity_inverters[i].x - 25 < cubes[j].x + 25 && gravity_inverters[i].y + 25 > cubes[j].y - 25 && gravity_inverters[i].y - 25 < cubes[j].y + 25){
           gravity_inverters[i].active = 1;
-          hero_mirror_v = 1 - hero_mirror_v;
-          if(hero_hold){
-            cubes[hero_hold].mirror_v = 1 - cubes[hero_hold].mirror_v;
-          }
-          herogravitydelay = 15;
+          cubes[j].mirror_v = 1 - cubes[j].mirror_v;
+          cubes[j].gravitydelay = 15;
         }
         else {
-          gravity_inverters[i].active = 0;
+          //gravity_inverters[i].active = 0;
         }
       }
     }
     else {
-      herogravitydelay --;
-      if(herogravitydelay == 13) v.style.transform = "rotateX(" + (canvasrx = 180 - canvasrx) + "deg)";
-    }*/
+      cubes[j].gravitydelay --;
+    }
   }
   
   //console.log(herogravitydelay, hero_mirror_v);
