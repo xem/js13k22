@@ -254,19 +254,6 @@ draw = () => {
     }
   }
   
-  // cubes
-  for(i in cubes){
-    ctx.save();
-    ctx.fillStyle = "#000";
-    ctx.translate(cubes[i].x-25, cubes[i].y-25);
-    ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
-    ctx.fillStyle = "#5008";
-    ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
-    ctx.fillStyle = "#000";
-    //ctx.fillText(i, 60, 30);
-    ctx.restore();
-  }
-  
   // Gravity inverters
   for(i in gravity_inverters){
     ctx.save();
@@ -283,6 +270,27 @@ draw = () => {
     ctx.fill(new Path2D("M53 60L53 40L57 40L50 30L43 40L47 40L47 60L42 60L50 70L58 60Z"));
     ctx.restore();
   }
+  
+  
+  // cubes
+  for(i in cubes){
+    ctx.save();
+    ctx.fillStyle = "#000";
+    ctx.translate(cubes[i].x, cubes[i].y);
+    if(cubes[i].mirror_v){
+      ctx.rotate(Math.PI);
+    }
+    ctx.translate(-25,-25);
+    
+    ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+    ctx.fillStyle = "#7008";
+    ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+    ctx.fillStyle = "#000";
+    //ctx.fillText(i, 60, 30);
+    ctx.restore();
+  }
+  
+  
   
   // hero
   hero(
@@ -304,27 +312,51 @@ draw = () => {
   // Apply physics to non-held cubes
   for(i in cubes){
   
-    // Cube fall
-    if(!cubes[i].holding){
-      //if(i != 0) console.log(i, hit(cubes[i].x + -24, cubes[i].y + 26), hit(cubes[i].x + 24, cubes[i].y + 26));
-      if(
-        (hit(cubes[i].x  -22, cubes[i].y + 26, 1) == 0 || hit(cubes[i].x + -22, cubes[i].y + 26, 1) > 2)
-        &&
-        (hit(cubes[i].x + 22, cubes[i].y + 26, 1) == 0 || hit(cubes[i].x + 22, cubes[i].y + 26, 1) > 2)
-      ){
-        //if(i != 0) console.log("cube " + i + " not grounded");
-        cubes[i].vy += gravity; // vy
-        cubes[i].vy = Math.min(cubes[i].vy, 25);
-        cubes[i].y += cubes[i].vy; // y += vy
-      }
+    // reversed gravity
+    if(cubes[i].mirror_v){
       
-      // Cube grounded
-      else {
-        //if(i != 0)console.log("cube " + i + " grounded");
-        //cubes[i].grounded = 1;
-        cubes[i].y = (~~(cubes[i].y / 50)) * 50+25;
-        cubes[i].vy = 0;
+      // Cube fall
+      if(!cubes[i].holding){
+        if(
+          (hit(cubes[i].x  -22, cubes[i].y - 26, 1) == 0 || hit(cubes[i].x + -22, cubes[i].y - 26, 1) > 2)
+          &&
+          (hit(cubes[i].x + 22, cubes[i].y - 26, 1) == 0 || hit(cubes[i].x + 22, cubes[i].y - 26, 1) > 2)
+        ){
+          cubes[i].vy += gravity; // vy
+          cubes[i].vy = Math.min(cubes[i].vy, 25);
+          cubes[i].y -= cubes[i].vy; // y -= vy
+        }
+        
+        // Cube grounded
+        else {
+          cubes[i].y = (~~(cubes[i].y / 50)) * 50+25;
+          cubes[i].vy = 0;
+        }
       }
+    
+    }
+    
+    else {
+    
+      // Cube fall
+      if(!cubes[i].holding){
+        if(
+          (hit(cubes[i].x  -22, cubes[i].y + 26, 1) == 0 || hit(cubes[i].x + -22, cubes[i].y + 26, 1) > 2)
+          &&
+          (hit(cubes[i].x + 22, cubes[i].y + 26, 1) == 0 || hit(cubes[i].x + 22, cubes[i].y + 26, 1) > 2)
+        ){
+          cubes[i].vy += gravity; // vy
+          cubes[i].vy = Math.min(cubes[i].vy, 25);
+          cubes[i].y += cubes[i].vy; // y += vy
+        }
+        
+        // Cube grounded
+        else {
+          cubes[i].y = (~~(cubes[i].y / 50)) * 50+25;
+          cubes[i].vy = 0;
+        }
+      }
+
     }
   }
   
@@ -335,6 +367,9 @@ draw = () => {
       if(gravity_inverters[i].x + 25 > bl[0] && gravity_inverters[i].x - 25 < br[0] && gravity_inverters[i].y + 25 > tl[1] && gravity_inverters[i].y - 25 < bl[1]){
         gravity_inverters[i].active = 1;
         hero_mirror_v = 1 - hero_mirror_v;
+        if(hero_hold){
+          cubes[hero_hold].mirror_v = 1 - cubes[hero_hold].mirror_v;
+        }
         herogravitydelay = 15;
       }
       else {
@@ -344,6 +379,7 @@ draw = () => {
   }
   else {
     herogravitydelay --;
+    if(herogravitydelay == 13) canvas.style.transform = "rotateX(" + (canvasrx = 180 - canvasrx) + "deg)";
   }
   
   console.log(herogravitydelay, hero_mirror_v);
@@ -378,11 +414,11 @@ play = () => {
   // Map
   map = [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-    0,3,0,1,1,1,0,0,0,0,0,0,2,0,0,0,
-    2,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,
+    0,3,0,1,1,1,0,0,0,0,0,0,2,0,3,0,
+    2,0,0,1,1,0,0,0,0,0,0,1,0,0,2,0,
     0,0,0,1,0,0,0,0,0,0,1,1,0,2,0,0,
     2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,2,0,3,0,
     2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -405,14 +441,14 @@ play = () => {
   
   current_self = 1;
 
-  cubes = [{x: 999, y: 999, vy: 0, grounded: 0, holding: 0}, ]; // x, y, vy, grounded. cube 0 doesn't exist
+  cubes = [{x: 999, y: 999, vy: 0, grounded: 0, holding: 0, mirror_v:0}, ]; // x, y, vy, grounded. cube 0 doesn't exist
   
   gravity_inverters = [];
   
   // Set cubes and inverters
   for(i in map){
     if(map[i] == 2) {
-      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0});
+      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 0});
       map[i] = 0;
     }
     
@@ -448,6 +484,7 @@ play = () => {
   herogravitydelay = 0;
   hitx = hity = 0;
   hero_mirror_v = 0;
+  canvasrx = 0;
   
   // hitbox
   tl = tr = bl = br = ml = mr = [];
@@ -686,8 +723,8 @@ hero_physics_v = () => {
   // Jump
   if(!u) u_release = 1;
   if(u && hero_grounded && u_release) {
-    hero_vy -= 13;
-    hero_y += 13;
+    hero_vy -= 14;
+    hero_y += 14;
     hero_grounded = 0;
     u_release = 0;
   }
