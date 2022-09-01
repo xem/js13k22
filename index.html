@@ -237,10 +237,14 @@ draw = () => {
   
   time++;
   
-  present++;
-  if(present < 100){
-    future.push(JSON.parse(JSON.stringify(hero)));
-    console.log(future);
+  if(hero.inverted) present--;
+  else present++;
+  present_abs = Math.abs(present);
+  time_array = present < 0 ? past : future;
+  if(time < 60){
+    if(!time_array[present_abs]) time_array[present_abs] = {hero: [], cubes: []};
+    time_array[present_abs].hero[current_self] = JSON.parse(JSON.stringify(hero));
+    console.log(current_self, present, present_abs, past, future);
   }
   
   var i;
@@ -505,6 +509,7 @@ draw = () => {
       time_inverters[i].active = 1;
       lightning();
       hero.inverted = 1 - hero.inverted;
+      current_self++;
       if(hero.hold){
         cubes[hero.hold].inverted = 1 - cubes[hero.hold].inverted;
       }
