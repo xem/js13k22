@@ -26,8 +26,10 @@ lightning = () => {
 
 
 // Render hero and update its hitbox if it is the current one
-draw_hero = (x, y, arms, legs, mirror_h, mirror_v, inverted, current = 1) => {
+draw_hero = (x, y, arms, legs, mirror_h, mirror_v, inverted, current = 1, arms_only = 0) => {
   ctx.save();
+  
+  //if(current == 1) console.log(legs);
   
   if(inverted){
     ctx.fillStyle = "#ddd";
@@ -148,54 +150,63 @@ draw_hero = (x, y, arms, legs, mirror_h, mirror_v, inverted, current = 1) => {
   }
   
   // Draw:
-  // Body
-  ctx.fill(new Path2D("M17 15L20 20L16 21ZM8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z")); // body
   
-  // Arms
-  if(arms == "idle" || arms == "walk1"){
-    ctx.fill(new Path2D("M3 28L3 47A1 1 0 1 0 8 47L8 25Z"));
-    ctx.fill(new Path2D("M22 29L22 46A1 1 0 0 1 17 46L17 25Z"));
-  }
-  else if(arms == "hold") {
+  if(arms_only && arms == "hold"){
+    // arms 
     ctx.fill(new Path2D("M3 28L7 41L23 41A3 3 0 0 0 23 34L11 34L9 26Z"));
-    ctx.fill(new Path2D("M15 26L19 38L32 38A2 2 0 0 0 32 32L24 32L20 26Z"));
-  }
-  else if(arms == "walk0" || arms == "jump") {
-    ctx.fill(new Path2D("M16 27L18 46A1 1 0 0 0 24 44L21 26Z"));
-    ctx.fill(new Path2D("M4 28L1 47A1 1 0 0 0 6 48L10 26Z"));
-  }
-  else if(arms == "walk2") {
-    ctx.fill(new Path2D("M4 28L6 49A2 2 0 0 0 12 48L9 26Z"));
-    ctx.fill(new Path2D("M16 26L14 45A1 1 0 0 0 18 47L21 28Z"));
   }
   
-  // Legs
-  if(legs == "idle"){
-    ctx.fill(new Path2D("M12 45L12 71A2 1 0 1 0 17 71L17 43Z"));
-    ctx.fill(new Path2D("M9 44L9 70A2 2 0 1 0 14 70L14 45Z"));
-  }
-  else if(legs == "walk2"){
-    ctx.fill(new Path2D("M9 46L13 71A4 3 0 0 0 20 69L14 46Z"));
-    ctx.fill(new Path2D("M11 45L6 68A2 2 0 0 0 11 70L16 46Z"));
-  }
-  else if(legs == "walk0"){
-    ctx.fill(new Path2D("M9 46L10 69A3 5 0 0 0 15 69L14 46Z"));
-    ctx.fill(new Path2D("M12 47L14 56L6 64A1 1 0 0 0 10 68L21 57L15 46Z"));
-  }
-  else if(legs == "jump" || legs == "walk1"){
-    ctx.fill(new Path2D("M9 46L11 58L8 68A2 2 0 0 0 12 70L16 58L13 46Z"));
-    ctx.fill(new Path2D("M12 47L18 56L17 67A2 2 0 0 0 22 68L23 56L17 46Z"));
-  }
+  else{
+    // Body
+    ctx.fill(new Path2D("M17 15L20 20L16 21ZM8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z")); // body
   
-  if(current >= 1){
-    ctx.beginPath();
-    //console.log(mirror_h);
-    ctx.moveTo(mirror_h * 5 + 10,0);
-    ctx.lineTo(mirror_h * 5 + 0,-10);
-    ctx.lineTo(mirror_h * 5 + 20,-10);
-    ctx.closePath();
-    ctx.fillStyle = "#269";
-    ctx.fill();
+    // Arms
+    if(arms == "idle" || arms == "walk1"){
+      ctx.fill(new Path2D("M3 28L3 47A1 1 0 1 0 8 47L8 25Z"));
+      ctx.fill(new Path2D("M22 29L22 46A1 1 0 0 1 17 46L17 25Z"));
+    }
+    else if(arms == "hold") {
+      ctx.fill(new Path2D("M3 28L7 41L23 41A3 3 0 0 0 23 34L11 34L9 26Z"));
+      ctx.fill(new Path2D("M15 26L19 38L32 38A2 2 0 0 0 32 32L24 32L20 26Z"));
+    }
+    else if(arms == "walk0" || arms == "jump") {
+      ctx.fill(new Path2D("M16 27L18 46A1 1 0 0 0 24 44L21 26Z"));
+      ctx.fill(new Path2D("M4 28L1 47A1 1 0 0 0 6 48L10 26Z"));
+    }
+    else if(arms == "walk2") {
+      ctx.fill(new Path2D("M4 28L6 49A2 2 0 0 0 12 48L9 26Z"));
+      ctx.fill(new Path2D("M16 26L14 45A1 1 0 0 0 18 47L21 28Z"));
+    }
+  
+    // Legs
+    if(legs == "idle"){
+      ctx.fill(new Path2D("M12 45L12 71A2 1 0 1 0 17 71L17 43Z"));
+      ctx.fill(new Path2D("M9 44L9 70A2 2 0 1 0 14 70L14 45Z"));
+    }
+    else if(legs == "walk2"){
+      ctx.fill(new Path2D("M9 46L13 71A4 3 0 0 0 20 69L14 46Z"));
+      ctx.fill(new Path2D("M11 45L6 68A2 2 0 0 0 11 70L16 46Z"));
+    }
+    else if(legs == "walk0"){
+      ctx.fill(new Path2D("M9 46L10 69A3 5 0 0 0 15 69L14 46Z"));
+      ctx.fill(new Path2D("M12 47L14 56L6 64A1 1 0 0 0 10 68L21 57L15 46Z"));
+    }
+    else if(legs == "jump" || legs == "walk1"){
+      ctx.fill(new Path2D("M9 46L11 58L8 68A2 2 0 0 0 12 70L16 58L13 46Z"));
+      ctx.fill(new Path2D("M12 47L18 56L17 67A2 2 0 0 0 22 68L23 56L17 46Z"));
+    }
+  
+    // Triangle
+    if(current >= 1){
+      ctx.beginPath();
+      //console.log(mirror_h);
+      ctx.moveTo(mirror_h * 5 + 10,0);
+      ctx.lineTo(mirror_h * 5 + 0,-10);
+      ctx.lineTo(mirror_h * 5 + 20,-10);
+      ctx.closePath();
+      ctx.fillStyle = "#269";
+      ctx.fill();
+    }
   }
 
   ctx.restore();
@@ -233,6 +244,8 @@ hit = (x, y, from_cube, log) => {
 // Draw one frame (and run the physics)
 draw = () => {
 
+  var i,j;
+
   if(pause){ pause--; if(pause < 18 && pause > 5) return }
   
   time++;
@@ -241,13 +254,30 @@ draw = () => {
   else present++;
   present_abs = Math.abs(present);
   time_array = present < 0 ? past : future;
-  if(time < 60){
-    if(!time_array[present_abs]) time_array[present_abs] = {hero: [], cubes: []};
-    time_array[present_abs].hero[current_self] = JSON.parse(JSON.stringify(hero));
-    console.log(current_self, present, present_abs, past, future);
-  }
+  if(!time_array[present_abs]) time_array[present_abs] = {hero: [], cubes: []};
   
-  var i;
+  //if(time < 100){
+    
+    // Save hero in time
+    time_array[present_abs].hero[current_self] = JSON.parse(JSON.stringify(hero));
+  
+    //console.log(time_array[present_abs].hero[current_self]);
+    // Load cubes from time array plus eventual cubes that have been created since
+    if(time_array[present_abs].cubes.length){
+      
+      for(i in time_array[present_abs].cubes){
+        cubes[i] = JSON.parse(JSON.stringify(time_array[present_abs].cubes[i]));
+      }
+      //cubes = time_array[present_abs].cubes;
+      //console.log(present, JSON.stringify(cubes));
+    }
+    
+    // Save cubes in time
+    time_array[present_abs].cubes = JSON.parse(JSON.stringify(cubes));
+    
+    //console.log(time_array);
+  //}
+  
   
   canvas.width ^= 0;
   
@@ -281,9 +311,11 @@ draw = () => {
     }
     ctx.lineWidth = 3;
     ctx.setLineDash([5, 3]);
-    ctx.rect(gravity_inverters[i].x-25,gravity_inverters[i].y-25,50,50);
+    ctx.arc(gravity_inverters[i].x,gravity_inverters[i].y,22,0,7);
     ctx.stroke();
     ctx.translate(gravity_inverters[i].x-50,gravity_inverters[i].y-50);
+    ctx.scale(.9,.9);
+    ctx.translate(5,5);
     ctx.fill(new Path2D("M53 60L53 40L57 40L50 30L43 40L47 40L47 60L42 60L50 70L58 60Z"));
     ctx.restore();
   }
@@ -349,21 +381,24 @@ draw = () => {
       ctx.strokeStyle = "hsl(0deg 0% " + (Math.cos(time/15)*30 + 30) + "%)";
     }
     ctx.beginPath();
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 3;
     ctx.setLineDash([5, 5]);
-    ctx.translate(time_inverters[i].x - 25, time_inverters[i].y - 25);
-    ctx.rect(0,0,50,50);
+    ctx.translate(time_inverters[i].x, time_inverters[i].y);
+    ctx.arc(0,0,22,0,7);
     ctx.stroke();
     
-    ctx.translate(-25,-25);
+    ctx.translate(-30,-30);
+    ctx.scale(.7,.7);
+    ctx.translate(-7,-7);
     ctx.fill(new Path2D("M45 40L55 51L55 42A4 4 0 0 1 60 57L60 61A6 6 0 0 0 55 37L55 30ZM55 61L45 50L45 57A2 2 0 1 1 40 44L40 39A8 8 0 0 0 45 62L45 70Z"));
     ctx.restore();
   }
   
     
   
-  // cubes
+  // Non-held cubes
   for(i in cubes){
+    if(cubes[i].holding) continue;
     ctx.save();
     if(cubes[i].inverted){
       ctx.fillStyle = "#ddd";
@@ -387,19 +422,113 @@ draw = () => {
   }
   
   
+  // Previous selves
+  for(i in time_array[present_abs]?.hero){
+    j = time_array[present_abs].hero[i];
+    //if(i == 1) console.log(j.walk);
+    draw_hero(
+      j.x,
+      j.y,
+      j.hold ? "hold" : (j.grounded ? (j.walking ? "walk" + (~~(j.walk / 5) % 3) : "idle") : "jump"),
+      j.grounded ? (j.walking ? "walk" + (~~(j.walk / 4) % 3) : "idle") : "jump",
+      j.mirror_h,
+      j.mirror_v,
+      j.inverted,
+      j
+    );
+    
+    if(j.hold){
+      
+      // Previous self cube
+      ctx.save();
+      if(cubes[j.hold].inverted){
+        ctx.fillStyle = "#ddd";
+      }
+      else {
+        ctx.fillStyle = "#000";
+      }
+      ctx.translate(cubes[j.hold].x, cubes[j.hold].y);
+      if(cubes[j.hold].mirror_v){
+        ctx.rotate(Math.PI);
+        ctx.translate(0,-.5);
+      }
+      ctx.translate(-25,-25);
+      
+      ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+      ctx.fillStyle = "#7008";
+      ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+      ctx.fillStyle = "#000";
+      //ctx.fillText(i, 60, 30);
+      ctx.restore();
   
-  // hero
+      // Previous self arms
+      j = time_array[present_abs].hero[i];
+      //if(i == 1) console.log(j.walk);
+      draw_hero(
+        j.x,
+        j.y,
+        j.hold ? "hold" : (j.grounded ? (j.walking ? "walk" + (~~(j.walk / 5) % 3) : "idle") : "jump"),
+        j.grounded ? (j.walking ? "walk" + (~~(j.walk / 4) % 3) : "idle") : "jump",
+        j.mirror_h,
+        j.mirror_v,
+        j.inverted,
+        j,
+        true
+      );
+    }
+  }
+  
+  // current hero
   draw_hero(
     hero.x,
     hero.y,
-    hero.hold ? "hold" : (hero.grounded ? ((l || r) ? "walk" + (~~(hero.walk / 5) % 3) : "idle") : "jump"),
-    hero.grounded ? ((l || r) ? "walk" + (~~(hero.walk / 4) % 3) : "idle") : "jump",
+    hero.hold ? "hold" : (hero.grounded ? (hero.walking ? "walk" + (~~(hero.walk / 5) % 3) : "idle") : "jump"),
+    hero.grounded ? (hero.walking ? "walk" + (~~(hero.walk / 4) % 3) : "idle") : "jump",
     hero.mirror_h,
     hero.mirror_v,
     hero.inverted,
     current_self
   );
   
+  if(hero.hold){
+  
+    // Hero's cube
+    ctx.save();
+    if(cubes[hero.hold].inverted){
+      ctx.fillStyle = "#ddd";
+    }
+    else {
+      ctx.fillStyle = "#000";
+    }
+    ctx.translate(cubes[hero.hold].x, cubes[hero.hold].y);
+    if(cubes[hero.hold].mirror_v){
+      ctx.rotate(Math.PI);
+      ctx.translate(0,-.5);
+    }
+    ctx.translate(-25,-25);
+    
+    ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+    ctx.fillStyle = "#7008";
+    ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+    ctx.fillStyle = "#000";
+    //ctx.fillText(i, 60, 30);
+    ctx.restore();
+
+    // hero's arms
+    draw_hero(
+      hero.x,
+      hero.y,
+      hero.hold ? "hold" : (hero.grounded ? (hero.walking ? "walk" + (~~(hero.walk / 5) % 3) : "idle") : "jump"),
+      hero.grounded ? (hero.walking ? "walk" + (~~(hero.walk / 4) % 3) : "idle") : "jump",
+      hero.mirror_h,
+      hero.mirror_v,
+      hero.inverted,
+      current_self,
+      true
+    );
+  }
+  
+
   if(hero.mirror_v){
     hero_physics_v();
   }
@@ -467,8 +596,9 @@ draw = () => {
         hero.mirror_v = 1 - hero.mirror_v;
         if(hero.hold){
           cubes[hero.hold].mirror_v = 1 - cubes[hero.hold].mirror_v;
+          hero.vy = 0;
         }
-        herogravitydelay = 9;
+        herogravitydelay = 15;
         pause = 20;
       }
       else {
@@ -478,7 +608,7 @@ draw = () => {
   }
   else {
     herogravitydelay --;
-    if(herogravitydelay == 8) v.style.transform = "rotateX(" + (canvasrx = 180 - canvasrx) + "deg)";
+    if(herogravitydelay == 13) v.style.transform = "rotateX(" + (canvasrx = 180 - canvasrx) + "deg)";
   }
   
   
@@ -511,7 +641,29 @@ draw = () => {
       hero.inverted = 1 - hero.inverted;
       current_self++;
       if(hero.hold){
+      
+        // Make cube disappear "after" the time inversion (before if time is reversed)
+        if(hero.inverted){
+          if(!time_array[Math.abs(present + 1)]){
+            time_array[Math.abs(present + 1)] = JSON.parse(JSON.stringify(time_array[present_abs]));
+          }
+          time_array[Math.abs(present + 1)].cubes[hero.hold].x = 9999;
+        }
+        else {
+          if(!time_array[Math.abs(present - 1)]){
+            time_array[Math.abs(present - 1)] = JSON.parse(JSON.stringify(time_array[present_abs]));
+          }
+          time_array[Math.abs(present - 1)].cubes[hero.hold].x = 9999;
+        }
+        
+        
+        // New cube is created in the opposite direction and attached to the new self
+        cubes[cubes.length] = JSON.parse(JSON.stringify(cubes[cubes.length-1]));
+        console.log(JSON.stringify(cubes));
+        hero.hold = cubes.length - 1;
+        cubes[hero.hold].holding = current_self;
         cubes[hero.hold].inverted = 1 - cubes[hero.hold].inverted;
+        
       }
       //herogravitydelay = 9;
       //pause = 20;
@@ -546,7 +698,8 @@ draw = () => {
   for(i in cube_slots){
     if(!cube_slots[i].active) exit_open = 0;
   }
-  exit.style.opacity = exit_open ? 1 : 0;
+  exit.style.opacity = exit_open ? 1 : 0.5;
+  exit.style.transform = exit_open ? "scale(1)" : "scale(.2)";
   
   
   
@@ -629,6 +782,7 @@ play = () => {
   future = [];
 
   present = 0; // frame number
+  present_abs = 0; // same but absolute value
   
   current_self = 1;
 
@@ -806,6 +960,7 @@ hero_physics = () => {
   
   
   // Left
+  hero.walking = 0;
   if(l){
   
     if(hero.x > 10 && hit(...tl) != 1 && hit(...ml) != 1 && hit(bl[0], bl[1] - 10) != 1){
@@ -816,6 +971,7 @@ hero_physics = () => {
     }
     hero.mirror_h = 1;
     hero.walk++;
+    hero.walking = 1;
   }
   
   // Right
@@ -828,6 +984,7 @@ hero_physics = () => {
     }
     hero.mirror_h = 0;
     hero.walk++;
+    hero.walking = 1;
   }
   
   // Jump
@@ -837,6 +994,7 @@ hero_physics = () => {
     hero.y += -13;
     hero.grounded = 0;
     u_release = 0;
+    hero.walking = 0;
   }
   
   // Hold a cube
@@ -870,8 +1028,6 @@ hero_physics = () => {
     //console.log(hero.mirror_v, hero.y, hero.y + 50);
   }
 }
-
-
 
 
 hero_physics_v = () => {
