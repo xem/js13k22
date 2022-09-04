@@ -3,6 +3,7 @@
 <h1 id=light></h1>
 <div id=devil></div>
 <canvas id=canvas width=800 height=600></canvas>
+<div id=start></div>
 <div id=exit></div>
 </div>
 
@@ -217,7 +218,7 @@ hit = (x, y, from_cube, log) => {
   hitx = (x/50|0) * 50 + 25;
   hity = (y/50|0) * 50 + 25;
   for(i in cubes){
-    if(hero.hold != +i && cubes[i].x - 25 < x && cubes[i].x + 25 > x && cubes[i].y - 25 < y && cubes[i].y + 25 > y) {
+    if(hero.hold != +i && !cubes[i].holding && cubes[i].x - 25 < x && cubes[i].x + 25 > x && cubes[i].y - 25 < y && cubes[i].y + 25 > y) {
       //if(log) console.log("hit " +i);
       hitx = cubes[i].x;
       hity = cubes[i].y;
@@ -266,7 +267,13 @@ draw = () => {
     if(time_array[present_abs].cubes.length){
       
       for(i in time_array[present_abs].cubes){
-        cubes[i] = JSON.parse(JSON.stringify(time_array[present_abs].cubes[i]));
+        if(cubes[i].last_grab && cubes[i].last_grab < current_self){
+          cubes[i] = JSON.parse(JSON.stringify(time_array[present_abs].cubes[i]));
+        }
+        else {
+          cubes[i] = JSON.parse(JSON.stringify(time_array[present_abs].cubes[i]));
+          cubes[i].holding = 0;
+        }
       }
       //cubes = time_array[present_abs].cubes;
       //console.log(present, JSON.stringify(cubes));
@@ -280,6 +287,7 @@ draw = () => {
   
   
   canvas.width ^= 0;
+  
   
   // map
   for(x = 0; x < 16; x++){
@@ -436,6 +444,9 @@ draw = () => {
       j.inverted,
       j
     );
+    
+    // Detect paradox (past self standing on non existing cube)
+    //if(i==1)console.log(j, j.stand_on_cube);
     
     if(j.hold){
       
@@ -659,7 +670,7 @@ draw = () => {
         
         // New cube is created in the opposite direction and attached to the new self
         cubes[cubes.length] = JSON.parse(JSON.stringify(cubes[cubes.length-1]));
-        console.log(JSON.stringify(cubes));
+        //console.log(JSON.stringify(cubes));
         hero.hold = cubes.length - 1;
         cubes[hero.hold].holding = current_self;
         cubes[hero.hold].inverted = 1 - cubes[hero.hold].inverted;
@@ -729,6 +740,8 @@ draw = () => {
     //ctx.fillText(i, gravity_inverters[i].x + 30, gravity_inverters[i].y);
     
   }
+  
+  //console.log(cubes[2].last_grab);
 }
 
 
@@ -758,16 +771,16 @@ play = () => {
   // $: start
   map = [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-    0,0,3,0,0,0,0,0,0,0,0,8,0,9,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,3,0,0,1,0,0,0,1,0,8,0,9,0,0,
+    0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,$,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,3,0,0,0,0,0,7,0,0,5,0,0,4,0,
+    0,1,0,0,0,3,0,0,0,0,0,0,0,0,0,0,
+    0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,
+    0,1,0,0,1,1,1,0,7,0,0,5,0,0,4,0,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
   ];
 
@@ -786,7 +799,7 @@ play = () => {
   
   current_self = 1;
 
-  cubes = [{x: 999, y: 999, vy: 0, grounded: 0, holding: 0, mirror_v:0, gravitydelay: 0}, ]; // x, y, vy, grounded. cube 0 doesn't exist
+  cubes = [{x: 999, y: 999, vy: 0, grounded: 0, holding: 0, mirror_v: 0, gravitydelay: 0, last_grab: 0}, ]; // x, y, vy, grounded. cube 0 doesn't exist
   
   gravity_inverters = [];
   
@@ -813,7 +826,7 @@ play = () => {
   for(i in map){
     
     if(map[i] == 2) {
-      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 0, inverted: 0, gravitydelay: 0});
+      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 0, inverted: 0, gravitydelay: 0, last_grab: 0});
       map[i] = 0;
     }
     
@@ -838,12 +851,12 @@ play = () => {
     }
     
     if(map[i] == 7) {
-      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 0, inverted: 1, gravitydelay: 0});
+      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 0, inverted: 1, gravitydelay: 0, last_grab: 0});
       map[i] = 0;
     }
   
     if(map[i] == 8) {
-      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 1, inverted: 0, gravitydelay: 0});
+      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 1, inverted: 0, gravitydelay: 0, last_grab: 0});
       map[i] = 0;
     }
     
@@ -853,6 +866,9 @@ play = () => {
     }
     
     if(map[i] == $) {
+      start.style.left = (~~(i%16) * 50 + 25 - 75) + "px";
+      start.style.top = (~~(i/16) * 50+25 - 75) + "px";
+      start.style.transform = "scale(.2)";
       hero.x = ~~(i%16) * 50+25;
       hero.y = ~~(i/16) * 50+25;
       map[i] = 0;
@@ -910,6 +926,8 @@ hero_physics = () => {
   }
   
   // Fall
+  hero.stand_on_cube = 0;
+  
   if(hero.vy >= 0){
     obstacle1 = hit(bl[0] + 5, bl[1] + 5, 0, 1);
     //console.log(hit1y = hity);
@@ -942,6 +960,8 @@ hero_physics = () => {
     // cube
     else if(obstacle1 == 2 || obstacle2 == 2 || obstacle3 == 2 || obstacle4 == 2){
       //console.log("land");
+      
+      console.log(hero.stand_on_cube = 1);
       hero.grounded = 1;
       //hero.y = ~~(hero.y + 5 / 50) * 50 -50 + 5;
       hero.vy = 0;
@@ -962,12 +982,26 @@ hero_physics = () => {
   // Left
   hero.walking = 0;
   if(l){
-  
-    if(hero.x > 10 && hit(...tl) != 1 && hit(...ml) != 1 && hit(bl[0], bl[1] - 10) != 1){
+    obstacle1 = hit(tl[0] - 5, tl[1]);
+    obstacle2 = hit(ml[0] - 5, ml[1]);
+    obstacle3 = hit(bl[0] - 5, bl[1] - 10);
+    
+    if(hero.x > 10 && obstacle1 != 1 && obstacle2 != 1 && obstacle3 != 1){
       hero.x -= 5;
     }
     else{
-      if(!hero.hold) hero.x = ~~(hero.x / 50) * 50 + 5;
+      if(hero.hold){
+        if(!obstacle1 == 1 && !obstacle2 == 1 && obstacle3 == 1){
+          hero.x = ~~(hero.x / 50) * 50 +5;
+        }
+        else {
+          hero.x = ~~(hero.x / 50) * 50 + 45;
+        }
+        //console.log(1, obstacle1, obstacle2, obstacle3);
+      }
+      else {
+        hero.x = ~~(hero.x / 50) * 50 + 5;
+      }
     }
     hero.mirror_h = 1;
     hero.walk++;
@@ -1010,11 +1044,27 @@ hero_physics = () => {
     }
     else{
       for(i in cubes){
-        if(Math.abs(hero.x-cubes[i].x) < 40 && Math.abs(hero.y + 30 -cubes[i].y) < 60) {
+        if(!cubes[i].holding && Math.abs(hero.x-cubes[i].x) < 40 && Math.abs(hero.y + 30 -cubes[i].y) < 80) {
           if(Math.abs(hero.y-cubes[i].y) > 40 || (hero.mirror_h ? (hero.x > cubes[i].x - 25) : (hero.x < cubes[i].x + 25))){
+            if(hero.y < cubes[i].y - 25){
+              obstacle1 = hit(tl[0] - 40, tl[1]);
+              obstacle2 = hit(ml[0] - 40, ml[1]);
+              //console.log(1);
+              if(obstacle1 == 1 || obstacle2 == 1){
+                hero.x = hitx + 80;
+              }
+              
+              obstacle1 = hit(tr[0] + 40, tr[1]);
+              obstacle2 = hit(mr[0] + 40, mr[1]);
+              //console.log(1);
+              if(obstacle1 == 1 || obstacle2 == 1){
+                hero.x = hitx - 80;
+              }
+            }
             //console.log("grab " + i);
             hero.hold = +i;
             cubes[i].holding = current_self;
+            cubes[i].last_grab = current_self;
             break;
           }
         }
@@ -1023,9 +1073,10 @@ hero_physics = () => {
     hold_timer = 10;
   }
   if(hero.hold) {
-    cubes[hero.hold].x = hero.x + (canextendhitbox ? (hero.mirror_h ? -25 : 25) : 0);
-    cubes[hero.hold].y = hero.y - 20;
-    //console.log(hero.mirror_v, hero.y, hero.y + 50);
+    time_array[present_abs].cubes[hero.hold].holding = cubes[hero.hold].holding = current_self;
+    time_array[present_abs].cubes[hero.hold].x = cubes[hero.hold].x = hero.x + (canextendhitbox ? (hero.mirror_h ? -25 : 25) : 0);
+    time_array[present_abs].cubes[hero.hold].y = cubes[hero.hold].y = hero.y - 20;
+    //console.log(cubes[hero.hold].y, hero.y - 20, JSON.stringify(cubes[hero.hold]));
   }
 }
 
@@ -1048,6 +1099,7 @@ hero_physics_v = () => {
   }
   
   // Fall
+    hero.stand_on_cube = 0;
   if(hero.vy >= 0){
     obstacle1 = hit(tl[0] + 5, tl[1] - 5, 0, 1);
     //console.log(hit1y = hity);
@@ -1081,6 +1133,7 @@ hero_physics_v = () => {
     // cube
     else if(obstacle1 == 2 || obstacle2 == 2 || obstacle3 == 2 || obstacle4 == 2){
       //console.log("land");
+      hero.stand_on_cube = 1;
       hero.grounded = 1;
       //hero.y = ~~(hero.y + 5 / 50) * 50 -50 + 5;
       hero.vy = 0;
@@ -1097,9 +1150,10 @@ hero_physics_v = () => {
   }
   
   // Left
+  hero.walking = 0;
   if(l){
   
-    if(hero.x > 10 && hit(...tl) != 1 && hit(...ml) != 1 && hit(bl[0], bl[1] - 10) != 1){
+    /*if(hero.x > 10 && hit(...tl) != 1 && hit(...ml) != 1 && hit(bl[0], bl[1] - 10) != 1){
       hero.x -= 5;
     }
     else{
@@ -1107,6 +1161,33 @@ hero_physics_v = () => {
     }
     hero.mirror_h = 1;
     hero.walk++;
+    hero.walking = 1;*/
+    
+    obstacle1 = hit(tl[0] - 5, tl[1]);
+    obstacle2 = hit(ml[0] - 5, ml[1]);
+    obstacle3 = hit(bl[0] - 5, bl[1] - 10);
+    
+    if(hero.x > 10 && obstacle1 != 1 && obstacle2 != 1 && obstacle3 != 1){
+      hero.x -= 5;
+    }
+    else{
+      if(hero.hold){
+        if(!obstacle1 == 1 && !obstacle2 == 1 && obstacle3 == 1){
+          hero.x = ~~(hero.x / 50) * 50 +5;
+        }
+        else {
+          hero.x = ~~(hero.x / 50) * 50 + 45;
+        }
+        console.log(1, obstacle1, obstacle2, obstacle3);
+      }
+      else {
+        hero.x = ~~(hero.x / 50) * 50 + 5;
+      }
+    }
+    hero.mirror_h = 1;
+    hero.walk++;
+    hero.walking = 1;
+  
   }
   
   // Right
@@ -1119,15 +1200,17 @@ hero_physics_v = () => {
     }
     hero.mirror_h = 0;
     hero.walk++;
+    hero.walking = 1;
   }
   
   // Jump
   if(!u) u_release = 1;
   if(u && hero.grounded && u_release) {
-    hero.vy -= 14;
+    hero.vy -= hero.mirror_h ? 14 : 13;
     hero.y += 14;
     hero.grounded = 0;
     u_release = 0;
+    hero.walking = 0;
   }
   
   // Hold a cube
@@ -1143,11 +1226,27 @@ hero_physics_v = () => {
     }
     else{
       for(i in cubes){
-        if(Math.abs(hero.x-cubes[i].x) < 40 && Math.abs(hero.y-cubes[i].y) < 80) {
+        if(!cubes[i].holding && Math.abs(hero.x-cubes[i].x) < 40 && Math.abs(hero.y-cubes[i].y) < 80) {
           if(Math.abs(hero.y-cubes[i].y) > 40 || (hero.mirror_h ? (hero.x > cubes[i].x - 25) : (hero.x < cubes[i].x + 25))){
+            if(hero.y > cubes[i].y + 25){
+              obstacle1 = hit(tl[0] - 40, tl[1]);
+              obstacle2 = hit(ml[0] - 40, ml[1]);
+              //console.log(1);
+              if(obstacle1 == 1 || obstacle2 == 1){
+                hero.x = hitx + 80;
+              }
+              
+              obstacle1 = hit(tr[0] + 40, tr[1]);
+              obstacle2 = hit(mr[0] + 40, mr[1]);
+              //console.log(1);
+              if(obstacle1 == 1 || obstacle2 == 1){
+                hero.x = hitx - 80;
+              }
+            }
             //console.log("grab " + i);
             hero.hold = +i;
             cubes[i].holding = current_self;
+            cubes[i].last_grab = current_self;
             break;
           }
         }
@@ -1156,8 +1255,10 @@ hero_physics_v = () => {
     hold_timer = 10;
   }
   if(hero.hold) {
-    cubes[hero.hold].x = hero.x + (canextendhitbox ? (hero.mirror_h ? -25 : 25) : 0);
-    cubes[hero.hold].y = hero.y +25;
+    time_array[present_abs].cubes[hero.hold].x = cubes[hero.hold].x = hero.x + (canextendhitbox ? (hero.mirror_h ? -25 : 25) : 0);
+    time_array[present_abs].cubes[hero.hold].y = cubes[hero.hold].y = hero.y + 25;
+    
+    //console.log(cubes[hero.hold].y, hero.y + 25, cubes[hero.hold]);
   }
 }
 

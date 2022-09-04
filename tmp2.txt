@@ -188,14 +188,14 @@ draw = () => {
   // Ascend
   if(hero_vy < 0){
     if(!hit(tl[0] +5, tl[1] + 10) && !hit(tr[0]-5, tr[1]) + 10){
-      console.log("ascend");
+      //console.log("ascend");
       hero_grounded = 0;
       hero_vy += gravity;
       hero_vy = Math.min(hero_vy, 30);
       hero_y += hero_vy;
     }
     else {
-      console.log("hit ceiling");
+      //console.log("hit ceiling");
       hero_vy = 0;
       hero_y = hero_y = ~~(hero_y / 50) * 50 + (hero_hold ? 30 : 10);
     }
@@ -204,7 +204,7 @@ draw = () => {
   // Fall
   if(hero_vy >= 0){
     if(!hit(br[0]-5, br[1] + 5) && !hit(bl[0]+5, bl[1] + 5)){
-      console.log("fall");
+      //console.log("fall");
       hero_grounded = 0;
       hero_vy += gravity;
       hero_vy = Math.min(hero_vy, 30);
@@ -213,7 +213,7 @@ draw = () => {
     
     // Land
     else {
-      console.log("land");
+      //console.log("land");
       hero_grounded = 1;
       hero_y = ~~(hero_y / 50) * 50 + 5;
       hero_vy = 0;
