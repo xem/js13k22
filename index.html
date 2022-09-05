@@ -245,14 +245,16 @@ hit = (x, y, from_cube, log) => {
 // Draw one frame (and run the physics)
 draw = () => {
 
-  var i,j;
-
+  var i,j, k;
+  //console.log(pause);
   if(pause){ pause--; if(pause < 18 && pause > 5) return }
+  if(pause2){ pause2--; return }
   
   time++;
   
   if(hero.inverted) present--;
   else present++;
+  document.title = present;
   present_abs = Math.abs(present);
   time_array = present < 0 ? past : future;
   if(!time_array[present_abs]) time_array[present_abs] = {hero: [], cubes: []};
@@ -263,10 +265,13 @@ draw = () => {
     time_array[present_abs].hero[current_self] = JSON.parse(JSON.stringify(hero));
   
     //console.log(time_array[present_abs].hero[current_self]);
+    
     // Load cubes from time array plus eventual cubes that have been created since
     if(time_array[present_abs].cubes.length){
       
       for(i in time_array[present_abs].cubes){
+        if(cubes[i].holding == current_self || cubes[i].last_grab == current_self) continue;
+        // if(time_array[present_abs].cubes[i].holding != current_self && hero.hold == i && cubes[i].last_grab != current_self) continue;
         if(cubes[i].last_grab && cubes[i].last_grab < current_self){
           cubes[i] = JSON.parse(JSON.stringify(time_array[present_abs].cubes[i]));
         }
@@ -275,12 +280,13 @@ draw = () => {
           cubes[i].holding = 0;
         }
       }
-      //cubes = time_array[present_abs].cubes;
-      //console.log(present, JSON.stringify(cubes));
     }
     
     // Save cubes in time
     time_array[present_abs].cubes = JSON.parse(JSON.stringify(cubes));
+    
+    cubes = time_array[present_abs].cubes;
+    console.log(present, JSON.stringify(cubes.filter((i,j)=>j>1)));
     
     //console.log(time_array);
   //}
@@ -432,48 +438,10 @@ draw = () => {
   
   // Previous selves
   for(i in time_array[present_abs]?.hero){
-    j = time_array[present_abs].hero[i];
-    //if(i == 1) console.log(j.walk);
-    draw_hero(
-      j.x,
-      j.y,
-      j.hold ? "hold" : (j.grounded ? (j.walking ? "walk" + (~~(j.walk / 5) % 3) : "idle") : "jump"),
-      j.grounded ? (j.walking ? "walk" + (~~(j.walk / 4) % 3) : "idle") : "jump",
-      j.mirror_h,
-      j.mirror_v,
-      j.inverted,
-      j
-    );
-    
-    // Detect paradox (past self standing on non existing cube)
-    //if(i==1)console.log(j, j.stand_on_cube);
-    
-    if(j.hold){
-      
-      // Previous self cube
-      ctx.save();
-      if(cubes[j.hold].inverted){
-        ctx.fillStyle = "#ddd";
-      }
-      else {
-        ctx.fillStyle = "#000";
-      }
-      ctx.translate(cubes[j.hold].x, cubes[j.hold].y);
-      if(cubes[j.hold].mirror_v){
-        ctx.rotate(Math.PI);
-        ctx.translate(0,-.5);
-      }
-      ctx.translate(-25,-25);
-      
-      ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
-      ctx.fillStyle = "#7008";
-      ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
-      ctx.fillStyle = "#000";
-      //ctx.fillText(i, 60, 30);
-      ctx.restore();
-  
-      // Previous self arms
+    //console.log(i, current_self);
+    if(i != current_self){
       j = time_array[present_abs].hero[i];
+      if(!j) continue;
       //if(i == 1) console.log(j.walk);
       draw_hero(
         j.x,
@@ -483,9 +451,82 @@ draw = () => {
         j.mirror_h,
         j.mirror_v,
         j.inverted,
-        j,
-        true
+        j
       );
+      
+      // Detect paradox (past self standing on non existing cube)
+      if(j.stand_on_cube){
+        //ctx.save();
+        //ctx.fillStyle = "yellow";
+        //ctx.fillRect(j.x - 40, j.mirror_v ? j.y - 85 : j.y + 45, 80, 50);
+        //ctx.restore();
+        paradox = 1;
+        for(k in cubes){
+          //if(k == 2) console.log(cubes[k], j, cubes[k].x - 25 > j.x - 55, cubes[k].x + 25 < j.x + 55, cubes[k].y - 25 > j.y + 20, cubes[k].y - 25 < j.y + 80);
+          if(cubes[k].x - 25 > j.x - 57, cubes[k].x + 25 < j.x + 57, cubes[k].y - 25 > j.y + (j.mirror_v ? -20 : 20), cubes[k].y - 25 < j.y + (j.mirror_v ? -80 : 80)){
+            paradox = 0;
+          }
+        }
+        if(paradox && !pause2){
+        
+          pause2 = 200;
+          ctx.save();
+          ctx.fillStyle = "#fff";
+          ctx.lineWidth = 10;
+          ctx.strokeStyle = "#269";
+          ctx.rect(j.x - 30, j.y - 60, 60, 130);
+          ctx.stroke();
+          ctx.font = "130px Arial";
+          ctx.fillText("PARADOX", 100,300);
+          ctx.font = "30px Arial";
+          ctx.fillText("This guy walks on a cube that has ben removed", 100,350);
+          ctx.fillStyle = "#000";
+          ctx.restore();
+      
+        }
+      }
+    
+      //if(i==1)console.log(j, j.stand_on_cube);
+      
+      if(j.hold){
+        
+        // Previous self cube
+        ctx.save();
+        if(cubes[j.hold].inverted){
+          ctx.fillStyle = "#ddd";
+        }
+        else {
+          ctx.fillStyle = "#000";
+        }
+        ctx.translate(cubes[j.hold].x, cubes[j.hold].y);
+        if(cubes[j.hold].mirror_v){
+          ctx.rotate(Math.PI);
+          ctx.translate(0,-.5);
+        }
+        ctx.translate(-25,-25);
+        
+        ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+        ctx.fillStyle = "#7008";
+        ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+        ctx.fillStyle = "#000";
+        //ctx.fillText(i, 60, 30);
+        ctx.restore();
+    
+        // Previous self arms
+        j = time_array[present_abs].hero[i];
+        //if(i == 1) console.log(j.walk);
+        draw_hero(
+          j.x,
+          j.y,
+          j.hold ? "hold" : (j.grounded ? (j.walking ? "walk" + (~~(j.walk / 5) % 3) : "idle") : "jump"),
+          j.grounded ? (j.walking ? "walk" + (~~(j.walk / 4) % 3) : "idle") : "jump",
+          j.mirror_h,
+          j.mirror_v,
+          j.inverted,
+          j,
+          true
+        );
+      }
     }
   }
   
@@ -897,6 +938,7 @@ play = () => {
   //hero.mirror_v = 0;
   canvasrx = 0;
   pause = 0;
+  pause2 = 0;
   time = 0;
   
   // hitbox
@@ -909,6 +951,9 @@ play = () => {
 
 
 hero_physics = () => {
+
+  if(pause2) return;
+  
   // Ascend
   if(hero.vy < 0){
     if(hit(tl[0] +5, tl[1]) != 1 && hit(tr[0]-5, tr[1]) != 1){
@@ -961,7 +1006,9 @@ hero_physics = () => {
     else if(obstacle1 == 2 || obstacle2 == 2 || obstacle3 == 2 || obstacle4 == 2){
       //console.log("land");
       
-      console.log(hero.stand_on_cube = 1);
+      //console.log(
+      hero.stand_on_cube = 1
+      //);
       hero.grounded = 1;
       //hero.y = ~~(hero.y + 5 / 50) * 50 -50 + 5;
       hero.vy = 0;
@@ -1078,10 +1125,15 @@ hero_physics = () => {
     time_array[present_abs].cubes[hero.hold].y = cubes[hero.hold].y = hero.y - 20;
     //console.log(cubes[hero.hold].y, hero.y - 20, JSON.stringify(cubes[hero.hold]));
   }
+  
+  //console.log(cubes[2]);
 }
 
 
 hero_physics_v = () => {
+
+  if(pause2) return;
+  
   // Ascend
   if(hero.vy < 0){
     if(hit(bl[0] +5, bl[1]) != 1 && hit(br[0]-5, br[1]) != 1){
