@@ -3,15 +3,12 @@
 <h1 id=light></h1>
 <div id=devil></div>
 <canvas id=canvas width=800 height=600></canvas>
-<div id=start></div>
+<div id=start style="opacity:0"></div>
 <div id=exit></div>
+<div id=dialog3></div>
 </div>
 
 <script>
-
-// Special map items
-$ = 10;
-_ = 11;
 
 
 // Keyboard controls (Up Left Down Right Space)
@@ -286,7 +283,7 @@ draw = () => {
     time_array[present_abs].cubes = JSON.parse(JSON.stringify(cubes));
     
     cubes = time_array[present_abs].cubes;
-    console.log(present, JSON.stringify(cubes.filter((i,j)=>j>1)));
+    //console.log(present, JSON.stringify(cubes.filter((i,j)=>j>1)));
     
     //console.log(time_array);
   //}
@@ -456,21 +453,25 @@ draw = () => {
       
       // Detect paradox (past self standing on non existing cube)
       if(j.stand_on_cube){
-        //ctx.save();
-        //ctx.fillStyle = "yellow";
-        //ctx.fillRect(j.x - 40, j.mirror_v ? j.y - 85 : j.y + 45, 80, 50);
-        //ctx.restore();
+        ctx.save();
+        ctx.fillStyle = "yellow";
+        ctx.fillRect(j.x - 40, j.mirror_v ? j.y - 85 : j.y + 45, 80, 50);
+        ctx.restore();
         paradox = 1;
         for(k in cubes){
           //if(k == 2) console.log(cubes[k], j, cubes[k].x - 25 > j.x - 55, cubes[k].x + 25 < j.x + 55, cubes[k].y - 25 > j.y + 20, cubes[k].y - 25 < j.y + 80);
-          if(cubes[k].x - 25 > j.x - 57, cubes[k].x + 25 < j.x + 57, cubes[k].y - 25 > j.y + (j.mirror_v ? -20 : 20), cubes[k].y - 25 < j.y + (j.mirror_v ? -80 : 80)){
+          if(cubes[k].x - 25 > j.x - 57 && cubes[k].x + 25 < j.x + 57 && Math.abs(cubes[k].y - j.y) < 80){
             paradox = 0;
           }
         }
         if(paradox && !pause2){
         
-          pause2 = 200;
+          pause2 = Infinity;
           ctx.save();
+          if(hero.mirror_v){
+            v.style.transform = "";
+          }
+          ctx.beginPath();
           ctx.fillStyle = "#fff";
           ctx.lineWidth = 10;
           ctx.strokeStyle = "#269";
@@ -481,6 +482,9 @@ draw = () => {
           ctx.font = "30px Arial";
           ctx.fillText("This guy walks on a cube that has ben removed", 100,350);
           ctx.fillStyle = "#000";
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = "#000";
+          ctx.closePath();
           ctx.restore();
       
         }
@@ -586,6 +590,16 @@ draw = () => {
   }
   else {
     hero_physics();
+  }
+  
+  // Die by falling
+  if(hero.y > 600 || hero.y < 0){
+    pause2 = Infinity;
+    ctx.save();
+    if(hero.mirror_v){
+      v.style.transform = "";
+    }
+    restart();
   }
   
   // Apply physics to non-held cubes
@@ -750,6 +764,7 @@ draw = () => {
   for(i in cube_slots){
     if(!cube_slots[i].active) exit_open = 0;
   }
+  if(force_exit_open) exit_open = 1;
   exit.style.opacity = exit_open ? 1 : 0.5;
   exit.style.transform = exit_open ? "scale(1)" : "scale(.2)";
   
@@ -787,7 +802,23 @@ draw = () => {
 
 
 // Launch the game
-play = () => {
+play = (m, dialogs = [], script = ()=>{}, restart = 0) => {
+
+  map_backup = m;
+  dialogs_backup = dialogs;
+  script_backup = script;
+
+
+  var i, j;
+  
+  script();
+  
+  if(!restart){
+    for(i in dialogs_backup){
+      setTimeout("dialog3.style.fontSize='" + ((+i)%2 ? "40px" : "35px") + "';dialog3.style.color='" + ((+i)%2 ? "#f00" : "#fff") + "';dialog3.innerHTML = `" + dialogs_backup[i] + "`", +i*4000 + 2000);
+    }
+  }
+  
   // BG
   v.style.background = "linear-gradient(#300,#a00)";
   v.style.backgroundSize = "200% 200%";
@@ -810,20 +841,7 @@ play = () => {
   // 8: reversed cube
   // 9: reversed cube slot
   // $: start
-  map = [
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-    0,0,3,0,0,1,0,0,0,1,0,8,0,9,0,0,
-    0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,$,0,0,0,0,
-    0,1,0,0,0,3,0,0,0,0,0,0,0,0,0,0,
-    0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,
-    0,1,0,0,1,1,1,0,7,0,0,5,0,0,4,0,
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  ];
+  map = m.split("");
 
   // Gameplay data:
   // At each frame, save:
@@ -849,6 +867,7 @@ play = () => {
   time_inverters = [];
   
   exit_open = 0;
+  force_exit_open = 0;
   
     hero = {
     x: 0,
@@ -906,10 +925,11 @@ play = () => {
       map[i] = 0;
     }
     
-    if(map[i] == $) {
+    if(map[i] == '$') {
       start.style.left = (~~(i%16) * 50 + 25 - 75) + "px";
       start.style.top = (~~(i/16) * 50+25 - 75) + "px";
-      start.style.transform = "scale(.2)";
+      start.style.opacity = .5;
+      setTimeout(()=>start.style.transform = "scale(.2)", 100);
       hero.x = ~~(i%16) * 50+25;
       hero.y = ~~(i/16) * 50+25;
       map[i] = 0;
@@ -941,12 +961,19 @@ play = () => {
   pause2 = 0;
   time = 0;
   
+  
   // hitbox
   tl = tr = bl = br = ml = mr = [];
   
   // Game loop
-  setInterval(draw, 30);
+  clearInterval(interval);
+  interval = setInterval(draw, 30);
   
+}
+
+restart = () => {
+  start.style.transform = "scale(1)";
+  setTimeout(()=>play(map_backup, [], script_backup, 1), 250);
 }
 
 
@@ -1314,6 +1341,11 @@ hero_physics_v = () => {
   }
 }
 
-onload = () => play();
+//onload = () => play();
+
+interval = 0;
+
+play("0000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000$00000000001100000000000001100000000000001120000000000001122000111111011111111111111101111111111111",
+["LET ME GUESS...<br>I CAN MOVE WITH WASD KEYS?","DUDE, I\'M THE DEVIL, NOT A MONSTER!<br>YOU CAN USE THE ARROW KEYS TOO...", ""],()=>{setTimeout(()=>force_exit_open=1, 9000)});
 
 </script>

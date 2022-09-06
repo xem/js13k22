@@ -1,0 +1,59 @@
+<body bgcolor=#111>
+<canvas id=a width=550 height=50 style="border:5px solid"></canvas>
+<br><br>
+<canvas id=b width=800 height=600 style="border:5px solid"></canvas>
+<img id=sprite src="sprite.png" hidden>
+<textarea id=t cols=100 rows=2></textarea>
+<script>
+md = 0;
+onmousedown = () => md = 1;
+onmouseup = () => md = 0;
+onload = () => {
+  currentTile = 0;
+  currentChar = 0;
+  map = Array(16*12).fill(0);
+  t.value = map.join("");
+  c = a.getContext("2d");
+  d = b.getContext("2d");
+  c.drawImage(sprite,0,0);
+  c.fillRect(50,0,1,50);
+  c.fillRect(100,0,1,50);
+  c.strokeStyle = "yellow";
+  c.lineWidth = 5;
+  c.rect(0, 0, 50, 50);
+  c.stroke();
+  d.fillStyle = "#a00";
+  d.fillRect(0,0,800,600);
+  a.onclick = e => {
+    a.width ^= 0;
+    c.drawImage(sprite,0,0);
+    c.fillRect(50,0,1,50);
+    c.fillRect(100,0,1,50);
+    c.strokeStyle = "yellow";
+    c.lineWidth = 5;
+    c.rect((e.offsetX / 50 | 0) * 50, 0, 50, 50);
+    c.stroke();
+    currentTile = (e.offsetX / 50 | 0);
+    currentChar = "0$612345789"[currentTile];
+  }
+  
+  b.onclick = e => {
+    d.strokeStyle = "yellow";
+    x = (e.offsetX / 50 | 0);
+    y = (e.offsetY / 50 | 0);
+    d.drawImage(sprite,currentTile*50,0,49,50,x*50,y*50,50,50);
+    map[y*16+x] = currentChar;
+    t.value = map.join("");
+  }
+  
+  b.onmousemove = e => {
+    if(!md) return;
+    d.strokeStyle = "yellow";
+    x = (e.offsetX / 50 | 0);
+    y = (e.offsetY / 50 | 0);
+    d.drawImage(sprite,currentTile*50,0,49,50,x*50,y*50,50,50);
+    map[y*16+x] = currentChar;
+    t.value = map.join("");
+  }
+}
+</script>
