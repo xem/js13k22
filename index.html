@@ -5,8 +5,8 @@
 <canvas id=canvas width=800 height=600></canvas>
 <div id=start style="opacity:0"></div>
 <div id=exit></div>
-<div id=dialog3></div>
 </div>
+<div id=dialog3></div>
 
 <script>
 
@@ -317,8 +317,8 @@ draw = () => {
     ctx.save();
     ctx.beginPath();
     if(gravity_inverters[i].active){
-      ctx.fillStyle = "yellow";
-      ctx.strokeStyle = "yellow";
+      ctx.fillStyle = "#f90";
+      ctx.strokeStyle = "#f90";
     }
     ctx.lineWidth = 3;
     ctx.setLineDash([5, 3]);
@@ -338,12 +338,12 @@ draw = () => {
     if(!cube_slots[i].inverted) {
       ctx.save();
       if(cube_slots[i].active) {
-        ctx.fillStyle = "yellow";
-        ctx.strokeStyle = "yellow";
+        ctx.fillStyle = "#f90";
+        ctx.strokeStyle = "#f90";
       }
       else {
-        ctx.fillStyle = "#111";
-        ctx.strokeStyle = "#111";
+        ctx.fillStyle = "#000";
+        ctx.strokeStyle = "#000";
       }
       ctx.translate(cube_slots[i].x - 25, cube_slots[i].y - 25);
       ctx.beginPath();
@@ -361,8 +361,8 @@ draw = () => {
       ctx.save();
       
       if(cube_slots[i].active) {
-        ctx.fillStyle = "yellow";
-        ctx.strokeStyle = "yellow";
+        ctx.fillStyle = "#f90";
+        ctx.strokeStyle = "#f90";
       }
       else {
         ctx.fillStyle = "#bbb";
@@ -384,8 +384,8 @@ draw = () => {
   for(i in time_inverters){
     ctx.save();
     if(time_inverters[i].active) {
-      ctx.fillStyle = "yellow";
-      ctx.strokeStyle = "yellow";
+      ctx.fillStyle = "#f90";
+      ctx.strokeStyle = "#f90";
     }
     else {
       ctx.fillStyle = "hsl(0deg 0% " + (Math.cos(time/15)*30 + 30) + "%)";
@@ -453,10 +453,10 @@ draw = () => {
       
       // Detect paradox (past self standing on non existing cube)
       if(j.stand_on_cube){
-        ctx.save();
-        ctx.fillStyle = "yellow";
-        ctx.fillRect(j.x - 40, j.mirror_v ? j.y - 85 : j.y + 45, 80, 50);
-        ctx.restore();
+        //ctx.save();
+        //ctx.fillStyle = "#f90";
+        //ctx.fillRect(j.x - 40, j.mirror_v ? j.y - 85 : j.y + 45, 80, 50);
+        //ctx.restore();
         paradox = 1;
         for(k in cubes){
           //if(k == 2) console.log(cubes[k], j, cubes[k].x - 25 > j.x - 55, cubes[k].x + 25 < j.x + 55, cubes[k].y - 25 > j.y + 20, cubes[k].y - 25 < j.y + 80);
@@ -593,13 +593,19 @@ draw = () => {
   }
   
   // Die by falling
-  if(hero.y > 600 || hero.y < 0){
+  if(hero.y > 700 || hero.y < -100){
     pause2 = Infinity;
     ctx.save();
     if(hero.mirror_v){
       v.style.transform = "";
     }
     restart();
+  }
+  
+  // Win level
+  win = 0;
+  if(exit_open && Math.hypot(hero.x - exit_x, hero.y - exit_y) < 50){
+    win = 1;
   }
   
   // Apply physics to non-held cubes
@@ -768,41 +774,47 @@ draw = () => {
   exit.style.opacity = exit_open ? 1 : 0.5;
   exit.style.transform = exit_open ? "scale(1)" : "scale(.2)";
   
+  ctx.fillStyle = "#000";
   
-  
-  
-  //console.log(herogravitydelay, hero.mirror_v);
-
-  //console.log(hero.y, hero.grounded);
-  
-  ctx.fillStyle = "yellow";
-  /*
-  ctx.fillRect(tl[0], tl[1], 3,3);
-  ctx.fillRect(tr[0], tr[1], 3,3);
-  ctx.fillRect(bl[0], bl[1], 3,3);
-  ctx.fillRect(br[0], br[1], 3,3);
-  ctx.fillRect(ml[0], ml[1], 3,3);
-  ctx.fillRect(mr[0], mr[1], 3,3);
-  ctx.fillRect(hero.x, hero.y, 3,3);
-  */
-  for(i in cubes){
-    //ctx.fillRect(cubes[i].x, cubes[i].y, 3,3);
-    //ctx.fillText(i, cubes[i].x + 30, cubes[i].y);
-    
+  if(win){
+    hero.x = hero.x + ((exit_x - hero.x) / 2);
+    hero.y = hero.y + ((exit_y - hero.y) / 2);
   }
   
-  for(i in gravity_inverters){
-    //ctx.fillRect(cubes[i].x, cubes[i].y, 3,3);
-    //ctx.fillText(i, gravity_inverters[i].x + 30, gravity_inverters[i].y);
+  if(win && !level_transition){
+    //console.log("win");
+    timeouts.forEach(clearTimeout);
+    dialog3.innerHTML = "";
+    timeouts = [];
+    
+    pause = 50;
+    setTimeout(()=>{
+      clearInterval(interval);
+      start.style.opacity = 0;
+      exit.style.opacity = 0;
+      canvas.width ^= 0;
+      ctx.fillRect(0,0,800,600);
+      start.style.display = "none";
+      exit.style.display = "none";
+      
+    },300);
+    
+    setTimeout(()=>{
+      play(...levels[++current_level]);
+      start.style.display = "block";
+      exit.style.display = "block";
+      level_transition = 0;
+      
+    },600);
+    
+    level_transition = 1;
     
   }
-  
-  //console.log(cubes[2].last_grab);
 }
 
 
 // Launch the game
-play = (m, dialogs = [], script = ()=>{}, restart = 0) => {
+play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
 
   map_backup = m;
   dialogs_backup = dialogs;
@@ -812,10 +824,12 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0) => {
   var i, j;
   
   script();
-  
+  console.log(dialogs);
   if(!restart){
     for(i in dialogs_backup){
-      setTimeout("dialog3.style.fontSize='" + ((+i)%2 ? "40px" : "35px") + "';dialog3.style.color='" + ((+i)%2 ? "#f00" : "#fff") + "';dialog3.innerHTML = `" + dialogs_backup[i] + "`", +i*4000 + 2000);
+      //if(dialogs_backup[i].length){
+        timeouts.push(setTimeout("dialog3.style.textAlign='" + ((+i)%2 ? "center" : "left") + "';dialog3.style.fontSize='" + ((+i)%2 ? "40px" : "35px") + "';dialog3.style.color='" + ((+i)%2 ? "#f00" : "#fff") + "';dialog3.innerHTML = `" + ((+i)%2 ? "":"<br><br>") + dialogs_backup[i] + "`", +i*4000 + start_offset));
+      //}
     }
   }
   
@@ -865,9 +879,13 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0) => {
   cube_slots = [];
   
   time_inverters = [];
+  level_transition = 0;
   
+  win = 0;
   exit_open = 0;
   force_exit_open = 0;
+  exit_x = 0;
+  exit_y = 0;
   
     hero = {
     x: 0,
@@ -908,6 +926,8 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0) => {
     if(map[i] == 6){
       exit.style.left = (~~(i%16) * 50 + 25 - 75) + "px";
       exit.style.top = (~~(i/16) * 50+25 - 75) + "px";
+      exit_x = ~~(i%16) * 50+25;
+      exit_y = ~~(i/16) * 50+25;
     }
     
     if(map[i] == 7) {
@@ -978,6 +998,8 @@ restart = () => {
 
 
 hero_physics = () => {
+
+  var i, j;
 
   if(pause2) return;
   
@@ -1118,6 +1140,7 @@ hero_physics = () => {
     }
     else{
       for(i in cubes){
+        //console.log(i, Math.abs(hero.x-cubes[i].x), Math.abs(hero.y + 30 -cubes[i].y));
         if(!cubes[i].holding && Math.abs(hero.x-cubes[i].x) < 40 && Math.abs(hero.y + 30 -cubes[i].y) < 80) {
           if(Math.abs(hero.y-cubes[i].y) > 40 || (hero.mirror_h ? (hero.x > cubes[i].x - 25) : (hero.x < cubes[i].x + 25))){
             if(hero.y < cubes[i].y - 25){
@@ -1158,6 +1181,8 @@ hero_physics = () => {
 
 
 hero_physics_v = () => {
+
+  var i, j;
 
   if(pause2) return;
   
@@ -1344,8 +1369,25 @@ hero_physics_v = () => {
 //onload = () => play();
 
 interval = 0;
+timeouts = [];
+current_level = 0;
 
-play("0000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000$00000000001100000000000001100000000000001120000000000001122000111111011111111111111101111111111111",
-["LET ME GUESS...<br>I CAN MOVE WITH WASD KEYS?","DUDE, I\'M THE DEVIL, NOT A MONSTER!<br>YOU CAN USE THE ARROW KEYS TOO...", ""],()=>{setTimeout(()=>force_exit_open=1, 9000)});
+levels = [
+
+  // 0 move
+  ["0000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000$00000000001100000000000001100000000000001120000000000001122000111111011111111111111101111111111111",["LET ME GUESS...<br>I CAN MOVE WITH WASD KEYS?","DUDE, I\'M THE DEVIL, NOT A MONSTER!<br>YOU CAN USE THE ARROW KEYS TOO...", ""],()=>{setTimeout(()=>force_exit_open=1, 9000)}],
+
+  // 1 cubes
+  ["000000000000000000000000000000000000000000000000000000000000000000020202000000000$006000000000000000000000000000000000000100000000000000011000000005000001110500111111111111011111111111111101110",["","PRESS SPACE<br>TO GRAB AND DROP BOXES","ARE WE IN AN AMAZON WAREHOUSE?", "EW, NO!", "", "ACTIVATE ALL THE CUBE SLOTS<br>TO OPEN THE EXIT", ""], ()=>{}, 0, -2000],
+
+  // 2 gravity
+  ["00111111001111100011111100111110000000030005000300000000000000000000000000000000000000000000000000000000000000000$000000000000000000000000000000000300002000300611110011111110001111001111111000",["", "<br><br><br>THIS PLACE IS BEYOND LAWS OF PHYSICS,<br>SUCH AS GRAVITY...","<br><br>YOU'RE NOT SUPER ORIGINAL...<br>ALL PUZZLE PLATFORMERS INTRODUCE<br>REVERSE GRAVITY AT SOME POINT!",""], ()=>{}, 0, -2000],
+  
+  // 3  cube gravity
+  ["00010000111111110005000011113111000000$011100111000000000000000000000000000000000000000000000000000000003000000000000020000000000000002000000060111001111000000011131111100050001111111110001000",["","<br><br><br>YOU CAN DROP CUBES ON THE GRAVITY INVERTERS","","<br><br><br>THE HEART ORIENTATION INDICATES IN WHICH WAY THEY FALL", "<br><br>THE PORTAL REFERENCE IS NOT SUBTLE AT ALL...", "<br><br><br>SHHH!"], ()=>{}, 0, 0],
+];
+
+play(...levels[current_level]);
+  
 
 </script>
