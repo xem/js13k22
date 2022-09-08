@@ -1458,7 +1458,7 @@ hero_physics_v = () => {
 
 interval = 0;
 timeouts = [];
-current_level = 0;
+current_level = 7;
 
 levels = [
 
@@ -1483,8 +1483,8 @@ levels = [
   // 6 1 box 2 slots
   ['00000000000000000000000000000000000000000000000000000000000000000000000$000000000000000000000000000000600000000002000000000000401110000000000111111100500900111111111111111111111111111111111111', ["", "REMEMBER, ALL SLOTS NEED TO BE ACTIVATED SIMULTANEOUSLY", "BUT I ONLY HAVE ONE CUBE!",""], ()=>{}, 0, -2000],
   
-  // 7
-  ["111111111111111111111111111111110000000000000000000000000000000000000005000000000000000800000000000000020000000000000000000000000$60000000000000000000000040000011111111111111111111111111111111"],
+  // 7 4 cubes
+  ["1111111111111111000000005090300000000000000000000000000000000000000000000000000000000000000000000220$0000000400002200000000000001111100000000000111110000000006011111050300090001111111111111111", ["", "<br><br><br>LET'S SPICE THINGS UP A LITTLE...",""], ()=>{}, 0, -2000],
   
   // use the time machine twice to duplicate a black cube?
 ];
@@ -1502,6 +1502,6 @@ play(...levels[current_level]);
 <button onclick="play(...levels[4]);">4</button>
 <button onclick="play(...levels[5]);">5</button>
 <button onclick="play(...levels[6]);">6</button>
-<!--button onclick="play(...levels[7]);">7</button>
-<button onclick="play(...levels[8]);">8</button-->
+<button onclick="play(...levels[7]);">7</button>
+<button onclick="play(...levels[8]);">8</button>
 </center>
