@@ -1458,7 +1458,7 @@ hero_physics_v = () => {
 
 interval = 0;
 timeouts = [];
-current_level = +location.hash[location.hash.length-1] || 0;
+current_level = location.hash.length == 2 ? (+location.hash[1]) : 0;
 
 levels = [
 
@@ -1489,8 +1489,12 @@ levels = [
   // use the time machine twice to duplicate a black cube?
 ];
 
-play(...levels[current_level]);
-  
+if(location.hash.length > 2){
+  play(location.hash.slice(1));
+}
+else {
+  play(...levels[current_level]);
+}
 
 </script>
 
