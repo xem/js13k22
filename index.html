@@ -12,8 +12,8 @@
 
 
 // Keyboard controls (Up Left Down Right Space)
-u=r=d=l=s=0;
-onkeydown=onkeyup=e=>this['s****lurd************************l**r************l*d***u**u'[e.which-32]]=e.type[5];
+u=r=d=l=s=R=0;
+onkeydown=onkeyup=e=>{/*console.log(e.which-32);*/this['s****lurd************************l**r************lRd***u**u'[e.which-32]]=e.type[5]};
 
 lightning = () => {
   light.style.opacity = .8;
@@ -246,6 +246,7 @@ draw = () => {
   //console.log(pause);
   if(pause){ pause--; if(pause < 18 && pause > 5) return }
   if(pause2){ pause2--; return }
+  if(R) restart();
   
   time++;
   
@@ -604,7 +605,8 @@ draw = () => {
   
   // Win level
   win = 0;
-  if(exit_open && Math.hypot(hero.x - exit_x, hero.y - exit_y) < 50){
+  console.log(exit_open);
+  if(exit_open > 10 && Math.hypot(hero.x - exit_x, hero.y - exit_y) < 50){
     win = 1;
   }
   
@@ -747,7 +749,7 @@ draw = () => {
   
   
   // cube slots
-  exit_open = 1;
+  exit_open++;
   for(i in cube_slots){
     cube_slots[i].active = 0;
   }
@@ -770,9 +772,9 @@ draw = () => {
   for(i in cube_slots){
     if(!cube_slots[i].active) exit_open = 0;
   }
-  if(force_exit_open) exit_open = 1;
-  exit.style.opacity = exit_open ? 1 : 0.5;
-  exit.style.transform = exit_open ? "scale(1)" : "scale(.2)";
+  if(force_exit_open) exit_open ++;
+  exit.style.opacity = exit_open > 10 ? 1 : 0.5;
+  exit.style.transform = exit_open > 10 ? "scale(1)" : "scale(.2)";
   
   ctx.fillStyle = "#000";
   
@@ -1381,10 +1383,13 @@ levels = [
   ["000000000000000000000000000000000000000000000000000000000000000000020202000000000$006000000000000000000000000000000000000100000000000000011000000005000001110500111111111111011111111111111101110",["","PRESS SPACE<br>TO GRAB AND DROP BOXES","ARE WE IN AN AMAZON WAREHOUSE?", "EW, NO!", "", "ACTIVATE ALL THE CUBE SLOTS<br>TO OPEN THE EXIT", ""], ()=>{}, 0, -2000],
 
   // 2 gravity
-  ["00111111001111100011111100111110000000030005000300000000000000000000000000000000000000000000000000000000000000000$000000000000000000000000000000000300002000300611110011111110001111001111111000",["", "<br><br><br>THIS PLACE IS BEYOND LAWS OF PHYSICS,<br>SUCH AS GRAVITY...","<br><br>YOU'RE NOT SUPER ORIGINAL...<br>ALL PUZZLE PLATFORMERS INTRODUCE<br>REVERSE GRAVITY AT SOME POINT!",""], ()=>{}, 0, -2000],
+  ["00111111001111100011111100111110000000030005000300000000000000000000000000000000000000000000000000000000000000000$000000000000000000000000000000000300002000300611110011111110001111001111111000",["", "<br><br><br>THIS PLACE IS BEYOND LAWS OF PHYSICS,<br>SUCH AS GRAVITY..."/*,"<br><br>YOU'RE NOT SUPER ORIGINAL...<br>ALL PUZZLE PLATFORMERS INTRODUCE<br>REVERSE GRAVITY AT SOME POINT!"*/,""], ()=>{}, 0, -2000],
   
   // 3  cube gravity
-  ["00010000111111110005000011113111000000$011100111000000000000000000000000000000000000000000000000000000003000000000000020000000000000002000000060111001111000000011131111100050001111111110001000",["","<br><br><br>YOU CAN DROP CUBES ON THE GRAVITY INVERTERS","","<br><br><br>THE HEART ORIENTATION INDICATES IN WHICH WAY THEY FALL", "<br><br>THE PORTAL REFERENCE IS NOT SUBTLE AT ALL...", "<br><br><br>SHHH!"], ()=>{}, 0, 0],
+  ["00010000111111110005000011113111000000$011100111000000000000000000000000000000000000000000000000000000003000000000000020000000000000002000000060111001111000000011131111100050001111111110001000",["","<br><br><br>YOU CAN DROP CUBES ON THE GRAVITY INVERTERS",/* "<br><br>THE PORTAL REFERENCE<br>IS NOT SUBTLE AT ALL...", "<br><br><br>SHHH!"*/], ()=>{}, 0, 0],
+  
+  // 4 reset
+  ["000000011100000000000000300000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000$06020000000000000002003000000011111111110000001111111111000000", ["","<br><br>PRESS R TO RESET"],()=>{},0,-2000],
 ];
 
 play(...levels[current_level]);
