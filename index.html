@@ -1458,7 +1458,7 @@ hero_physics_v = () => {
 
 interval = 0;
 timeouts = [];
-current_level = 0;
+current_level = +location.hash[location.hash.length-1] || 0;
 
 levels = [
 
