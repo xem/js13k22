@@ -3,6 +3,7 @@
 <br><br>
 <canvas id=b width=800 height=600 style="border:5px solid"></canvas>
 <img id=sprite src="sprite.png" hidden>
+<p style=color:#fff>Save / Load
 <p><textarea id=t cols=100 rows=2></textarea>
 <script>
 md = 0;
@@ -24,6 +25,7 @@ onload = () => {
   c.stroke();
   d.fillStyle = "#a00";
   d.fillRect(0,0,800,600);
+  
   a.onclick = e => {
     a.width ^= 0;
     c.drawImage(sprite,0,0);
@@ -38,6 +40,7 @@ onload = () => {
   }
   
   b.onclick = e => {
+    if(e.offsetX > 799) return;
     d.strokeStyle = "yellow";
     x = (e.offsetX / 50 | 0);
     y = (e.offsetY / 50 | 0);
@@ -48,12 +51,23 @@ onload = () => {
   
   b.onmousemove = e => {
     if(!md) return;
+    if(e.offsetX > 799) return;
     d.strokeStyle = "yellow";
     x = (e.offsetX / 50 | 0);
     y = (e.offsetY / 50 | 0);
     d.drawImage(sprite,currentTile*50,0,49,50,x*50,y*50,50,50);
     map[y*16+x] = currentChar;
     t.value = map.join("");
+  }
+  
+  t.oninput = e => {
+    for(i = 0; i < 16; i++){
+      for(j = 0; j < 12; j++){
+        currentTile = "0$612345789".indexOf(t.value[j * 16 + i]);
+        map[j * 16 + i] = t.value[j * 16 + i];
+        d.drawImage(sprite,currentTile*50,0,49,50,i*50,j*50,50,50);
+      }
+    }
   }
 }
 </script>
