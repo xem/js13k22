@@ -195,7 +195,7 @@ draw_hero = (x, y, arms, legs, mirror_h, mirror_v, inverted, current = 1, arms_o
     }
   
     // Triangle
-    if(current >= 1){
+    if(current == current_self && current_self > 1){
       ctx.beginPath();
       //console.log(mirror_h);
       ctx.moveTo(mirror_h * 5 + 10,0);
@@ -318,8 +318,8 @@ draw = () => {
     ctx.save();
     ctx.beginPath();
     if(gravity_inverters[i].active){
-      ctx.fillStyle = "#f90";
-      ctx.strokeStyle = "#f90";
+      ctx.fillStyle = "#fc0";
+      ctx.strokeStyle = "#fc0";
     }
     ctx.lineWidth = 3;
     ctx.setLineDash([5, 3]);
@@ -339,8 +339,8 @@ draw = () => {
     if(!cube_slots[i].inverted) {
       ctx.save();
       if(cube_slots[i].active) {
-        ctx.fillStyle = "#f90";
-        ctx.strokeStyle = "#f90";
+        ctx.fillStyle = "#fc0";
+        ctx.strokeStyle = "#fc0";
       }
       else {
         ctx.fillStyle = "#000";
@@ -362,8 +362,8 @@ draw = () => {
       ctx.save();
       
       if(cube_slots[i].active) {
-        ctx.fillStyle = "#f90";
-        ctx.strokeStyle = "#f90";
+        ctx.fillStyle = "#fc0";
+        ctx.strokeStyle = "#fc0";
       }
       else {
         ctx.fillStyle = "#bbb";
@@ -385,8 +385,8 @@ draw = () => {
   for(i in time_inverters){
     ctx.save();
     if(time_inverters[i].active) {
-      ctx.fillStyle = "#f90";
-      ctx.strokeStyle = "#f90";
+      ctx.fillStyle = "#fc0";
+      ctx.strokeStyle = "#fc0";
     }
     else {
       ctx.fillStyle = "hsl(0deg 0% " + (Math.cos(time/15)*30 + 30) + "%)";
@@ -455,7 +455,7 @@ draw = () => {
       // Detect paradox (past self standing on non existing cube)
       if(j.stand_on_cube){
         //ctx.save();
-        //ctx.fillStyle = "#f90";
+        //ctx.fillStyle = "#fc0";
         //ctx.fillRect(j.x - 40, j.mirror_v ? j.y - 85 : j.y + 45, 80, 50);
         //ctx.restore();
         paradox = 1;
@@ -605,7 +605,7 @@ draw = () => {
   
   // Win level
   win = 0;
-  console.log(exit_open);
+  //console.log(exit_open);
   if(exit_open > 10 && Math.hypot(hero.x - exit_x, hero.y - exit_y) < 50){
     win = 1;
   }
@@ -772,7 +772,8 @@ draw = () => {
   for(i in cube_slots){
     if(!cube_slots[i].active) exit_open = 0;
   }
-  if(force_exit_open) exit_open ++;
+  if(force_exit_open) exit_open = 99;
+  console.log(force_exit_open, exit_open);
   exit.style.opacity = exit_open > 10 ? 1 : 0.5;
   exit.style.transform = exit_open > 10 ? "scale(1)" : "scale(.2)";
   
@@ -826,7 +827,7 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   var i, j;
   
   script();
-  console.log(dialogs);
+  //console.log(dialogs);
   if(!restart){
     for(i in dialogs_backup){
       //if(dialogs_backup[i].length){
@@ -995,6 +996,7 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
 
 restart = () => {
   start.style.transform = "scale(1)";
+  v.style.transform = "";
   setTimeout(()=>play(map_backup, [], script_backup, 1), 250);
 }
 
@@ -1127,6 +1129,7 @@ hero_physics = () => {
     hero.grounded = 0;
     u_release = 0;
     hero.walking = 0;
+    hero.stand_on_cube = 0;
   }
   
   // Hold a cube
@@ -1205,7 +1208,7 @@ hero_physics_v = () => {
   }
   
   // Fall
-    hero.stand_on_cube = 0;
+  hero.stand_on_cube = 0;
   if(hero.vy >= 0){
     obstacle1 = hit(tl[0] + 5, tl[1] - 5, 0, 1);
     //console.log(hit1y = hity);
@@ -1317,6 +1320,7 @@ hero_physics_v = () => {
     hero.grounded = 0;
     u_release = 0;
     hero.walking = 0;
+    hero.stand_on_cube = 0;
   }
   
   // Hold a cube
@@ -1390,6 +1394,9 @@ levels = [
   
   // 4 reset
   ["000000011100000000000000300000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000$06020000000000000002003000000011111111110000001111111111000000", ["","<br><br>PRESS R TO RESET"],()=>{},0,-2000],
+  
+  // 5 time
+  ["000000000000000000000000000000000000000000000000000000000000400000000000000010000$00000060011000000000000011100000000000011110000000000011111000000000011111100000209011111110001111111111111111", ["","AT THE BRINK OF DEATH, YOU CAN SEE YOUR LIFE FLASH BEFORE YOUR EYES"],()=>{},0,2000]
 ];
 
 play(...levels[current_level]);
