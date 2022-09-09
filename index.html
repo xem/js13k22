@@ -864,15 +864,18 @@ draw = () => {
       dialog3.innerHTML = "<br><br>WOW, THE TIME IS REVERSED?"/*"<br>LIKE IN TENET?!"*/
     }, 1000));
     timeouts.push(setTimeout(()=>{
+      if(current_level!=5) return;
       dialog3.style.textAlign='center';
       dialog3.style.fontSize="40px";
       dialog3.style.color='#F00';
       dialog3.innerHTML = "YEP. THE WHITE ITEMS<br>MOVE BACKWARDS IN TIME!";
     }, 5000));
     timeouts.push(setTimeout(()=>{
+      if(current_level!=5) return;
       dialog3.innerHTML = "ONLY THE REVERSED CUBES<br>CAN ACTIVATE THE WHITE SLOTS.";
     }, 9000));
     timeouts.push(setTimeout(()=>{
+      if(current_level!=5) return;
       dialog3.innerHTML = "";
     }, 13000));
     time_travels ++;
@@ -883,10 +886,16 @@ draw = () => {
 // Launch the game
 play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
 
+  if(!restart) {
+    dialog3.innerHTML = "";
+    timeouts.forEach(clearTimeout);
+  }
+  v.style.transform = "";
+
   map_backup = m;
   dialogs_backup = dialogs;
   script_backup = script;
-  timeouts.forEach(clearTimeout);
+  //timeouts.forEach(clearTimeout);
   timeouts = [];
 
   var i, j;
@@ -1149,34 +1158,11 @@ hero_physics = () => {
   // Left
   hero.walking = 0;
   if(l){
-    obstacle1 = hit(tl[0] - 5, tl[1]);
-    obstacle2 = hit(ml[0] - 5, ml[1]);
-    obstacle3 = hit(bl[0] - 5, bl[1] - 10);
-    
-    if(hero.x > 10 && obstacle1 != 1 && obstacle2 != 1 && obstacle3 != 1){
+    if(hero.x > 10 && hit(...tl) != 1 && hit(...ml) != 1 && hit(bl[0], bl[1] - 10) != 1){
       hero.x -= 5;
     }
     else{
-      if(hero.hold){
-        console.log(obstacle1, obstacle2, obstacle3);
-        if(!obstacle1 == 1 && !obstacle2 == 1 && obstacle3 == 1){
-          hero.x = ~~(hero.x / 50) * 50 +5;
-        }
-        else if(obstacle2 == 1){
-          hero.x = ~~(hero.x / 50) * 50;
-        }
-        
-        else if(obstacle3 == 1){
-          hero.x = ~~(hero.x / 50) * 50+ 5;
-        }
-        else{
-          hero.x = ~~(hero.x / 50) * 50 + 45;
-        }
-        //console.log(1, obstacle1, obstacle2, obstacle3);
-      }
-      else {
-        hero.x = ~~(hero.x / 50) * 50 + 5;
-      }
+      //if(!hero.hold) hero.x = ~~(hero.x / 50) * 50  + 50 - 15;
     }
     hero.mirror_h = 1;
     hero.walk++;
@@ -1337,43 +1323,11 @@ hero_physics_v = () => {
   hero.walking = 0;
   if(l){
   
-    /*if(hero.x > 10 && hit(...tl) != 1 && hit(...ml) != 1 && hit(bl[0], bl[1] - 10) != 1){
+    if(hero.x > 10 && hit(...tl) != 1 && hit(...ml) != 1 && hit(bl[0], bl[1] - 10) != 1){
       hero.x -= 5;
     }
     else{
-      if(!hero.hold) hero.x = ~~(hero.x / 50) * 50 + 5;
-    }
-    hero.mirror_h = 1;
-    hero.walk++;
-    hero.walking = 1;*/
-    
-    obstacle1 = hit(tl[0] - 5, tl[1]);
-    obstacle2 = hit(ml[0] - 5, ml[1]);
-    obstacle3 = hit(bl[0] - 5, bl[1] - 10);
-    
-    if(hero.x > 10 && obstacle1 != 1 && obstacle2 != 1 && obstacle3 != 1){
-      hero.x -= 5;
-    }
-    else{
-      if(hero.hold){
-        if(!obstacle1 == 1 && !obstacle2 == 1 && obstacle3 == 1){
-          hero.x = ~~(hero.x / 50) * 50 +5;
-        }
-        else if(obstacle2 == 1){
-          hero.x = ~~(hero.x / 50) * 50;
-        }
-        
-        else if(obstacle1 == 1){
-          hero.x = ~~(hero.x / 50) * 50+ 5;
-        }
-        else {
-          hero.x = ~~(hero.x / 50) * 50 + 45;
-        }
-        console.log(1, obstacle1, obstacle2, obstacle3);
-      }
-      else {
-        hero.x = ~~(hero.x / 50) * 50 + 5;
-      }
+      //if(!hero.hold) hero.x = ~~(hero.x / 50) * 50  + 50 - 15;
     }
     hero.mirror_h = 1;
     hero.walk++;
@@ -1463,7 +1417,7 @@ current_level = location.hash.length == 2 ? (+location.hash[1]) : 0;
 levels = [
 
   // 0 move
-  ["0000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000$00000000001100000000000001100000000000001120000000000001122000111111011111111111111101111111111111",["LET ME GUESS...<br>I CAN MOVE WITH WASD KEYS?","DUDE, I\'M THE DEVIL, NOT A MONSTER!<br>YOU CAN USE THE ARROW KEYS TOO...", ""],()=>{setTimeout(()=>force_exit_open=1, 9000)}],
+  ["0000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000$00000000001100000000000001100000000000001120000000000001122000111111011111111111111101111111111111",["LET ME GUESS...<br>I CAN MOVE WITH WASD KEYS?","DUDE, I\'M THE DEVIL, NOT A MONSTER!<br>YOU CAN USE THE ARROW KEYS TOO...", ""],()=>{setTimeout(()=>{console.log(current_level);if(current_level==0)force_exit_open=1}, 9000)}],
 
   // 1 cubes
   ["000000000000000000000000000000000000000000000000000000000000000000020202000000000$006000000000000000000000000000000000000100000000000000011000000005000001110500111111111111011111111111111101110",["","PRESS SPACE<br>TO GRAB AND DROP BOXES","ARE WE IN AN AMAZON WAREHOUSE?", "EW, NO!", "", "ACTIVATE ALL THE CUBE SLOTS<br>TO OPEN THE EXIT", ""], ()=>{}, 0, -2000],
@@ -1480,13 +1434,24 @@ levels = [
   // 5 time
   ["0000000000000001000000000000000100000000000000010000000000000041000000000000111100000000000111110$0060000011111100000000011111110000000011111111000000011111111100209011111111111111111111111111", ["","HERE, AT THE BRINK OF DEATH,<br>YOU CAN SEE YOUR LIFE FLASH<br>BEFORE YOUR EYES",""],()=>{},0,-2000],
   
-  // 6 1 box 2 slots
+  // 6 Adrien
+  ["111111111111111111111111111111111811111111111131100111111111100110001111111100011000011111100001100000000000000110$00040040006011000000000000001100001111110000119001111111100311111111111111111"],
+  
+  // 7 1 box 2 slots
   ['00000000000000000000000000000000000000000000000000000000000000000000000$000000000000000000000000000000600000000002000000000000401110000000000111111100500900111111111111111111111111111111111111', ["", "REMEMBER, ALL SLOTS NEED TO BE ACTIVATED SIMULTANEOUSLY", "BUT I ONLY HAVE ONE CUBE!",""], ()=>{}, 0, -2000],
   
-  // 7 4 cubes
-  ["1111111111111111000000005090300000000000000000000000000000000000000000000000000000000000000000000220$0000000400002200000000000001111100000000000111110000000006011111050300090001111111111111111", ["", "<br><br><br>LET'S SPICE THINGS UP A LITTLE...",""], ()=>{}, 0, -2000],
+  // 8 Adrien
+  ["11130030030031111900000000000041100000000000000160000000000000000000000000000000000000000000000000000000000000000000000000000000$000000000000000120000000000000115000000000000011110303003030111"],
   
-  // use the time machine twice to duplicate a black cube?
+  
+  // 9 4 cubes
+  ["1111111111111111000000005090300000000000000000000000000000000000000000000000000000000000000000000220$0000000400002200000000000001111100000000000111110000000006011111050300090001111111111111111", /*["", "<br><br><br>LET'S SPICE THINGS UP A LITTLE...",""]*/, ()=>{}, 0, -2000],
+  
+  // 10 Adrien
+  ["00111000000111000190310000123010010001300310001000000000000000000000011100000000000010000000000000001$600000000000001000000001110100011110000010014000000000001000100000000031000001111111111000"],
+  
+  // 11 use the time machine twice to duplicate a black cube
+  ["22222222222222222222222222222222220000000000002222111111111111222210000000000122001$000000060100001000000000010088102050504001888811111111111188880000000000008888888888888888888888888888888888",[],()=>{/*setTimeout(()=>{for(i in cubes)if(cubes[i].inverted && i > 44) cubes[i].mirror_v=1},16)*/}],
 ];
 
 if(location.hash.length > 2){
@@ -1499,13 +1464,18 @@ else {
 </script>
 
 <center>
-<button onclick="play(...levels[0]);">0</button>
-<button onclick="play(...levels[1]);">1</button>
-<button onclick="play(...levels[2]);">2</button>
-<button onclick="play(...levels[3]);">3</button>
-<button onclick="play(...levels[4]);">4</button>
-<button onclick="play(...levels[5]);">5</button>
-<button onclick="play(...levels[6]);">6</button>
-<button onclick="play(...levels[7]);">7</button>
-<button onclick="play(...levels[8]);">8</button>
+<button onclick="play(...levels[current_level=0]);this.blur()">0</button>
+<button onclick="play(...levels[current_level=1]);this.blur()">1</button>
+<button onclick="play(...levels[current_level=2]);this.blur()">2</button>
+<button onclick="play(...levels[current_level=3]);this.blur()">3</button>
+<button onclick="play(...levels[current_level=4]);this.blur()">4</button>
+<button onclick="play(...levels[current_level=5]);this.blur()">5</button>
+<button onclick="play(...levels[current_level=6]);this.blur()">6</button>
+<button onclick="play(...levels[current_level=7]);this.blur()">7</button>
+<button onclick="play(...levels[current_level=8]);this.blur()">8</button>
+<button onclick="play(...levels[current_level=9]);this.blur()">9</button>
+<button onclick="play(...levels[current_level=10]);this.blur()">10</button>
+<button onclick="play(...levels[current_level=11]);this.blur()">11</button>
 </center>
+
+<!--TODO: si on finit un niveau avec la gravité inversée, l'autre niveau commence en étant en gravité inversée également (mais le bonhomme reste au plafond)-->
