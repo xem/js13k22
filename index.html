@@ -618,8 +618,9 @@ draw = () => {
       
       // Cube fall
       if(!cubes[i].holding){
+        //console.log(+hit(cubes[i].x, cubes[i].y - 26, 1));
         if(
-          (hit(cubes[i].x  -22, cubes[i].y - 26, 1) == 0 || hit(cubes[i].x + -22, cubes[i].y - 26, 1) > 2)
+          (hit(cubes[i].x  -20, cubes[i].y - 26, 1) == 0 || hit(cubes[i].x + -20, cubes[i].y - 26, 1) > 2)
           &&
           (hit(cubes[i].x + 22, cubes[i].y - 26, 1) == 0 || hit(cubes[i].x + 22, cubes[i].y - 26, 1) > 2)
         ){
@@ -651,8 +652,9 @@ draw = () => {
     
       // Cube fall
       if(!cubes[i].holding){
+        //if(i == 1) console.log(+hit(cubes[i].x  -22, cubes[i].y + 26, 1));
         if(
-          (hit(cubes[i].x  -22, cubes[i].y + 26, 1) == 0 || hit(cubes[i].x + -22, cubes[i].y + 26, 1) > 2)
+          (hit(cubes[i].x  -20, cubes[i].y + 26, 1) == 0 || hit(cubes[i].x + -20, cubes[i].y + 26, 1) > 2)
           &&
           (hit(cubes[i].x + 22, cubes[i].y + 26, 1) == 0 || hit(cubes[i].x + 22, cubes[i].y + 26, 1) > 2)
         ){
@@ -1432,7 +1434,7 @@ levels = [
   ["00000001110000000000000030000000000000000000000000000000000000000000000000000000000000005000000000000000000000000$000000000000000006020000000000000002003000000011111111110000001111111111000000", ["","<br><br>PRESS R TO RESET.","<br>YOU MEAN, IF I MESS UP<br>SO BADLY THAT I GET STUCK?","<br><br>EXACTLY.",""],()=>{},0,-2000],
   
   // 5 Climb on reversed cubes
-  ["11110000011111110$000000080000060000000008000000110000000800300011000000000110011100000000011551110011110001111111000880000111111100088000111111110000000111111111111111111111111111111111111111"],
+  ["11110000011111110$000000080000060000000008000000110000000800300011000000000110011100000000011551110011110001111111000880000111111100088000111111110000000111111111111111111111111111111111111111",["","<br><br><br><br><br><br><br><br><br><br><br>YOU CAN RECOGNIZE REVERSED CUBES<br>BY THE HEART DRAWN ON THEM...","<br><br>AND BY THE FACT THAT<br>THEY FALL UPWARDS, NO?","<br><br><br><br><br><br><br><br><br><br><br><p>YES, THAT TOO.",""],()=>{},0,-2000],
   
   // 6 time
   ["0000000000000001000000000000000100000000000000010000000000000041000000000000111100000000000111110$0060000011111100000000011111110000000011111111000000011111111100209011111111111111111111111111", ["","HERE, AT THE BRINK OF DEATH,<br>YOU CAN SEE YOUR LIFE FLASH<br>BEFORE YOUR EYES",""],()=>{},0,-2000],
@@ -1464,6 +1466,111 @@ else {
   play(...levels[current_level]);
 }
 
+
+// music
+music = [
+
+  // Fortuna-Imperatrix-Mundi.mid track 1
+  [
+    1,1,1,1,1,88,,,89,,86,,86,,,,88,,,89,,86,,86,,,,93,,,91,93,91,91,89,88,,,,89,89,88,88,,,89,89,88,88,,,89,89,88,89,,91,,89,88,,,89,89,88,88,,,89,89,88,88,,,89,89,88,89,,91,,89,88,,,93,93,91,91,,,93,93,91,91,,,93,93,91,89,,91,,89,91,,,93,93,91,91,,,93,93,91,91,,,93,93,91,93,94,93,91,89,91,89,88,86
+  ]
+];
+
+// Mini Piano
+
+// params: note value / inversed 1 / inversed 2
+piano = (e, i1, i2) => {
+   var V, u, v, p, b, w, P, r, i, D, A, m;
+   for(
+  
+    // V: note length in seconds
+    V = 2,
+    
+    // O: piano is selected
+    u = 1,
+    
+    // Temp vars for guitar synthesis
+    v = [],
+    p = c = 0,
+    
+    // Modulation
+    // This function generates the i'th sample of a sinusoidal signal with a specific frequency and amplitude
+    b = (e, t, a, i) => Math.sin(e / t * 6.28 * a + i),
+    
+    // Instrument synthesis
+    w = (e, t) =>
+    
+      u 
+
+      // Piano
+      ? Math.sin(e / 44100 * t * 6.28 + b(e, 44100, t, 0) ** 2 + .75 * b(e, 44100, t, .25) + .1 * b(e, 44100, t, .5))
+      
+      // Guitar
+      : (
+        P = 44100 / t,
+        r = 0,
+        v.length <= 1 + ~~P
+        ? (v.push(2 * Math.random() - 1), v[v.length - 1])
+        : (v[p] = .5 * (
+          v[p >= v.length - 1 ? 0 : p + 1] + v[p]
+          ),
+          p >= ~~P && (
+            p < 1 + ~~P 
+            ? c % 100 >= ~~(100 * (P - ~~P)) &&(r = 1, v[p+1] = .5 * (v[0] + v[p + 1]), c++)
+            : r = 1
+          ),
+          p = r ? 0 : p + 1,
+          v[p]
+        )
+      ),
+    
+    // Sound samples
+    D = [],
+    
+    // Loop on all the samples
+    i = 0;
+    i < 44100 * V;
+    i++
+  ){
+  
+    // Fill the samples array
+    D[i] =
+    
+      // The first 88 samples represent the note's attack
+      i < 120 
+      ? i / 120.2 * w(i, e) 
+      
+      // The other samples represent the rest of the note
+      : ((1 - (i - 88.2) / (44100 * (V - .002))) ** (u ? (.5 * Math.log(1e4 * e / 44100)) ** 2 : 1) * w(i, e)) / (u ? 1 : 5);
+  }
+  
+  // Play the note
+  A = new AudioContext,
+  m = A.createBuffer(1, 1e6, 44100),
+  m.getChannelData(0).set(i1 ? D.reverse() : D),
+  s = A.createBufferSource(),
+  s.buffer = m,
+  s.connect(A.destination),
+  s.start()
+}
+
+
+current_note = 0;
+
+play_music = () => {
+
+  setInterval(play_note, 450);
+  
+}
+
+play_note = () => {
+  current_note ++;
+  if(music[0][current_note] == 1) piano(0.0001);
+  else if(music[0][current_note]) piano(440*1.06**(music[0][current_note] - 80));
+}
+
+//onload = play_music;
+
 </script>
 
 <center>
@@ -1480,4 +1587,5 @@ else {
 <button onclick="play(...levels[current_level=10]);this.blur()">10</button>
 <button onclick="play(...levels[current_level=11]);this.blur()">11</button>
 <button onclick="play(...levels[current_level=12]);this.blur()">12</button>
+<button onclick="play_music()">music</button>
 </center>
