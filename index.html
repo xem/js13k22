@@ -1,7 +1,8 @@
-<link rel=stylesheet href=style.css>
+﻿<link rel=stylesheet href=style.css>
 <div id=v>
 <h1 id=light></h1>
 <div id=devil></div>
+<div id=angel style="left:-1000px"></div>
 <canvas id=canvas width=800 height=600></canvas>
 <div id=start style="opacity:0"></div>
 <div id=exit></div>
@@ -315,6 +316,29 @@ draw = () => {
       
       
     }
+  }
+  
+  // Hell
+  if(current_level == 13 || current_level == 14) {
+    ctx.save();
+    ctx.scale(2,2);
+    ctx.translate(300,180);
+    ctx.fill(new Path2D("M10 99L10 25Q41 0 75 25L75 99Z"));
+    ctx.restore();
+    ctx.font="40px Times New Roman";
+    ctx.fillStyle="red";
+    ctx.fillText("HELL",635,470);
+    ctx.fontKerning = -12;
+    if(current_level == 13 && !outro){
+      ctx.fillText("🔥",635 + Math.random() * 5,550);
+      ctx.fillText("🔥",655 + Math.random() * 5,550);
+      ctx.fillText("🔥",675 + Math.random() * 5,550);
+    }
+    else if(current_level == 14 || outro){
+      ctx.fillText("  NO.",635,510);
+    }
+    ctx.fillStyle="#000";
+    
   }
   
   // Gravity inverters
@@ -813,7 +837,7 @@ draw = () => {
   //console.log(5, hero.hold);
   
   // cube slots
-  exit_open++;
+  if(current_level < 14) exit_open++;
   for(i in cube_slots){
     cube_slots[i].active = 0;
   }
@@ -832,9 +856,9 @@ draw = () => {
       if(cubes[j].gravitydelay) cubes[j].gravitydelay --;
     }
   }
-  if(cube_slots.length == 0) exit_open = 0;
+  if(current_level < 14 && cube_slots.length == 0) exit_open = 0;
   for(i in cube_slots){
-    if(!cube_slots[i].active) exit_open = 0;
+    if(!cube_slots[i].active && current_level < 14) exit_open = 0;
   }
   if(force_exit_open) exit_open = 99;
   //console.log(force_exit_open, exit_open);
@@ -912,6 +936,14 @@ draw = () => {
 // Launch the game
 play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
 
+  if(current_level > 13){
+    document.body.className = "outro";
+    exit_open = 99;
+    setTimeout(()=>exit_open = 0, 10000);
+  }
+  if(current_level == 14) start.style.display = "none";
+  else start.style.display = "block";
+
   if(!restart) {
     dialog3.innerHTML = "";
     timeouts.forEach(clearTimeout);
@@ -931,17 +963,29 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   if(!restart){
     for(i in dialogs_backup){
       //if(dialogs_backup[i].length){
-        timeouts.push(setTimeout("dialog3.style.textAlign='" + ((+i)%2 ? "center" : "left") + "';dialog3.style.fontSize='" + ((+i)%2 ? "40px" : "35px") + "';dialog3.style.color='" + ((+i)%2 ? "#f00" : "#fff") + "';dialog3.innerHTML = `" + ((+i)%2 ? "":"<br><br>") + dialogs_backup[i] + "`", +i*4000 + start_offset));
+        timeouts.push(setTimeout("dialog3.style.textAlign='" + ((+i)%2 ? "center" : "left") + "';dialog3.style.fontSize='" + ((+i)%2 ? "40px" : "35px") + "';dialog3.style.color='" + ((+i)%2 ? "#f00" : "#fff") + "';dialog3.innerHTML = `" + ((+i)%2 || current_level == 13 ? "":"<br><br>") + dialogs_backup[i] + "`", +i*4000 + start_offset));
       //}
     }
   }
   
   // BG
-  v.style.background = "linear-gradient(#300,#a00)";
+  if(current_level > 13) v.style.background = "linear-gradient(rgb(56 95 167), rgb(2 8 15)) 0% 0% / 200% 200%";
+  else v.style.background = "linear-gradient(#300,#a00)";
   v.style.backgroundSize = "200% 200%";
   v.style.animation = "fire infinite 2s";
-  devil.style.opacity = .05;
-  devil.style.transform = "translateX(385px) translateY(225px) scale(7)";
+  if(current_level > 13){
+    devil.style.display = "none";
+    angel.style.display = "block";
+    angel.style.opacity = ".1";
+    angel.style.left = "350px";
+    angel.style.top = "200px";
+  }
+  else {
+    devil.style.opacity = .05;
+    angel.style.display = "none";
+    devil.style.display = "block";
+    devil.style.transform = "translateX(385px) translateY(225px) scale(7)";
+  }
   
   // Canvas
   ctx = canvas.getContext("2d");
@@ -987,7 +1031,7 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   gravity_inversions = 0;
   
   win = 0;
-  exit_open = 0;
+  if(current_level < 14) exit_open = 0;
   force_exit_open = 0;
   exit_x = 0;
   exit_y = 0;
@@ -1104,10 +1148,65 @@ restart = () => {
   setTimeout(()=>play(map_backup, [], script_backup, 1), 250);
 }
 
+outro = 0;
 
 hero_physics = () => {
 
   var i, j;
+  
+  if(!outro && current_level == 13 && hero.x > 500 && hero.y > 300){
+    
+    //console.log("ha");
+    lightning();
+    pause2 = 1000;
+    outro = 1;
+    devil.style.transition = "all 1s";
+    angel.style.transition = "all 1s";
+    angel.style.display = "block";
+    devil.style.left = "1000px";
+    angel.style.left = "350px";
+    angel.style.top = "200px";
+    v.style.background = "linear-gradient(rgb(56 95 167), rgb(2 8 15)) 0% 0% / 200% 200%";
+    hero.walk = 0;
+    timeouts.forEach(clearTimeout);
+    dialog3.innerHTML = "";
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.style.fontWeight = "bold";
+      dialog3.style.fontSize = "48px";
+      dialog3.style.textAlign = "center";
+      dialog3.style.textShadow = "0 0 15px #fff,0 0 10px #fff";
+      dialog3.innerHTML = "FEAR NOT, MY CHILD!";
+    }, 500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "I AM SALVATORE,<br>THE ANGEL OF SALVATION.";
+    }, 3500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "I HELPED MAKING THIS GAME <br>AND I CAN HELP YOU TOO!";
+    }, 7500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "THE HEAVEN'S ENTRANCE IS<br>IN THE INTRO!";
+    }, 11500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "YOU NEED TO GO THROUGH<br>ALL THE LEVELS IN REVERSE.";
+    }, 15500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "I CAN ONLY MAINTAIN THE PORTAL<br>OPEN FOR 10 SECONDS. RUN!";
+    }, 15500);
+    setTimeout(()=>{
+      dialog3.style.color = "#fff";
+      dialog3.innerHTML = "";
+      pause = 0;
+    }, 19500);
+    setTimeout(()=>{
+      play(...levels[current_level=14]);this.blur()
+    }, 20000);
+  }
 
   if(pause2) return;
   
@@ -1446,7 +1545,7 @@ hero_physics_v = () => {
 
 interval = 0;
 timeouts = [];
-current_level = location.hash.length == 2 ? (+location.hash[1]) : 0;
+current_level = location.hash.length == 2 ? (+location.hash[1]) : 13;
 
 levels = [
 
@@ -1489,6 +1588,14 @@ levels = [
   
   // 12 use the time machine twice to duplicate a black cube
   ["22222222222222222222222222222222220000000000002222111111111111222210000000000122001$000000060100001000000000010088102050504001888811111111111188880000000000008888888888888888888888888888888888",["<br><br><br><center>WHAT?!",""],()=>{/*setTimeout(()=>{for(i in cubes)if(cubes[i].inverted && i > 44) cubes[i].mirror_v=1},16)*/}],
+  
+  // 13 hell
+  [
+    "11110000000000111110000000000001110000011111000$10000011111110000000011100011100000011100000111120000000000001111100000002000000111000000000000011110000111000001111100111110000111111111111111100000000000000000000000000000000000000000000000006",["","CONGRATS, YOU MAY NOW GO TO HELL.","WAIT! IN THE INTRO<br>YOU SAID I COULD<br>CHOOSE MY PATH!", "I LIED. MUAHAHAHAHA!",""],()=>{},0,-2000,
+  ],
+  
+  // 14 = 13
+  ["111100000000001111100000000000011100000111110006100000111111100000000111000111000000111000001111200000000000011111000000020$00001110000000000000111100001110000011111001111100001111111111111111"],
 ];
 
 if(location.hash.length > 2){
@@ -1659,5 +1766,7 @@ s.start()
 <button onclick="play(...levels[current_level=10]);this.blur()">10</button>
 <button onclick="play(...levels[current_level=11]);this.blur()">11</button>
 <button onclick="play(...levels[current_level=12]);this.blur()">12</button>
+<button onclick="play(...levels[current_level=13]);this.blur()">13</button>
+<button onclick="play(...levels[current_level=14]);this.blur()">14</button>
 <button onclick="play_music()">music</button>
 </center>
