@@ -328,7 +328,6 @@ draw = () => {
     ctx.font="40px Times New Roman";
     ctx.fillStyle="red";
     ctx.fillText("HELL",635,470);
-    ctx.fontKerning = -12;
     if(current_level == 13 && !outro){
       ctx.fillText("🔥",635 + Math.random() * 5,550);
       ctx.fillText("🔥",655 + Math.random() * 5,550);
@@ -1184,7 +1183,7 @@ hero_physics = () => {
     }, 3500);
     setTimeout(()=>{
       dialog3.style.color = "#00F";
-      dialog3.innerHTML = "I HELPED MAKING THIS GAME <br>AND I CAN HELP YOU TOO!";
+      dialog3.innerHTML = "I AM HERE TO HELP YOU!";
     }, 7500);
     setTimeout(()=>{
       dialog3.style.color = "#00F";
@@ -1580,10 +1579,10 @@ levels = [
   ["11130030030031111900000000000041100000000000000160000000000000000000000000000000000000000000000000000000000000000000000000000000$000000000000000120000000000000115000000000000011110303003030111"],
   
   
-  // 11 Adrien
+  // 10 Adrien
   ["00111000000111000190310000123010010001300310001000000000000000000000011100000000000010000000000000001$600000000000001000000001110100011110000010014000000000001000100000000031000001111111111000"],
   
-  // 10 4 cubes
+  // 11 4 cubes
   ["1111111111111111000000005090030000000000000000000000000000000000000000000000000000000000000000000220$0000000400002200000000000001111100000000000111110000000006011111050300090001111111111111111", /*["", "<br><br><br>LET'S SPICE THINGS UP A LITTLE...",""]*/, ()=>{}, 0, -2000],
   
   // 12 use the time machine twice to duplicate a black cube
@@ -1596,6 +1595,37 @@ levels = [
   
   // 14 = 13
   ["111100000000001111100000000000011100000111110006100000111111100000000111000111000000111000001111200000000000011111000000020$00001110000000000000111100001110000011111001111100001111111111111111"],
+  
+  // 15 = 12
+  ["2222222222222222220000000000002222111111111111222216000000000122221000000000012200100000000$0100001000000000010088102050504001888811111111111188880000000000008888888888888888888888888888888888"],
+  
+  // 16 = 11
+  ["11111111111111110000000050900300000000008070000000000000000000000000000000000000000000000000000000006000000040000000000000000000111110000000000011111020000070$011111050300090001111111111111111",[],()=>{setTimeout(()=>{cubes[2].mirror_v = 1},16)}],
+  
+  // 17 = 10
+  ["001110600001110001903100001230100100013003100010000000000000000000000111000000000000100000000000000010$00000000000001000000001110100011110000010014000000000001000100000000031000001111111111000"],
+  
+  // 18 = 9
+  ["1110303003030111150000000000000118000000000000010000000000000000600000000000000000000000000000001111111111111110$0000000000000000000000000000000170000000000000119000000000000411113003003003111"],
+  
+  // 19 = 8
+  ["000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000$00000000000000000000000401110002007000111111100500900111111111111111111111111111111111111"],
+  
+  // 20 = 7
+  
+  // 21 = 6
+  
+  // 22 = 5
+  
+  // 23 = 4
+  
+  // 24 = 3
+  
+  // 25 = 2
+  
+  // 26 = 1
+  
+  
 ];
 
 if(location.hash.length > 2){
@@ -1768,5 +1798,17 @@ s.start()
 <button onclick="play(...levels[current_level=12]);this.blur()">12</button>
 <button onclick="play(...levels[current_level=13]);this.blur()">13</button>
 <button onclick="play(...levels[current_level=14]);this.blur()">14</button>
+<button onclick="play(...levels[current_level=15]);this.blur()">15</button>
+<button onclick="play(...levels[current_level=16]);this.blur()">16</button>
+<button onclick="play(...levels[current_level=17]);this.blur()">17</button>
+<button onclick="play(...levels[current_level=18]);this.blur()">18</button>
+<button onclick="play(...levels[current_level=19]);this.blur()">19</button>
+<button onclick="play(...levels[current_level=20]);this.blur()">20</button>
+<button onclick="play(...levels[current_level=21]);this.blur()">21</button>
+<button onclick="play(...levels[current_level=22]);this.blur()">22</button>
+<button onclick="play(...levels[current_level=23]);this.blur()">23</button>
+<button onclick="play(...levels[current_level=24]);this.blur()">24</button>
+<button onclick="play(...levels[current_level=25]);this.blur()">25</button>
+<button onclick="play(...levels[current_level=26]);this.blur()">26</button>
 <button onclick="play_music()">music</button>
 </center>
