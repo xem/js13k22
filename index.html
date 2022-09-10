@@ -242,6 +242,8 @@ hit = (x, y, from_cube, log) => {
 // Draw one frame (and run the physics)
 draw = () => {
 
+  //console.log(1, hero.hold);
+  
   var i,j, k;
   //console.log(pause);
   if(pause){ pause--; if(pause < 18 && pause > 5) return }
@@ -291,6 +293,8 @@ draw = () => {
   
   
   canvas.width ^= 0;
+  
+  //console.log(2, hero.hold);
   
   
   // map
@@ -458,15 +462,15 @@ draw = () => {
         //ctx.fillStyle = "#fc0";
         //ctx.fillRect(j.x - 40, j.mirror_v ? j.y - 85 : j.y + 45, 80, 50);
         //ctx.restore();
-        paradox[j] ++;
+        paradox[i] ++;
         for(k in cubes){
           //if(k == 2) console.log(cubes[k], j, cubes[k].x - 25 > j.x - 55, cubes[k].x + 25 < j.x + 55, cubes[k].y - 25 > j.y + 20, cubes[k].y - 25 < j.y + 80);
           if(cubes[k].x - 25 > j.x - 57 && cubes[k].x + 25 < j.x + 57 && Math.abs(cubes[k].y - j.y) < 80){
-            paradox[j] = 0;
+            paradox[i] = 0;
           }
         }
-        console.log(paradox[j]);
-        if(paradox[j] > 2 && !pause2){
+        //console.log(paradox[i]);
+        if(paradox[i] > 2 && !pause2){
         
           pause2 = 150;
           ctx.save();
@@ -550,6 +554,8 @@ draw = () => {
     current_self
   );
   
+  //console.log(3, hero.hold);
+  
   if(hero.hold){
   
     // Hero's cube
@@ -588,6 +594,8 @@ draw = () => {
     );
   }
   
+  //console.log(3.5, hero.hold);
+  
 
   if(hero.mirror_v){
     hero_physics_v();
@@ -605,6 +613,8 @@ draw = () => {
     }
     restart();
   }
+  
+  //console.log(3.6, hero.hold);
   
   // Win level
   win = 0;
@@ -685,6 +695,8 @@ draw = () => {
     }
   }
   
+  //console.log(3.7, hero.hold);
+  
   
   // gravity inverter for hero
   if(herogravitydelay == 0) {
@@ -692,6 +704,7 @@ draw = () => {
       if(gravity_inverters[i].x + 25 > bl[0] && gravity_inverters[i].x - 25 < br[0] && gravity_inverters[i].y + 25 > tl[1] && gravity_inverters[i].y - 25 < bl[1]){
         gravity_inverters[i].active = 1;
         gravity_inversions ++;
+        sound(gravity_sound);
         if(current_level == 2 && gravity_inversions == 3){
           timeouts.forEach(clearTimeout);
           timeouts = [];
@@ -724,6 +737,8 @@ draw = () => {
     if(herogravitydelay == 13) v.style.transform = "rotateX(" + (canvasrx = 180 - canvasrx) + "deg)";
   }
   
+  //console.log(3.8, hero.hold);
+  
   
   // gravity inverter for cubes
   for(j in cubes){
@@ -745,6 +760,8 @@ draw = () => {
     }
   }
   
+  //console.log(4, hero.hold);
+  
   
   // time inverter for hero
   for(i in time_inverters){
@@ -752,6 +769,7 @@ draw = () => {
       time_inverters[i].active = 1;
       lightning();
       hero.inverted = 1 - hero.inverted;
+      sound(time_sound);
       time_travels ++;
       current_self++;
       if(hero.hold){
@@ -792,6 +810,7 @@ draw = () => {
     }
   }
   
+  //console.log(5, hero.hold);
   
   // cube slots
   exit_open++;
@@ -830,6 +849,8 @@ draw = () => {
   }
   
   if(win && !level_transition){
+  
+    sound(win_sound);
     //console.log("win");
     timeouts.forEach(clearTimeout);
     dialog3.innerHTML = "";
@@ -1200,6 +1221,8 @@ hero_physics = () => {
     hero.stand_on_cube = 0;
   }
   
+  //console.log(3.55, hero.hold, s);
+  
   // Hold a cube
   if(!s) s_release = 1;
   if(s && s_release) {
@@ -1243,6 +1266,8 @@ hero_physics = () => {
     }
     hold_timer = 10;
   }
+  //console.log(3.56, hero.hold);
+  
   if(hero.hold) {
     time_array[present_abs].cubes[hero.hold].holding = cubes[hero.hold].holding = current_self;
     time_array[present_abs].cubes[hero.hold].x = cubes[hero.hold].x = hero.x + (canextendhitbox ? (hero.mirror_h ? -25 : 25) : 0);
@@ -1444,7 +1469,7 @@ levels = [
   ["11110000011111110$000000080000060000000008000000110000000800300011000000000110011100000000011551110011110001111111000880000111111100088000111111110000000111111111111111111111111111111111111111",["","<br><br><br><br><br><br><br><br><br><br><br>YOU CAN RECOGNIZE REVERSED CUBES<br>BY THE HEART DRAWN ON THEM...","<br><br>AND BY THE FACT THAT<br>THEY FALL UPWARDS, NO?","<br><br><br><br><br><br><br><br><br><br><br><p>YES, THAT TOO.",""],()=>{},0,-2000],
   
   // 6 time
-  ["0000000000000001000000000000000100000000000000010000000000000041000000000000111100000000000111110$0060000011111100000000011111110000000011111111000000011111111100209011111111111111111111111111", ["","HERE, AT THE BRINK OF DEATH,<br>YOU CAN SEE YOUR LIFE FLASH<br>BEFORE YOUR EYES",""],()=>{},0,-2000],
+  ["0000000000000001000000000000000100000000000000010000000000000041000000000000111100000000000111110$0060000011111100000000011111110000000011111111000000011111111100209011111111111111111111111111", ["","HERE, AT THE BRINK OF DEATH,<br>YOU CAN SEE YOUR LIFE FLASH<br>BEFORE YOUR EYES.",""],()=>{},0,-2000],
   
   // 7 Adrien
   ["111111111111111111111111111111111811111111111131100111111111100110001111111100011000011111100001100000000000000110$00040040006011000000000000001100001111110000119001111111100311111111111111111"],
@@ -1456,14 +1481,14 @@ levels = [
   ["11130030030031111900000000000041100000000000000160000000000000000000000000000000000000000000000000000000000000000000000000000000$000000000000000120000000000000115000000000000011110303003030111"],
   
   
-  // 10 4 cubes
-  ["1111111111111111000000005090300000000000000000000000000000000000000000000000000000000000000000000220$0000000400002200000000000001111100000000000111110000000006011111050300090001111111111111111", /*["", "<br><br><br>LET'S SPICE THINGS UP A LITTLE...",""]*/, ()=>{}, 0, -2000],
-  
   // 11 Adrien
   ["00111000000111000190310000123010010001300310001000000000000000000000011100000000000010000000000000001$600000000000001000000001110100011110000010014000000000001000100000000031000001111111111000"],
   
+  // 10 4 cubes
+  ["1111111111111111000000005090030000000000000000000000000000000000000000000000000000000000000000000220$0000000400002200000000000001111100000000000111110000000006011111050300090001111111111111111", /*["", "<br><br><br>LET'S SPICE THINGS UP A LITTLE...",""]*/, ()=>{}, 0, -2000],
+  
   // 12 use the time machine twice to duplicate a black cube
-  ["22222222222222222222222222222222220000000000002222111111111111222210000000000122001$000000060100001000000000010088102050504001888811111111111188880000000000008888888888888888888888888888888888",[],()=>{/*setTimeout(()=>{for(i in cubes)if(cubes[i].inverted && i > 44) cubes[i].mirror_v=1},16)*/}],
+  ["22222222222222222222222222222222220000000000002222111111111111222210000000000122001$000000060100001000000000010088102050504001888811111111111188880000000000008888888888888888888888888888888888",["<br><br><br><center>WHAT?!",""],()=>{/*setTimeout(()=>{for(i in cubes)if(cubes[i].inverted && i > 44) cubes[i].mirror_v=1},16)*/}],
 ];
 
 if(location.hash.length > 2){
@@ -1578,6 +1603,45 @@ play_note = () => {
 }
 
 //onload = play_music;
+
+// Sound
+win_sound = function(i,t){
+  var n=1e4;
+  if (i > n) return null;
+  var q = t(i,n);
+  return Math.sin(i*0.01*Math.sin(i*0.4)+Math.sin(i/100))/3;
+}
+
+gravity_sound = function(i,t){
+  i=i*0.75;
+  var n=1.3e4;
+  var c=n/3;
+  if (i > n) return null;
+  var q=Math.pow(t(i,n),3.1);
+  return (Math.pow(i,1.08)&(i<c?98:99))?q:-q;
+}
+
+time_sound = function(i,t){
+  var n=2e4;
+  if (i > n) return null;
+  var q = t(i,n);
+  i=i*0.1;
+  return Math.sin(Math.pow(i,0.9)*0.03*Math.sin(0.09*Math.pow(i,1.1)+Math.sin(i/200))+Math.sin(i/100))*q*q;
+}
+
+// Sound player
+sound = f => {
+var t,A,m,b,s;
+t=(i,n)=>(n-i)/n;
+A=new AudioContext()
+m=A.createBuffer(1,96e3,48e3)
+b=m.getChannelData(0)
+for(i=96e3;i--;)b[i]=f(i,t)
+s=A.createBufferSource()
+s.buffer=m
+s.connect(A.destination)
+s.start()
+}
 
 </script>
 
