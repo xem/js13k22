@@ -458,14 +458,15 @@ draw = () => {
         //ctx.fillStyle = "#fc0";
         //ctx.fillRect(j.x - 40, j.mirror_v ? j.y - 85 : j.y + 45, 80, 50);
         //ctx.restore();
-        paradox = 1;
+        paradox[j] ++;
         for(k in cubes){
           //if(k == 2) console.log(cubes[k], j, cubes[k].x - 25 > j.x - 55, cubes[k].x + 25 < j.x + 55, cubes[k].y - 25 > j.y + 20, cubes[k].y - 25 < j.y + 80);
           if(cubes[k].x - 25 > j.x - 57 && cubes[k].x + 25 < j.x + 57 && Math.abs(cubes[k].y - j.y) < 80){
-            paradox = 0;
+            paradox[j] = 0;
           }
         }
-        if(paradox && !pause2){
+        console.log(paradox[j]);
+        if(paradox[j] > 2 && !pause2){
         
           pause2 = 150;
           ctx.save();
@@ -487,7 +488,7 @@ draw = () => {
           ctx.strokeStyle = "#000";
           ctx.closePath();
           ctx.restore();
-          setTimeout(()=>{ctx.fillRext(0,0,800,600)},4500);
+          setTimeout(()=>{ctx.fillRect(0,0,800,600)},4500);
           setTimeout(restart, 5000);
       
         }
@@ -1039,6 +1040,8 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
     }
     
   }
+  
+  paradox = Array(99).fill(0);
   //console.log(cubes[1]);
   //console.log(cubes);
   
