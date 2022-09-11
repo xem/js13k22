@@ -880,7 +880,7 @@ draw = () => {
     if(!cube_slots[i].active && current_level < 14) exit_open = 0;
   }
   if(current_level < 14 && force_exit_open) exit_open = 99;
-  console.log(force_exit_open, exit_open);
+  //console.log(force_exit_open, exit_open);
   exit.style.opacity = exit_open > 10 ? 1 : 0.5;
   exit.style.transform = exit_open > 10 ? "scale(1)" : "scale(.2)";
   
@@ -1727,8 +1727,11 @@ music = [
 
   // Fortuna-Imperatrix-Mundi.mid track 1
   [
-    1,1,1,1,1,/*88,,,89,,86,,86,,,,88,,,89,,86,,86,,,,93,,,91,93,91,91,89,88,,,,*/89,89,88,88,,,89,89,88,88,,,89,89,88,89,,91,,89,88,,,,89,89,88,88,,,89,89,88,88,,,89,89,88,89,,91,,89,88,,,,93,93,91,91,,,93,93,91,91,,,93,93,91,89,,91,,89,91,,,,93,93,91,91,,,93,93,91,91,,,93,93,91,93,94,93,91,89,91,89,88,86
-  ]
+    1,1,1,1,1,/*88,,,89,,86,,86,,,,88,,,89,,86,,86,,,,93,,,91,93,91,91,89,88,,,,*/89,89,88,88,,,89,89,88,88,,,89,89,88,89,,91,,89,88,,,,89,89,88,88,,,89,89,88,88,,,89,89,88,89,,91,,89,88,,,,93,93,91,91,,,93,93,91,91,,,93,93,91,89,,91,,89,91,,,,93,93,91,91,,,93,93,91,91,,,93,93,91,93,94,93,91,89,91,89,88,86,,,,,,,,,,
+  ],
+  
+  // 2810gptdk.mid dance of the knights
+  [1,1,1,1,59,,,64,67,,71,76,,71,67,,64,59,,64,67,,71,76,,,59,,,,62,66,,71,74,,71,66,,62,59,,62,66,,71,74,,,,,75,74,,73,62,,74,74,,,75,74,73,,62,,63,62,,61,,63,62,,61,60,,67,66,,]
 ];
 
 // Mini Piano
@@ -1739,7 +1742,7 @@ piano = (e, i1, i2) => {
    for(
   
     // V: note length in seconds
-    V = 2,
+    V = [2, 1.5][current_song],
     
     // O: piano is selected
     u = 1,
@@ -1808,19 +1811,21 @@ piano = (e, i1, i2) => {
   s.start()
 }
 
-
+current_song = 0;
 current_note = 0;
 
-play_music = () => {
-
-  setInterval(play_note, 400);
+play_music = (n) => {
+  current_song = n;
+  setInterval(play_note, [400, 250][n]);
   
 }
 
 play_note = () => {
-  current_note ++;
-  if(music[0][current_note] == 1) piano(0.0001);
-  else if(music[0][current_note]) piano(440*1.06**(music[0][current_note] - 80));
+  if(hero.inverted) { current_note --; if(current_note < 0) current_note = music[current_song].length - 1; }
+  else { current_note ++; current_note %= (music[current_song].length - 1); }
+  
+  if(music[current_song][current_note] == 1) piano(0.0001);
+  else if(music[current_song][current_note]) piano(440*1.06**(music[current_song][current_note] - 80), hero.mirror_v);
 }
 
 //onload = play_music;
@@ -1896,5 +1901,6 @@ s.start()
 <button onclick="play(...levels[current_level=26]);this.blur()">26</button>
 <button onclick="play(...levels[current_level=27]);this.blur()">27</button>
 <button onclick="play(...levels[current_level=28]);this.blur()">28</button>
-<!--button onclick="play_music()">music</button!-->
+<button onclick="play_music(0);this.blur()">music</button>
+<button onclick="play_music(1);this.blur()">music</button>
 </center>
