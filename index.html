@@ -8,6 +8,7 @@
 <div id=exit></div>
 </div>
 <div id=dialog3></div>
+<div id=timerdiv onclick=restart()></div>
 
 <script>
 
@@ -335,6 +336,25 @@ draw = () => {
     }
     else if(current_level == 14 || outro){
       ctx.fillText("  NO.",635,510);
+    }
+    ctx.fillStyle="#000";
+    
+  }
+  
+  // Heaven
+  if(current_level == 28) {
+    ctx.save();
+    ctx.scale(2,2);
+    ctx.translate(-5,50);
+    ctx.fillStyle="#def";
+    ctx.fill(new Path2D("M10 99L10 25Q41 0 75 25L75 99Z"));
+    ctx.restore();
+    ctx.font="30px Times New Roman";
+    ctx.fillStyle="#00f";
+    ctx.fillText("HEAVEN",12,180);
+    if(current_level == 28){
+      ctx.font="50px Times New Roman";
+      ctx.fillText("👼",35,250);
     }
     ctx.fillStyle="#000";
     
@@ -859,8 +879,8 @@ draw = () => {
   for(i in cube_slots){
     if(!cube_slots[i].active && current_level < 14) exit_open = 0;
   }
-  if(force_exit_open) exit_open = 99;
-  //console.log(force_exit_open, exit_open);
+  if(current_level < 14 && force_exit_open) exit_open = 99;
+  console.log(force_exit_open, exit_open);
   exit.style.opacity = exit_open > 10 ? 1 : 0.5;
   exit.style.transform = exit_open > 10 ? "scale(1)" : "scale(.2)";
   
@@ -892,7 +912,8 @@ draw = () => {
     },300);
     
     setTimeout(()=>{
-      play(...levels[++current_level]);
+      if(current_level == 28) location = "menu.html";
+      else play(...levels[++current_level]);
       start.style.display = "block";
       exit.style.display = "block";
       level_transition = 0;
@@ -929,37 +950,83 @@ draw = () => {
     }, 13000));
     time_travels ++;
   }
+  if(current_level > 13 && current_level != 28){
+    if(timer){
+      timerdiv.style.top = "-20px";
+      timerdiv.style.fontSize = "100px";
+      timerdiv.innerHTML = timer/1000|0, 10,50;
+      timer -= 33;
+    }
+    if(timer < 0) timer = 0
+    if(timer == 0){
+      exit_open = 0;
+      timerdiv.style.top = "10px";
+      timerdiv.style.fontSize = "50px";
+      timerdiv.innerHTML = "RETRY?";
+    }
+    else {
+      exit_open = 99;
+    }
+  }
+  else {
+    timerdiv.innerHTML = "";
+  }
+  
+  if(current_level == 28){
+    ctx.fillStyle = "#fff";
+    ctx.fillText("THE END.", 300, 50)
+    ctx.fillText("SPECIAL THANKS:", 300, 150-20)
+    ctx.fillText("SALVATORE PREVITI", 300, 200-20)
+    ctx.fillText("ADRIEN GUERET", 300, 250-20)
+    ctx.fillText("ANDERS KAARE", 300, 300-20)
+    ctx.fillText("KANG SEONGHOON", 300, 350-20)
+    ctx.fillText("ANDRZEJ MAZUR", 300, 400-20)
+    ctx.fillText("AND YOU!", 300, 450-20)
+  }
 }
 
+timer = 0;
 
 // Launch the game
 play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
 
-  if(current_level > 13){
-    document.body.className = "outro";
-    exit_open = 99;
-    setTimeout(()=>exit_open = 0, 10000);
-  }
-  if(current_level == 14) start.style.display = "none";
-  else start.style.display = "block";
 
   if(!restart) {
     dialog3.innerHTML = "";
-    timeouts.forEach(clearTimeout);
+      timeouts.forEach(clearTimeout);
+      timeouts = [];
+    
   }
   v.style.transform = "";
-
+  
+  exit_open = 0;
   map_backup = m;
   dialogs_backup = dialogs;
   script_backup = script;
-  //timeouts.forEach(clearTimeout);
-  timeouts = [];
 
+  
+  if(current_level < 14){exit_open = 0;}
+  
+  if(current_level > 13){
+    document.body.className = "outro";
+    timer = 10999;
+    exit_open = 99;
+  }
+  else {
+    document.body.className = "";
+  }
+  
+  if(current_level == 14) start.style.display = "none";
+  else start.style.display = "block";
+
+  if(current_level == 28){
+    exit.style.display = "none";
+  }
   var i, j;
   
   script();
   //console.log(dialogs);
-  if(!restart){
+  if(!restart && current_level < 14){
     for(i in dialogs_backup){
       //if(dialogs_backup[i].length){
         timeouts.push(setTimeout("dialog3.style.textAlign='" + ((+i)%2 ? "center" : "left") + "';dialog3.style.fontSize='" + ((+i)%2 ? "40px" : "35px") + "';dialog3.style.color='" + ((+i)%2 ? "#f00" : "#fff") + "';dialog3.innerHTML = `" + ((+i)%2 || current_level == 13 ? "":"<br><br>") + dialogs_backup[i] + "`", +i*4000 + start_offset));
@@ -968,7 +1035,8 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   }
   
   // BG
-  if(current_level > 13) v.style.background = "linear-gradient(rgb(56 95 167), rgb(2 8 15)) 0% 0% / 200% 200%";
+  if(current_level == 28) v.style.background = "linear-gradient(rgb(143 119 255), rgb(192 0 0)) 0% 0% / 200% 200%";
+  else if(current_level > 13) v.style.background = "linear-gradient(rgb(56 95 167), rgb(2 8 15)) 0% 0% / 200% 200%";
   else v.style.background = "linear-gradient(#300,#a00)";
   v.style.backgroundSize = "200% 200%";
   v.style.animation = "fire infinite 2s";
@@ -1168,6 +1236,7 @@ hero_physics = () => {
     v.style.background = "linear-gradient(rgb(56 95 167), rgb(2 8 15)) 0% 0% / 200% 200%";
     hero.walk = 0;
     timeouts.forEach(clearTimeout);
+    timeouts = [];
     dialog3.innerHTML = "";
     setTimeout(()=>{
       dialog3.style.color = "#00F";
@@ -1544,7 +1613,7 @@ hero_physics_v = () => {
 
 interval = 0;
 timeouts = [];
-current_level = location.hash.length == 2 ? (+location.hash[1]) : 13;
+current_level = location.hash.length == 2 ? (+location.hash[1]) : 28;
 
 levels = [
 
@@ -1570,7 +1639,7 @@ levels = [
   ["0000000000000001000000000000000100000000000000010000000000000041000000000000111100000000000111110$0060000011111100000000011111110000000011111111000000011111111100209011111111111111111111111111", ["","HERE, AT THE BRINK OF DEATH,<br>YOU CAN SEE YOUR LIFE FLASH<br>BEFORE YOUR EYES.",""],()=>{},0,-2000],
   
   // 7 Adrien
-  ["111111111111111111111111111111111811111111111131100111111111100110001111111100011000011111100001100000000000000110$00040040006011000000000000001100001111110000119001111111100311111111111111111"],
+  ["11111111111111111111111111111111181111111111113110011111111110011000111111110001100001111110000110000000000000011$000040040006011000000000000001100001111110000119001111111100311111111111111111"],
   
   // 8 1 box 2 slots
   ['00000000000000000000000000000000000000000000000000000000000000000000000$000000000000000000000000000000600000000002000000000000401110000000000111111100500900111111111111111111111111111111111111', ["", "REMEMBER, ALL SLOTS NEED TO BE<br>ACTIVATED SIMULTANEOUSLY!", "BUT I ONLY HAVE ONE CUBE!",""], ()=>{}, 0, -2000],
@@ -1612,18 +1681,31 @@ levels = [
   ["000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000$00000000000000000000000401110002007000111111100500900111111111111111111111111111111111111"],
   
   // 20 = 7
+  ["11111111111111111111111111111111181111111111113110011111111110011000111111110001100001111110000110000000000000011600004004000$011000000000000001100001111110000119001111111100311111111111111111"],
   
   // 21 = 6
+  ["0000000006000001000000000000000100000000000000010000000000000041000000000000111100000000000111110000$0000011111100000000011111110000000011111111000000011111111100209011111111111111111111111111"],
   
   // 22 = 5
+  ["1111000001111111060000000880000$0000000008000000110000000800300011000000000112211100000000011551110011110001111111000000000111111100000000111111110000000111111111111111111111111111111111111111",[]],
   
   // 23 = 4
+  ["00000001110000000000000030000000000600000000000000000000000000000000000020000000000000005000000000000000800000000000000000000000000$000000000000000000003000000011111111110000001111111111000000"],
   
   // 24 = 3
+  ["0001000011111111000500001111311100000000111001110000600000000000000000000000000000000000000000000000000030000000000000200000800$0000002000008000111001111000800011101111100030001111111110001000"],
   
   // 25 = 2
+  ["001111110011111000111111001111100300000300050003000000000008000000000000000000000000000000000000000000000000000$06000000000000000000000000000000000300000000300311110011111110011111001111111001"],
   
   // 26 = 1
+  ["000000000000000000000000000000000000000000000000000000000000000000020260000000000$00000000000000000000000000000000000000010000000000000001100200000500000111050011111111111101111111111111110111"],
+  
+  // 27 = 0
+  ["000000000000000000000000000000000000000000000000000000000000000000000000000000$00000000000000000060000000000100000000000000110000000000000112000000000000112200011111101111111111111110111111111"],
+  
+  // 28 = intro
+  ["00000000000000000000000000000000000000000000000000000000000000000000000000000000060000000000000011100000000000001111000000000000111110000000000011111100000000$011111111111111111111111111111111"],
   
   
 ];
@@ -1767,7 +1849,7 @@ time_sound = function(i,t){
 }
 
 // Sound player
-sound = f => {
+var sound = f => {
 var t,A,m,b,s;
 t=(i,n)=>(n-i)/n;
 A=new AudioContext()

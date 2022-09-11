@@ -40,3 +40,4 @@ canvas { position: absolute; top: 0; left: 0; box-shadow: 0 0 0 500px #000;}
 
 /* play */
 #dialog3 { position: absolute; top: 20px; left: calc(50% - 350px); color: #fff; font: 30px calibri, arial; width: 700px; line-height:1.1; text-shadow: 0 0 10px #000; }
+#timerdiv { position: absolute; top: 10px; left: calc(50% - 380px); color: #fff; font: 50px calibri, arial; text-shadow: 0 0 3px #fff; }
