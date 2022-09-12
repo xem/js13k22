@@ -3,9 +3,10 @@
 <meta name=apple-mobile-web-app-capable content=yes>
 <meta name=mobile-web-app-capable content=yes>
 <meta name=monetization content=$pay.stronghold.co/1a1fbf27169a5334158b2c531b946427ceb>
-<link rel=icon href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐍</text></svg>">
+<link rel=icon href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😈</text></svg>">
 <link rel=stylesheet href=style.css>
 <title>PUZZLATORY</title>
+<body id=b>
 <div id=v>
 <h1 id=light></h1>
 <div id=devil></div>
@@ -18,20 +19,28 @@
 <div id=timerdiv onclick=restart()></div>
 <div id=dpad style=display:none>
   <div hidden>↑</div>
-  <div ontouchstart=u=1 ontouchend=u=0 oncontextmenu="return false">▲</div>
+  <!--div ontouchstart=u=1 ontouchend=u=0 oncontextmenu="return false">▲</div-->
   <div hidden>↓</div>
   <br>
   <div ontouchstart=l=1 ontouchend=l=0 oncontextmenu="return false">◀︎</div>
-  <div ontouchstart=d=1 ontouchend=d=0 oncontextmenu="return false">▼</div>
+  <div ontouchstart=d=1 ontouchend=d=0 oncontextmenu="return false" hidden>▼</div>
   <div ontouchstart=r=1 ontouchend=r=0 oncontextmenu="return false">▶︎</div>
   <div id=reset ontouchstart=R=1 ontouchend=R=0 oncontextmenu="return false">↺</div>
-  <div id=grab ontouchstart=s=1 ontouchend=s=0 oncontextmenu="return false">&nbsp;</div>
+  <div id=jump ontouchstart=u=1 ontouchend=u=0 oncontextmenu="return false">JUMP</div>
+  <div id=grab ontouchstart=s=1 ontouchend=s=0 oncontextmenu="return false">GRAB</div>
 </div>
+<div id=toggle_sound onclick="audio=1-audio;this.innerHTML=['🔇','🔊'][audio]" oncontextmenu="return false">🔊</div>
 
 <script>
+
+audio = 0;
+
 // Mobile
 mobile = navigator.userAgent.match("Mobi");
-if(mobile || 1) dpad.style.display = "block";
+if(mobile) {
+  dpad.style.display = "block";
+  b.style.minWidth = "1400px";
+}
 oncontextmenu = e => {e.preventDefault()}
 
 // Keyboard controls (Up Left Down Right Space)
@@ -1029,12 +1038,12 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   if(current_level < 14){exit_open = 0;}
   
   if(current_level > 13){
-    document.body.className = "outro";
+    document.body.classList.add("outro");
     timer = 11999;
     exit_open = 99;
   }
   else {
-    document.body.className = "";
+    document.body.classList.remove("outro");
   }
   
   if(current_level == 14) start.style.display = "none";
@@ -1842,6 +1851,7 @@ play_music = (n) => {
 }
 
 play_note = () => {
+  if(!audio) return;
   if(hero.inverted) { current_note --; if(current_note < 0) current_note = music[current_song].length - 1; }
   else { current_note ++; current_note %= (music[current_song].length - 1); }
   
