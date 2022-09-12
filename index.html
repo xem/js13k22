@@ -1,4 +1,5 @@
 ﻿<!doctype html>
+<meta name="viewport" content="width=1400,user-scalable=no">
 <meta name=apple-mobile-web-app-capable content=yes>
 <meta name=mobile-web-app-capable content=yes>
 <meta name=monetization content=$pay.stronghold.co/1a1fbf27169a5334158b2c531b946427ceb>
@@ -17,20 +18,21 @@
 <div id=timerdiv onclick=restart()></div>
 <div id=dpad style=display:none>
   <div hidden>↑</div>
-  <div onmousedown=u=1 onmouseup=u=0>▲</div>
+  <div ontouchstart=u=1 ontouchend=u=0 oncontextmenu="return false">▲</div>
   <div hidden>↓</div>
   <br>
-  <div onmousedown=l=1 onmouseup=l=0>◀︎</div>
-  <div onmousedown=d=1 onmouseup=d=0>▼</div>
-  <div onmousedown=r=1 onmouseup=r=0>▶︎</div>
-  <div id=reset onmousedown=R=1 onmouseup=R=0>↺</div>
-  <div id=grab onmousedown=s=1 onmouseup=s=0>&nbsp;</div>
+  <div ontouchstart=l=1 ontouchend=l=0 oncontextmenu="return false">◀︎</div>
+  <div ontouchstart=d=1 ontouchend=d=0 oncontextmenu="return false">▼</div>
+  <div ontouchstart=r=1 ontouchend=r=0 oncontextmenu="return false">▶︎</div>
+  <div id=reset ontouchstart=R=1 ontouchend=R=0 oncontextmenu="return false">↺</div>
+  <div id=grab ontouchstart=s=1 ontouchend=s=0 oncontextmenu="return false">&nbsp;</div>
 </div>
 
 <script>
 // Mobile
 mobile = navigator.userAgent.match("Mobi");
 if(mobile || 1) dpad.style.display = "block";
+oncontextmenu = e => {e.preventDefault()}
 
 // Keyboard controls (Up Left Down Right Space)
 u=r=d=l=s=R=0;
