@@ -1,4 +1,10 @@
-﻿<link rel=stylesheet href=style.css>
+﻿<!doctype html>
+<meta name=apple-mobile-web-app-capable content=yes>
+<meta name=mobile-web-app-capable content=yes>
+<meta name=monetization content=$pay.stronghold.co/1a1fbf27169a5334158b2c531b946427ceb>
+<link rel=icon href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐍</text></svg>">
+<link rel=stylesheet href=style.css>
+<title>PUZZLATORY</title>
 <div id=v>
 <h1 id=light></h1>
 <div id=devil></div>
@@ -9,9 +15,22 @@
 </div>
 <div id=dialog3></div>
 <div id=timerdiv onclick=restart()></div>
+<div id=dpad style=display:none>
+  <div hidden>↑</div>
+  <div onmousedown=u=1 onmouseup=u=0>▲</div>
+  <div hidden>↓</div>
+  <br>
+  <div onmousedown=l=1 onmouseup=l=0>◀︎</div>
+  <div onmousedown=d=1 onmouseup=d=0>▼</div>
+  <div onmousedown=r=1 onmouseup=r=0>▶︎</div>
+  <div id=reset onmousedown=R=1 onmouseup=R=0>↺</div>
+  <div id=grab onmousedown=s=1 onmouseup=s=0>&nbsp;</div>
+</div>
 
 <script>
-
+// Mobile
+mobile = navigator.userAgent.match("Mobi");
+if(mobile || 1) dpad.style.display = "block";
 
 // Keyboard controls (Up Left Down Right Space)
 u=r=d=l=s=R=0;
@@ -256,7 +275,7 @@ draw = () => {
   
   if(hero.inverted) present--;
   else present++;
-  document.title = present;
+  //document.title = present;
   present_abs = Math.abs(present);
   time_array = present < 0 ? past : future;
   if(!time_array[present_abs]) time_array[present_abs] = {hero: [], cubes: []};

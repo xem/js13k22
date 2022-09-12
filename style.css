@@ -7,7 +7,8 @@
   50% { transform: scale(3); }
 }
 
-body { background: #111; overflow: hidden;perspective: 800px; }
+* { user-select: none }
+body { background: #111; overflow: hidden;perspective: 800px; min-width: 1280px; }
 #v { width:800px;height:600px;overflow:hidden;margin:auto;position: relative; perspective: 800px;transform-style:preserve-3d; transition: transform .4s, background 1s; }
 
 /* intro */
@@ -41,3 +42,10 @@ canvas { position: absolute; top: 0; left: 0; box-shadow: 0 0 0 500px #000;}
 /* play */
 #dialog3 { position: absolute; top: 20px; left: calc(50% - 350px); color: #fff; font: 30px calibri, arial; width: 700px; line-height:1.1; text-shadow: 0 0 10px #000; }
 #timerdiv { position: absolute; top: 10px; left: calc(50% - 380px); color: #fff; font: 50px calibri, arial; text-shadow: 0 0 3px #fff; }
+
+/* mobile */
+#dpad { position: fixed; width: 100%; top: 430px; left: 10px; z-index: 2; }
+#dpad div { display: inline-block; font-size: 35px; pointer-events: all; margin: 10px; text-align: center; width: 50px; height: 50px; border-radius: 5px; background: linear-gradient(45deg, #ddd, #888); box-shadow: 2px 2px 5px #000; font-weight: bold; padding: 4px 0 0; vertical-align: bottom; }
+#dpad div[hidden] { visibility: hidden; cursor: pointer; }
+#reset { top: 10px; left: 10px; position: fixed }
+#dpad #grab { position: absolute; right: 100px; bottom: 0; display: block; width: 100px}
