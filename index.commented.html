@@ -59,7 +59,12 @@ canvas { position: absolute; top: 0; left: 0; box-shadow: 0 0 0 500px #000;}
 <script>
 onload = () => {
   current_screen = 0; // 0 = menu / 1 = start / 2 = continue
-  current_level = +localStorage["puzzlatory_continue"] || 0;
+  if(location.hash.length > 1){
+    draw_screen(2);
+  }
+  else {
+    current_level = +localStorage["puzzlatory_continue"] || 0;
+  }
 }
 
 draw_screen = n => {
@@ -87,7 +92,11 @@ else if(n == 2){
 
   b.innerHTML = `<div id=v><h1 id=light></h1><div id=devil></div><div id=angel style="left:-1000px"></div><canvas id=canvas width=800 height=600></canvas><div id=start style="opacity:0"></div><div id=exit></div></div><div id=dialog3></div><div id=timerdiv onclick=restart()></div><div id=dpad style=display:none><div hidden>↑</div><div hidden>↓</div><br><div ontouchstart=l=1 ontouchend=l=0 oncontextmenu="return false">◀︎</div><div ontouchstart=d=1 ontouchend=d=0 oncontextmenu="return false" hidden>▼</div><div ontouchstart=r=1 ontouchend=r=0 oncontextmenu="return false">▶︎</div><div id=reset ontouchstart=R=1 ontouchend=R=0 oncontextmenu="return false">↺</div><div id=jump ontouchstart=u=1 ontouchend=u=0 oncontextmenu="return false">JUMP</div><div id=grab ontouchstart=s=1 ontouchend=s=0 oncontextmenu="return false">GRAB</div></div><div id=toggle_sound onclick="audio=1-audio;this.innerHTML=['🔇','🔊'][audio]" oncontextmenu="return false">🔊</div>`;
   
-  play(...levels[current_level]);
+  if(location.hash.length > 2){
+    current_level = 99;
+    play(location.hash.slice(1));
+  }
+  else play(...levels[current_level]);
   
 }
 
@@ -1175,7 +1184,7 @@ draw = () => {
   //console.log(5, hero.hold);
   
   // cube slots
-  if(current_level < 14) exit_open++;
+  if(current_level < 14 || current_level == 99) exit_open++;
   for(i in cube_slots){
     cube_slots[i].active = 0;
   }
@@ -1194,11 +1203,11 @@ draw = () => {
       if(cubes[j].gravitydelay) cubes[j].gravitydelay --;
     }
   }
-  if(current_level < 14 && cube_slots.length == 0) exit_open = 0;
+  if((current_level < 14  || current_level == 99) && cube_slots.length == 0) exit_open = 0;
   for(i in cube_slots){
-    if(!cube_slots[i].active && current_level < 14) exit_open = 0;
+    if(!cube_slots[i].active && (current_level < 14  || current_level == 99)) exit_open = 0;
   }
-  if(current_level < 14 && force_exit_open) exit_open = 99;
+  if((current_level < 14  || current_level == 99) && force_exit_open) exit_open = 99;
   //console.log(force_exit_open, exit_open);
   exit.style.opacity = exit_open > 10 ? 1 : 0.5;
   exit.style.transform = exit_open > 10 ? "scale(1)" : "scale(.2)";
@@ -1232,11 +1241,12 @@ draw = () => {
     
     setTimeout(()=>{
       if(current_level == 28) { draw_screen(0); audio = 0; }
+      else if(current_level == 99) { draw_screen(0); audio = 0; }
       else play(...levels[++current_level]);
-      start.style.display = "block";
-      exit.style.display = "block";
+      if(window.start)start.style.display = "block";
+      if(window.exit)exit.style.display = "block";
       level_transition = 0;
-      localStorage["puzzlatory_continue"] = current_level;
+      if(current_level < 99) localStorage["puzzlatory_continue"] = current_level;
       
     },600);
     
@@ -1270,7 +1280,7 @@ draw = () => {
     }, 13000));
     time_travels ++;
   }
-  if(current_level > 13 && current_level != 28){
+  if(current_level > 13 && current_level != 28 && current_level != 99){
     if(timer){
       timerdiv.style.top = "-20px";
       timerdiv.style.fontSize = "100px";
@@ -1325,9 +1335,9 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   script_backup = script;
 
   
-  if(current_level < 14){exit_open = 0;}
+  if((current_level < 14 || current_level == 99)){exit_open = 0;}
   
-  if(current_level > 13){
+  if(current_level > 13 && current_level != 99){
     document.body.classList.add("outro");
     timer = 11999;
     exit_open = 99;
@@ -1346,7 +1356,7 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   
   script();
   //console.log(dialogs);
-  if(!restart && current_level < 14){
+  if(!restart && (current_level < 14  || current_level == 99)){
     for(i in dialogs_backup){
       //if(dialogs_backup[i].length){
         timeouts.push(setTimeout("dialog3.style.textAlign='" + ((+i)%2 ? "center" : "left") + "';dialog3.style.fontSize='" + ((+i)%2 ? "40px" : "35px") + "';dialog3.style.color='" + ((+i)%2 ? "#f00" : "#fff") + "';dialog3.innerHTML = `" + ((+i)%2 || current_level == 13 ? "":"<br><br>") + dialogs_backup[i] + "`", +i*4000 + start_offset));
@@ -1356,11 +1366,11 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   
   // BG
   if(current_level == 28) v.style.background = "linear-gradient(rgb(143 119 255), rgb(192 0 0)) 0% 0% / 200% 200%";
-  else if(current_level > 13) v.style.background = "linear-gradient(rgb(56 95 167), rgb(2 8 15)) 0% 0% / 200% 200%";
+  else if(current_level > 13  && current_level != 99) v.style.background = "linear-gradient(rgb(56 95 167), rgb(2 8 15)) 0% 0% / 200% 200%";
   else v.style.background = "linear-gradient(#300,#a00)";
   v.style.backgroundSize = "200% 200%";
   v.style.animation = "fire infinite 2s";
-  if(current_level > 13){
+  if(current_level > 13 && current_level != 99){
     devil.style.display = "none";
     angel.style.display = "block";
     angel.style.opacity = ".1";
@@ -1418,7 +1428,7 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   gravity_inversions = 0;
   
   win = 0;
-  if(current_level < 14) exit_open = 0;
+  if(current_level < 14  || current_level == 99) exit_open = 0;
   force_exit_open = 0;
   exit_x = 0;
   exit_y = 0;
@@ -1933,7 +1943,7 @@ hero_physics_v = () => {
 
 interval = 0;
 timeouts = [];
-current_level = location.hash.length == 2 ? (+location.hash[1]) : 0;
+
 
 levels = [
 
