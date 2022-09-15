@@ -92,6 +92,10 @@ else if(n == 2){
 
   b.innerHTML = `<div id=v><h1 id=light></h1><div id=devil></div><div id=angel style="left:-1000px"></div><canvas id=canvas width=800 height=600></canvas><div id=start style="opacity:0"></div><div id=exit></div></div><div id=dialog3></div><div id=timerdiv onclick=restart()></div><div id=dpad style=display:none><div hidden>↑</div><div hidden>↓</div><br><div ontouchstart=l=1 ontouchend=l=0 oncontextmenu="return false">◀︎</div><div ontouchstart=d=1 ontouchend=d=0 oncontextmenu="return false" hidden>▼</div><div ontouchstart=r=1 ontouchend=r=0 oncontextmenu="return false">▶︎</div><div id=reset ontouchstart=R=1 ontouchend=R=0 oncontextmenu="return false">↺</div><div id=jump ontouchstart=u=1 ontouchend=u=0 oncontextmenu="return false">JUMP</div><div id=grab ontouchstart=s=1 ontouchend=s=0 oncontextmenu="return false">GRAB</div></div><div id=toggle_sound onclick="audio=1-audio;this.innerHTML=['🔇','🔊'][audio]" oncontextmenu="return false">🔊</div>`;
   
+  if(mobile) {
+    dpad.style.display = "block";
+  }
+  
   if(location.hash.length > 2){
     current_level = 99;
     play(location.hash.slice(1));
@@ -107,7 +111,6 @@ draw_screen(0);
 // Mobile
 mobile = navigator.userAgent.match("Mobi");
 if(mobile) {
-  dpad.style.display = "block";
   b.style.minWidth = "1400px";
 }
 oncontextmenu = e => {e.preventDefault()}
