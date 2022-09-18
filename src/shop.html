@@ -1,2 +1,123 @@
+<!doctype html>
+<script src="https://js13kgames.com/src/near-api-js.js"></script>
+<meta name="viewport" content="width=1400,user-scalable=no,initial-scale:1">
+<meta name=apple-mobile-web-app-capable content=yes>
+<meta name=mobile-web-app-capable content=yes>
+<meta name=monetization content=$pay.stronghold.co/1a1fbf27169a5334158b2c531b946427ceb>
+<link rel=icon href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😈</text></svg>">
 <link rel=stylesheet href=style.css>
-<div id=v class=title><div id=devil style="transform:scale(8);left:420px;top:380px;opacity:.1;pointer-events:none"></div><h1>PUZZLATORY SHOP</h1><br><br><br><h2>coming soon...</h2><h2 onclick="location='bonus.html'">Back</h2>
+<title>PUZZLATORY SHOP</title>
+
+
+<div id=v class=title><div id=devil style="transform:scale(8);left:420px;top:380px;opacity:.1;pointer-events:none"></div><h1>SHOP</h1><br>
+
+<div id=start>
+<p><button id=login>Log in to your NEAR wallet</button>
+</div>
+<div id=shop>
+  <button onclick="localStorage.clear();location=location">Log out</button>
+  <br>
+  <br>
+  BONUS LEVELS: coming soon!
+</div>
+
+<script>
+nearAPI = nearApi;
+
+// Login
+login.onclick = async () => {
+  
+  const { keyStores, connect, WalletConnection } = nearAPI;
+  
+  keyStore = new keyStores.BrowserLocalStorageKeyStore();
+
+  config = {
+    networkId: "mainnet",
+    keyStore, // optional if not signing transactions
+    contractName: "xem06.near",
+    nodeUrl: "https://rpc.mainnet.near.org",
+    walletUrl: "https://wallet.mainnet.near.org",
+    helperUrl: "https://helper.mainnet.near.org",
+    explorerUrl: "https://explorer.mainnet.near.org",
+  };
+  
+  // connect to NEAR
+  near = await connect(config);
+
+  // create wallet connection
+  wallet = new WalletConnection(near);
+
+  wallet.requestSignIn(
+    "xem06.near", // contract requesting access
+    "LOSSST", // optional
+  );
+  
+  if(wallet.isSignedIn()) {
+    start.remove();
+    shop.style.display = "block";
+    console.log("logged");
+    //account = await wallet.account("xem06.near");
+    //console.log(b = await account.getAccountBalance());
+    //balance.innerHTML = nearApi.utils.format.formatNearAmount(b.available,2);
+  }
+  
+}
+
+// Buy
+/*buy1.onclick = async () => {
+
+  buy1.innerHTML = "REDEEM";
+  buy1.onclick = () => {
+	hash = encodeURI(`localStorage.lossst_e=(eval(localStorage.lossst_e)||0)+1;custom=0;W=0;p=0;draw_p_back=draw_p;fadeout();setTimeout(()=>{W=0;p=0;custom=0;draw_p=draw_p_back,location.hash = '';coins+=1;t.innerHTML = '<span class=e>🪙</span> x ' + coins;},100)`);localStorage.buy1=1;window.open("../src/#"+hash);
+  
+  }
+}
+
+buy2.onclick = /*async e => {
+  // sends NEAR tokens
+  const contract = new nearAPI.Contract(
+    account, // the account object that is connecting
+    "xem06.near", // destination
+    {
+      viewMethods: [],
+      changeMethods: ["add"],
+      sender: account,
+    }
+  );
+  
+  await contract.add(
+    {}, // message
+    "300000000000000", // gas
+    "100000000000000000000000" //  deposit (1N = 1000000000000000000000000)
+  );
+}*/
+
+
+/*buy3.onclick =
+buy4.onclick =
+buy5.onclick =
+//buy6.onclick =
+
+e => {
+  alert("Hey, xem here. I'm still working on making smart contracts work in my NEAR shop, sorry for the inconvenience! Come back later, or send me NEAR coins manually and DM me on Twitter for a redeem code")
+}
+
+onload = () => {
+  if(localStorage.buy1) buy1.remove();
+  if(localStorage.length > 1) login.onclick();
+}*/
+
+</script>
+
+<style>
+body { font-size: 22px; max-width: 600px; margin: auto; text-align: center; background: #000; color: #fff; font-family: calibri, arial; padding: 20px 0 0; overflow: auto; }
+button, input { background: #555; color: #fff; font-family: calibri, arial; font-size: 20px; margin: 3px; padding: 3px; }
+#shop { display: none }
+input { width: 600px }
+h1 { font-size: 30px }
+* { pointer-events: all !important }
+#puzzles button { width: 40px }
+#start { text-align: center; margin: auto; position: static; cursor:pointer }
+#devil { pointer-events: none !important }
+</style>
+<h2 onclick="location='bonus.html'">Back</h2>
