@@ -1254,7 +1254,7 @@ draw = () => {
       timerdiv.style.top = "-20px";
       timerdiv.style.fontSize = "100px";
       timerdiv.innerHTML = timer/1100|0, 10,50;
-      timer -= 30;
+      timer -= 33;
     }
     if(timer < 0) timer = 0
     if(timer == 0){
@@ -1310,7 +1310,7 @@ play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
   
   if(current_level > 13 && current_level != 99){
     document.body.classList.add("outro");
-    timer = 11999;
+    timer = 10999;
     exit_open = 99;
   }
   else {
@@ -1984,3 +1984,6 @@ play_music(1);
 </script>
 
 <h2 id=gt style="font:50px calibri;color:#fff;position:fixed;top:500px;left:calc(50% - 390px);"></h2>
+
+<!--button onclick="play(...levels[current_level=14]);this.blur()">14</button>
+<button onclick="play(...levels[current_level=15]);this.blur()">15</button-->
