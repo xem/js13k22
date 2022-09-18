@@ -64,7 +64,7 @@ onload = () => {
     draw_screen(2);
   }
   else {
-    current_level = +localStorage["puzzlatory_continue"] || 0;
+    current_level = 0;
   }
 }
 
@@ -1283,9 +1283,7 @@ draw = () => {
     ctx.fillText("AND YOU!", 300, 450-20)
   }
   
-  ctx.fillStyle = "#fff";
-  ctx.font = "50px Calibri";
-  ctx.fillText(globaltime/1000|0, 10,590);
+  gt.innerHTML = globaltime/1000|0;
 }
 
 timer = 0;
@@ -1981,35 +1979,8 @@ levels = [
 
 current_level = 0;
 draw_screen(2);
+play_music(1);
 
 </script>
 
-<button onclick="play(...levels[current_level=0]);this.blur()">0</button>
-<button onclick="play(...levels[current_level=1]);this.blur()">1</button>
-<button onclick="play(...levels[current_level=2]);this.blur()">2</button>
-<button onclick="play(...levels[current_level=3]);this.blur()">3</button>
-<button onclick="play(...levels[current_level=4]);this.blur()">4</button>
-<button onclick="play(...levels[current_level=5]);this.blur()">5</button>
-<button onclick="play(...levels[current_level=6]);this.blur()">6</button>
-<button onclick="play(...levels[current_level=7]);this.blur()">7</button>
-<button onclick="play(...levels[current_level=8]);this.blur()">8</button>
-<button onclick="play(...levels[current_level=9]);this.blur()">9</button>
-<button onclick="play(...levels[current_level=10]);this.blur()">10</button>
-<button onclick="play(...levels[current_level=11]);this.blur()">11</button>
-<button onclick="play(...levels[current_level=12]);this.blur()">12</button>
-<button onclick="play(...levels[current_level=13]);this.blur()">13</button>
-<button onclick="play(...levels[current_level=14]);this.blur()">14</button>
-<button onclick="play(...levels[current_level=15]);this.blur()">15</button>
-<button onclick="play(...levels[current_level=16]);this.blur()">16</button>
-<button onclick="play(...levels[current_level=17]);this.blur()">17</button>
-<button onclick="play(...levels[current_level=18]);this.blur()">18</button>
-<button onclick="play(...levels[current_level=19]);this.blur()">19</button>
-<button onclick="play(...levels[current_level=20]);this.blur()">20</button>
-<button onclick="play(...levels[current_level=21]);this.blur()">21</button>
-<button onclick="play(...levels[current_level=22]);this.blur()">22</button>
-<button onclick="play(...levels[current_level=23]);this.blur()">23</button>
-<button onclick="play(...levels[current_level=24]);this.blur()">24</button>
-<button onclick="play(...levels[current_level=25]);this.blur()">25</button>
-<button onclick="play(...levels[current_level=26]);this.blur()">26</button>
-<button onclick="play(...levels[current_level=27]);this.blur()">27</button>
-<button onclick="play(...levels[current_level=28]);this.blur()">28</button>
+<h2 id=gt style="font:50px calibri;color:#fff;position:fixed;top:500px;left:calc(50% - 390px);"></h2>
