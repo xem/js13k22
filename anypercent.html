@@ -1,0 +1,2078 @@
+﻿<!doctype html><meta name=viewport content="width=1400,user-scalable=no,initial-scale:1"><meta name=apple-mobile-web-app-capable content=yes><meta name=mobile-web-app-capable content=yes><meta name=monetization content=$pay.stronghold.co/1a1fbf27169a5334158b2c531b946427ceb><link rel=icon href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😈</text></svg>">
+<style>
+/* Common */
+@keyframes xfire {
+  50% { background-position: 0 -150px; }
+}
+@keyframes wooop {
+  0%, 100% { transform: scale(.01); }
+  50% { transform: scale(3); }
+}
+
+* { user-select: none }
+body { background: #111; overflow: hidden;perspective: 800px; }
+#v { width:800px;height:600px;overflow:hidden;margin:auto;position: relative; perspective: 800px;transform-style:preserve-3d; transition: transform .4s, background 1s; }
+
+/* intro */
+#s { width: 100%; height: 100%}
+#head { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 99A20 19 0 0 1 30 80L20 40L13 34L23 38L20 31L27 36L28 28L31 36L33 25L36 34L40 27L42 34L47 25L47 33L56 23L52 33L61 28L56 37L68 30L62 38L55 80A23 19 0 0 1 80 99Z' fill='%23000000'/%3E%3C/svg%3E"); transform: translateX(200px) translateY(700px) scale(4) rotate(45deg); transition: all .5s;}
+#dialog { position: absolute; top: 0; left: 0; color: #fff; font: 40px calibri, arial; width: 350px; transform: translateX(350px) translateY(450px);  text-shadow: 0 0 10px #000; }
+#dialog2 { position: absolute; top: 30px; left: -50px; color: #f00; font: bold 35px calibri, arial; width: 400px; text-align: center;  text-shadow: 0 0 10px #000;}
+
+
+#devil { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 99Q4 64 30 60Q18 50 25 35Q14 26 27 15Q21 25 31 32Q39 25 50 32Q58 22 50 16Q65 18 56 35Q64 51 50 61Q81 61 91 99Z' fill='%23ff0000'/%3E%3C/svg%3E"); opacity: .01}
+
+#angel {
+  position: absolute; left: 0; width: 99px; height: 99px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 99Q24 93 35 69Q27 70 29 65Q21 63 24 59Q15 58 19 54Q8 55 11 50Q2 47 6 42Q0 35 6 32Q15 45 31 46A10 12 0 0 1 60 46Q79 48 89 31Q97 28 95 35Q96 42 91 40Q94 49 90 47Q91 56 84 55Q82 63 77 61Q74 69 69 66Q70 71 63 70Q70 96 87 99Z' fill='%23ffffff'/%3E%3Cpath d='M28 24A18 7 0 1 1 28 25ZM31 25A15 5 0 1 0 31 24Z' fill='%23ffffff'/%3E%3C/svg%3E"); opacity: .05; transform: scale(6);top:200px;
+}
+
+h1 { opacity: 0; position: absolute; top: 0; left: 0; color: #fff; text-align: center; font: 30px arial; margin: 0; padding: 250px 0 0; background: #000; width: 100%; height: 100%; text-shadow: 0 0 30px #fff, 0 0 10px #fff }
+#light { background: #fff; }
+#hero { position: absolute; top: 0; left: 0; width: 99px; height: 99px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z' fill='%23000000'/%3E%3Cpath d='M22 29L22 46A1 1 0 0 1 17 46L17 25Z' fill='%23000000'/%3E%3Cpath d='M3 28L3 47A1 1 0 1 0 8 47L8 25Z' fill='%23000000'/%3E%3Cpath d='M12 45L12 71A2 1 0 1 0 17 71L17 43Z' fill='%23000000'/%3E%3Cpath d='M9 44L9 70A2 2 0 1 0 14 70L14 45Z' fill='%23000000'/%3E%3C/svg%3E"); display: none}
+#woop { width: 200px; height: 200px; background: radial-gradient(#000, #0000 50%); opacity: 0; position: absolute; left: 340px; top: 380px; }
+canvas { position: absolute; top: 0; left: 0; box-shadow: 0 0 0 500px #000;}
+#start, .outro #exit { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(#AAF, #0000 75%); position: absolute; opacity: .5; transition: all .5s; transform-origin: center center; transform: scale(1); }
+#exit, .outro #start { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(#000, #0000 75%); position: absolute; opacity: .5; transition: all .5s; transform-origin: center center; transform: scale(.2); }
+
+/* menu */
+#v.title { background: linear-gradient(#300,#a00); background-size: 200% 200%; animation: fire infinite 2s; color: #fff; text-align: center; font-family: Arial, sans-serif; }
+#v.title h1 { display: block; opacity: 1; position: static; height: auto; background: none; font-size: 100px; padding: 50px 0 0; text-shadow: 0 0 30px #fff, 0 0 10px #fff }
+#v.title h2 { display: block; opacity: 1; position: static; height: auto; background: none; font-size: 40px; padding: 0 0 0; cursor: pointer;  text-shadow: 0 0 10px #000;}
+#v.title h2 div { font-size: 20px; }
+
+/* play */
+#dialog3 { position: absolute; top: 20px; left: calc(50% - 350px); color: #fff; font: 30px calibri, arial; width: 700px; line-height:1.1; text-shadow: 0 0 10px #000; }
+#timerdiv { position: absolute; top: 10px; left: calc(50% - 380px); color: #fff; font: 50px calibri, arial; text-shadow: 0 0 3px #fff; }
+
+/* mobile */
+#dpad { position: fixed; width: 100%; top: 430px; left: 10px; z-index: 2; }
+#dpad div { display: inline-block; font-size: 35px; pointer-events: all; margin: 10px; text-align: center; width: 50px; height: 50px; border-radius: 5px; background: linear-gradient(45deg, #ddd, #888); box-shadow: 2px 2px 5px #000; font-weight: bold; padding: 4px 0 0; vertical-align: bottom; }
+#dpad div[hidden] { visibility: hidden; cursor: pointer; }
+#reset { top: 10px; left: 10px; position: fixed }
+#dpad #grab { position: absolute; right: 50px; bottom: 0; display: block; width: 150px; font-family: calibri;}
+#dpad #jump { position: absolute; right: 50px; bottom: 100px; display: block; width: 150px; font-family: calibri;}
+#toggle_sound { position: fixed; left: calc(50% + 420px); top: 10px; display: block; width: 50px; font-family: calibri; background: #333; text-align: center; padding: 10px; font-size: 20px; }
+</style>
+<title>PUZZLATORY</title>
+<body id=b>
+
+<script>
+onload = () => {
+  current_screen = 0; // 0 = menu / 1 = start / 2 = continue
+  if(location.hash.length > 1){
+    draw_screen(2);
+  }
+  else {
+    current_level = +localStorage["puzzlatory_continue"] || 0;
+  }
+}
+
+draw_screen = n => {
+
+current_screen = n;
+
+audio = 1;
+
+if(n == 0){
+
+  b.innerHTML = `<div id=v class=title><div id=devil style="transform:scale(8);left:420px;top:380px;opacity:.1;pointer-events:none"></div><h1>PUZZLATORY</h1><br><br><br><br><br><br><h2 onclick="draw_screen(1);current_level=0;play_music(0)">Start</h2><h2 onclick="draw_screen(2);audio=1;play_music(1)">Continue</h2><h2 onclick="location='//xem.github.io/js13k22/src/bonus.html'">Bonus</h2>`;
+
+}
+
+else if(n == 1){
+  audio = 1;
+  b.innerHTML = `<div id=v><h1 id=light></h1><div id=s><div id=devil></div>
+<div id=head></div><div id=hero></div><div id=dialog></div><div id=dialog2></div><div id=woop></div></div><h1 id=caption>JS13kGames<br>presents...</h1></div><div id=toggle_sound onclick="audio=1-audio;this.innerHTML=['🔇','🔊'][audio]" oncontextmenu="return false">🔊</div>`;
+intro();
+
+
+}
+
+else if(n == 2){
+
+  b.innerHTML = `<div id=v><h1 id=light></h1><div id=devil></div><div id=angel style="left:-1000px"></div><canvas id=canvas width=800 height=600></canvas><div id=start style="opacity:0"></div><div id=exit></div></div><div id=dialog3></div><div id=timerdiv onclick=restart()></div><div id=dpad style=display:none><div hidden>↑</div><div hidden>↓</div><br><div ontouchstart=l=1 ontouchend=l=0 oncontextmenu="return false">◀︎</div><div ontouchstart=d=1 ontouchend=d=0 oncontextmenu="return false" hidden>▼</div><div ontouchstart=r=1 ontouchend=r=0 oncontextmenu="return false">▶︎</div><div id=reset ontouchstart=R=1 ontouchend=R=0 oncontextmenu="return false">↺</div><div id=jump ontouchstart=u=1 ontouchend=u=0 oncontextmenu="return false">JUMP</div><div id=grab ontouchstart=s=1 ontouchend=s=0 oncontextmenu="return false">GRAB</div></div><div id=toggle_sound onclick="audio=1-audio;this.innerHTML=['🔇','🔊'][audio]" oncontextmenu="return false">🔊</div><center style="opacity:.1">
+<button onclick="play(...levels[current_level=0]);this.blur()">0</button>
+<button onclick="play(...levels[current_level=1]);this.blur()">1</button>
+<button onclick="play(...levels[current_level=2]);this.blur()">2</button>
+<button onclick="play(...levels[current_level=3]);this.blur()">3</button>
+<button onclick="play(...levels[current_level=4]);this.blur()">4</button>
+<button onclick="play(...levels[current_level=5]);this.blur()">5</button>
+<button onclick="play(...levels[current_level=6]);this.blur()">6</button>
+<button onclick="play(...levels[current_level=7]);this.blur()">7</button>
+<button onclick="play(...levels[current_level=8]);this.blur()">8</button>
+<button onclick="play(...levels[current_level=9]);this.blur()">9</button>
+<button onclick="play(...levels[current_level=10]);this.blur()">10</button>
+<button onclick="play(...levels[current_level=11]);this.blur()">11</button>
+<button onclick="play(...levels[current_level=12]);this.blur()">12</button>
+<button onclick="play(...levels[current_level=13]);this.blur()">13</button>
+<button onclick="play(...levels[current_level=14]);this.blur()">14</button>
+<button onclick="play(...levels[current_level=15]);this.blur()">15</button>
+<button onclick="play(...levels[current_level=16]);this.blur()">16</button>
+<button onclick="play(...levels[current_level=17]);this.blur()">17</button>
+<button onclick="play(...levels[current_level=18]);this.blur()">18</button>
+<button onclick="play(...levels[current_level=19]);this.blur()">19</button>
+<button onclick="play(...levels[current_level=20]);this.blur()">20</button>
+<button onclick="play(...levels[current_level=21]);this.blur()">21</button>
+<button onclick="play(...levels[current_level=22]);this.blur()">22</button>
+<button onclick="play(...levels[current_level=23]);this.blur()">23</button>
+<button onclick="play(...levels[current_level=24]);this.blur()">24</button>
+<button onclick="play(...levels[current_level=25]);this.blur()">25</button>
+<button onclick="play(...levels[current_level=26]);this.blur()">26</button>
+<button onclick="play(...levels[current_level=27]);this.blur()">27</button>
+<button onclick="play(...levels[current_level=28]);this.blur()">28</button>`;
+  
+  if(mobile) {
+    dpad.style.display = "block";
+  }
+  
+  if(location.hash.length > 2){
+    current_level = 99;
+    play(location.hash.slice(1));
+  }
+  else play(...levels[current_level]);
+  
+}
+
+}
+
+draw_screen(0);
+
+// Mobile
+mobile = navigator.userAgent.match("Mobi");
+if(mobile) {
+  b.style.minWidth = "1400px";
+}
+oncontextmenu = e => {e.preventDefault()}
+
+// Keyboard controls (Up Left Down Right Space)
+u=r=d=l=s=R=0;
+onkeydown=onkeyup=e=>{/*console.log(e.which-32);*/this['s****lurd************************l**r************lRd***u**u'[e.which-32]]=e.type[5]};
+
+
+// music
+A = new (self.AudioContext||self.webkitAudioContext),
+m = A.createBuffer(1,1e6,44100);
+music = [
+
+  // Fortuna-Imperatrix-Mundi.mid track 1
+  [
+    1,1,1,1,1,/*88,,,89,,86,,86,,,,88,,,89,,86,,86,,,,93,,,91,93,91,91,89,88,,,,*/89,89,88,88,,,89,89,88,88,,,89,89,88,89,,91,,89,88,,,,89,89,88,88,,,89,89,88,88,,,89,89,88,89,,91,,89,88,,,,93,93,91,91,,,93,93,91,91,,,93,93,91,89,,91,,89,91,,,,93,93,91,91,,,93,93,91,91,,,93,93,91,93,94,93,91,89,91,89,88,86,,,,,,,,,,
+  ],
+  
+  // 2810gptdk.mid dance of the knights
+  [1,1,1,1,59,,,64,67,,71,76,,71,67,,64,59,,64,67,,71,76,,,59,,,,62,66,,71,74,,71,66,,62,59,,62,66,,71,74,,,,,75,74,,73,62,,74,74,,,75,74,73,,62,,63,62,,61,,63,62,,61,60,,67,66,,]
+];
+
+// Mini Piano
+
+// params: note value / inversed 1 / inversed 2
+piano = (e, i1, i2) => {
+   var V, u, v, p, b, w, P, r, i, D, s;
+   for(
+  
+    // V: note length in seconds
+    V = [2, 1.5][current_song],
+    
+    // O: piano is selected
+    u = 1,
+    
+    // Temp vars for guitar synthesis
+    v = [],
+    p = c = 0,
+    
+    // Modulation
+    // This function generates the i'th sample of a sinusoidal signal with a specific frequency and amplitude
+    b = (e, t, a, i) => Math.sin(e / t * 6.28 * a + i),
+    
+    // Instrument synthesis
+    w = (e, t) =>
+    
+      u 
+
+      // Piano
+      ? Math.sin(e / 44100 * t * 6.28 + b(e, 44100, t, 0) ** 2 + .75 * b(e, 44100, t, .25) + .1 * b(e, 44100, t, .5))
+      
+      // Guitar
+      : (
+        P = 44100 / t,
+        r = 0,
+        v.length <= 1 + ~~P
+        ? (v.push(2 * Math.random() - 1), v[v.length - 1])
+        : (v[p] = .5 * (
+          v[p >= v.length - 1 ? 0 : p + 1] + v[p]
+          ),
+          p >= ~~P && (
+            p < 1 + ~~P 
+            ? c % 100 >= ~~(100 * (P - ~~P)) &&(r = 1, v[p+1] = .5 * (v[0] + v[p + 1]), c++)
+            : r = 1
+          ),
+          p = r ? 0 : p + 1,
+          v[p]
+        )
+      ),
+    
+    // Sound samples
+    D = [],
+    
+    // Loop on all the samples
+    i = 0;
+    i < 44100 * V;
+    i++
+  ){
+  
+    // Fill the samples array
+    D[i] =
+    
+      // The first 88 samples represent the note's attack
+      (i < 120 
+      ? i / 120.2 * w(i, e) 
+      
+      // The other samples represent the rest of the note
+      : ((1 - (i - 88.2) / (44100 * (V - .002))) ** (u ? (.5 * Math.log(1e4 * e / 44100)) ** 2 : 1) * w(i, e)) / (u ? 1 : 5))
+      /5;
+  }
+  
+  // Play the note
+  m.getChannelData(0).set(i1 ? D.reverse() : D),
+  s = A.createBufferSource(),
+  s.buffer = m,
+  s.connect(A.destination),
+  s.start()
+}
+
+current_song = 0;
+current_note = 0;
+music_interval = 0;
+
+play_music = (n) => {
+  current_song = n;
+  clearInterval(music_interval);
+  current_note = 0;
+  music_interval = setInterval(play_note, [400, 250][n]);
+  
+}
+
+play_note = () => {
+  if(!audio) return;
+  if(hero.mirror_v) { current_note --; if(current_note < 0) current_note = music[current_song].length - 1; }
+  else  { current_note ++; if(current_song == 1) current_note %= (music[current_song].length - 1); }
+  
+  if(music[current_song][current_note] == 1) piano(0.0001);
+  else if(music[current_song][current_note]) piano(440*1.06**(music[current_song][current_note] - 80), hero.inverted);
+}
+
+//onload = play_music;
+
+// Sound
+win_sound = function(i,t){
+  var n=1e4;
+  if (i > n) return null;
+  var q = t(i,n);
+  return Math.sin(i*0.01*Math.sin(i*0.4)+Math.sin(i/100))/3;
+}
+
+gravity_sound = function(i,t){
+  i=i*0.75;
+  var n=1.3e4;
+  var c=n/3;
+  if (i > n) return null;
+  var q=Math.pow(t(i,n),3.1);
+  return (Math.pow(i,1.08)&(i<c?98:99))?q:-q;
+}
+
+time_sound = function(i,t){
+  var n=2e4;
+  if (i > n) return null;
+  var q = t(i,n);
+  i=i*0.1;
+  return Math.sin(Math.pow(i,0.9)*0.03*Math.sin(0.09*Math.pow(i,1.1)+Math.sin(i/200))+Math.sin(i/100))*q*q;
+}
+
+// Sound player
+var sound = f => {
+var t,A,m,b,s;
+t=(i,n)=>(n-i)/n;
+A=new AudioContext()
+m=A.createBuffer(1,96e3,48e3)
+b=m.getChannelData(0)
+for(i=96e3;i--;)b[i]=f(i,t)
+s=A.createBufferSource()
+s.buffer=m
+s.connect(A.destination)
+s.start()
+}
+
+
+intro = () => {
+  v.style.background = "linear-gradient(#000,#700)";
+  v.style.backgroundSize = "200% 200%";
+  v.style.animation = "fire infinite 2s";
+  devil.style.transform = "translateX(500px) translateY(-220px) scale(17)";
+  setTimeout(()=>head.style.transform = "translateX(200px) translateY(355px) scale(4)",1000);
+  setTimeout(()=>devil.style.transition = "all 5s",1000);
+  setTimeout(()=>dialog.innerHTML = "WH... WHERE AM I?",2000);
+  setTimeout(()=>dialog.style.left = "-50px",5000);
+  setTimeout(()=>dialog.innerHTML = "",5000);
+  setTimeout(()=>dialog.style.fontSize = "30px", 5000);
+  setTimeout(()=>head.style.transition = "all 5s",5000);
+  setTimeout(()=>head.style.transform = "translateX(150px) translateY(455px) scale(2)",5000);
+  setTimeout(()=>devil.style.opacity = ".05",5000);
+  setTimeout(()=>devil.style.transform = "translateX(500px) translateY(220px) scale(7)",5000);
+  setTimeout(()=>dialog2.innerHTML = "IN A PLACE<br>BEYOND SPACE<br>AND TIME...",9000);
+  setTimeout(()=>devil.style.transition = "all 16s", 9000);
+  setTimeout(()=>head.style.transition = "all 16s", 9000);
+  setTimeout(()=>devil.style.transform = "translateX(450px) translateY(220px) scale(7)",9000);
+  setTimeout(()=>head.style.transform = "translateX(180px) translateY(455px) scale(2)",9000);
+  setTimeout(()=>dialog2.innerHTML = "", 12000);
+  setTimeout(()=>dialog.innerHTML = "OH MY GOD...<br>AM I DEAD?", 14000);
+  setTimeout(()=>dialog.innerHTML = "", 17000);
+  setTimeout(()=>dialog2.innerHTML = "WORSE !<br>YOU ARE...", 18000);
+  setTimeout(()=>dialog2.innerHTML = "", 20000);
+  setTimeout(()=>dialog2.innerHTML = "<br><br><br>IN A<br>PUZZLE<br>GAME!", 21000);
+  setTimeout(()=>devil.style.transition = "all .5s", 21000);
+  setTimeout(()=>head.style.transition = "all .5s", 21000);
+  setTimeout(()=>devil.style.transform = "translateX(540px) translateY(365px) scale(12)", 21000);
+  setTimeout(()=>head.style.transform = "translateX(85px) translateY(574px) scale(5)", 21000);
+  setTimeout(()=>dialog2.innerHTML = "", 23000);
+  setTimeout(()=>light.style.opacity = 1, 22500);
+  setTimeout(()=>light.style.opacity = 0, 22570);
+  setTimeout(()=>light.style.opacity = .7, 22800);
+  setTimeout(()=>light.style.opacity = 0, 22980);
+  setTimeout(()=>caption.style.opacity = 1, 23500);
+  setTimeout(()=>intro2(), 28000);
+}
+
+intro2 = () => {
+  v.style.animation = "none";
+  hero.style.display = "block";
+  head.style.display = "none";
+  devil.style.transition = "none";
+  caption.style.opacity = 0;
+  v.style.background = "linear-gradient(#0000 90%, #000 90%), radial-gradient(at top left, #6bf 25%,#744 45%, #600 65%, #000)";
+  devil.style.transform = "translateX(660px) translateY(340px) scale(3)";
+  devil.style.opacity = ".2";
+  dialog2.style.left = "430px";
+  hero.style.transform = "translateX(415px) translateY(446px) scale(2)";
+  setTimeout(()=>hero.style.transition = "all 8s",500);
+  setTimeout(()=>devil.style.transition = "all 8s",500);
+  setTimeout(()=>hero.style.transform = "translateX(465px) translateY(446px) scale(2)",500);
+  setTimeout(()=>devil.style.transform = "translateX(610px) translateY(340px) scale(3)",500);
+  setTimeout(()=>dialog2.innerHTML = "THIS PLACE<br>IS BETWEEN<br>HEAVEN & HELL<br>...",500);
+  setTimeout(()=>dialog2.innerHTML = "",4000);
+  setTimeout(()=>dialog2.innerHTML = "TO CHOOSE YOUR<br>PATH, YOU WILL<br> HAVE TO SOLVE<br>MY PUZZLES!",4500);
+  setTimeout(()=>dialog2.innerHTML = "",8500);
+  setTimeout(()=>woop.style.opacity = 1,8500);
+  setTimeout(()=>woop.style.animation = "wooop 1s forwards",8500);
+  setTimeout(()=>hero.style.transition = "none",8500);
+  setTimeout(()=>hero.style.opacity = "0",9000);
+  setTimeout(()=>dialog2.innerHTML = "<br><br>HE HE HE...",9000);
+  setTimeout(()=>dialog2.innerHTML = "",11000);
+  setTimeout(()=>caption.style.font = "100px arial", 11500);
+  setTimeout(()=>caption.innerHTML = "PUZZLATORY", 11500);
+  setTimeout(()=>caption.style.opacity = 1, 11500);
+  setTimeout(()=>{audio = 0; draw_screen(2);play_music(1); localStorage["puzzlatory_continue"] = 0;}, 13500);
+  
+  
+}
+
+s_release = 1;
+
+lightning = () => {
+  light.style.opacity = .8;
+  setTimeout(()=>light.style.opacity = 0, 200);
+  setTimeout(()=>light.style.opacity = .8, 300);
+  setTimeout(()=>light.style.opacity = 0, 350);
+}
+
+
+// Render hero and update its hitbox if it is the current one
+draw_hero = (x, y, arms, legs, mirror_h, mirror_v, inverted, current = 1, arms_only = 0) => {
+  ctx.save();
+  
+  //if(current == 1) console.log(legs);
+  
+  if(inverted){
+    ctx.fillStyle = "#ddd";
+  }
+  
+  // Reversed gravity
+  if(mirror_v){
+    
+    // Look left
+    if(!mirror_h) {
+      ctx.translate(x,y);
+      ctx.rotate(Math.PI);
+      ctx.translate(20,-62);
+      ctx.scale(-1.5,1.5);
+    }
+    
+    // Look right
+    else {
+      ctx.translate(x,y);
+      ctx.rotate(Math.PI);
+      ctx.translate(-17,-62);
+      ctx.scale(1.5,1.5);
+    }
+    
+    // Compute hitbox
+    if(current){
+      
+      // Hold a cube
+      if(arms == "hold"){
+      
+        // Look left
+        if(mirror_h){
+          tl = [hero.x + -10, hero.y - 45];
+          tr = [hero.x + 10, hero.y - 45];
+          bl = [hero.x + -45, hero.y + 45];
+          br = [hero.x + 10, hero.y + 45];
+          ml = [hero.x + -45, hero.y];
+          mr = [hero.x + 10, hero.y];
+        }
+        
+        // Look right
+        else{
+          tl = [hero.x + -10, hero.y - 45];
+          tr = [hero.x + 10, hero.y - 45];
+          bl = [hero.x + -10, hero.y + 45];
+          br = [hero.x + 45, hero.y + 45];
+          ml = [hero.x + -10, hero.y];
+          mr = [hero.x + 45, hero.y];
+        }
+      }
+      
+      // Not holding stuff
+      else {
+        tl = [hero.x + -10, hero.y - 35];
+        tr = [hero.x + 10, hero.y - 35];
+        bl = [hero.x + -10, hero.y + 45];
+        br = [hero.x + 10, hero.y + 45];
+        ml = [hero.x + -10, hero.y];
+        mr = [hero.x + 10, hero.y];
+      }
+    }
+    
+    
+  }
+  
+  // Normal gravity
+  else {
+  
+    // Look left
+    if(mirror_h) {
+      ctx.translate(x+20,y-55);
+      ctx.scale(-1.5,1.5);
+    }
+    
+    // Look right
+    else {
+      ctx.translate(x-17,y-55);
+      ctx.scale(1.5,1.5);
+    }
+    
+    // Compute hitbox
+    if(current){
+      
+      // Hold a cube
+      if(arms == "hold"){
+
+        // Look left
+        if(mirror_h){
+          tl = [hero.x + -45, hero.y - 45];
+          tr = [hero.x + 10, hero.y - 45];
+          bl = [hero.x + -10, hero.y + 45];
+          br = [hero.x + 10, hero.y + 45];
+          ml = [hero.x + -45, hero.y];
+          mr = [hero.x + 10, hero.y];
+        }
+        
+        // Look right
+        else{
+          tl = [hero.x + -10, hero.y - 45];
+          tr = [hero.x + 45, hero.y - 45];
+          bl = [hero.x + -10, hero.y + 45];
+          br = [hero.x + 10, hero.y + 45];
+          ml = [hero.x + -10, hero.y];
+          mr = [hero.x + 45, hero.y];
+        }
+      }
+      
+      // Not holding stuff
+      else {
+        tl = [hero.x + -10, hero.y - 35];
+        tr = [hero.x + 10, hero.y - 35];
+        bl = [hero.x + -10, hero.y + 45];
+        br = [hero.x + 10, hero.y + 45];
+        ml = [hero.x + -10, hero.y];
+        mr = [hero.x + 10, hero.y];
+      }
+    }
+  }
+  
+  // Draw:
+  
+  if(arms_only && arms == "hold"){
+    // arms 
+    ctx.fill(new Path2D("M3 28L7 41L23 41A3 3 0 0 0 23 34L11 34L9 26Z"));
+  }
+  
+  else{
+    // Body
+    ctx.fill(new Path2D("M17 15L20 20L16 21ZM8 15L6 11L9 13L8 10L11 13L12 9L13 13L15 9L15 13L17 10L17 13L19 10L18 15L17 25A4 4 0 0 1 22 30L17 32L17 44A2 2 0 0 1 8 44L8 32L3 28A7 9 0 0 1 9 25Z")); // body
+  
+    // Arms
+    if(arms == "idle" || arms == "walk1"){
+      ctx.fill(new Path2D("M3 28L3 47A1 1 0 1 0 8 47L8 25Z"));
+      ctx.fill(new Path2D("M22 29L22 46A1 1 0 0 1 17 46L17 25Z"));
+    }
+    else if(arms == "hold") {
+      ctx.fill(new Path2D("M3 28L7 41L23 41A3 3 0 0 0 23 34L11 34L9 26Z"));
+      ctx.fill(new Path2D("M15 26L19 38L32 38A2 2 0 0 0 32 32L24 32L20 26Z"));
+    }
+    else if(arms == "walk0" || arms == "jump") {
+      ctx.fill(new Path2D("M16 27L18 46A1 1 0 0 0 24 44L21 26Z"));
+      ctx.fill(new Path2D("M4 28L1 47A1 1 0 0 0 6 48L10 26Z"));
+    }
+    else if(arms == "walk2") {
+      ctx.fill(new Path2D("M4 28L6 49A2 2 0 0 0 12 48L9 26Z"));
+      ctx.fill(new Path2D("M16 26L14 45A1 1 0 0 0 18 47L21 28Z"));
+    }
+  
+    // Legs
+    if(legs == "idle"){
+      ctx.fill(new Path2D("M12 45L12 71A2 1 0 1 0 17 71L17 43Z"));
+      ctx.fill(new Path2D("M9 44L9 70A2 2 0 1 0 14 70L14 45Z"));
+    }
+    else if(legs == "walk2"){
+      ctx.fill(new Path2D("M9 46L13 71A4 3 0 0 0 20 69L14 46Z"));
+      ctx.fill(new Path2D("M11 45L6 68A2 2 0 0 0 11 70L16 46Z"));
+    }
+    else if(legs == "walk0"){
+      ctx.fill(new Path2D("M9 46L10 69A3 5 0 0 0 15 69L14 46Z"));
+      ctx.fill(new Path2D("M12 47L14 56L6 64A1 1 0 0 0 10 68L21 57L15 46Z"));
+    }
+    else if(legs == "jump" || legs == "walk1"){
+      ctx.fill(new Path2D("M9 46L11 58L8 68A2 2 0 0 0 12 70L16 58L13 46Z"));
+      ctx.fill(new Path2D("M12 47L18 56L17 67A2 2 0 0 0 22 68L23 56L17 46Z"));
+    }
+  
+    // Triangle
+    if(current == current_self && current_self > 1){
+      ctx.beginPath();
+      //console.log(mirror_h);
+      ctx.moveTo(mirror_h * 5 + 10,0);
+      ctx.lineTo(mirror_h * 5 + 0,-10);
+      ctx.lineTo(mirror_h * 5 + 20,-10);
+      ctx.closePath();
+      ctx.fillStyle = "#269";
+      ctx.fill();
+    }
+  }
+
+  ctx.restore();
+};
+
+// What's on the map at coords x,y ? 0: sky, 1: solid block, 2: cube
+hit = (x, y, from_cube, log) => {
+  hitx = (x/50|0) * 50 + 25;
+  hity = (y/50|0) * 50 + 25;
+  for(i in cubes){
+    if(hero.hold != +i && !cubes[i].holding && cubes[i].x - 25 < x && cubes[i].x + 25 > x && cubes[i].y - 25 < y && cubes[i].y + 25 > y) {
+      //if(log) console.log("hit " +i);
+      hitx = cubes[i].x;
+      hity = cubes[i].y;
+      //if(log) console.log(hity);
+      return 2;
+    }
+  }
+  if(map[(y/50|0) * 16 + (x/50|0)]){
+    hitx = (x/50|0) * 50 + 25;
+    hity = (y/50|0) * 50 + 25;
+    //if(log) console.log(hity);
+    return map[(y/50|0) * 16 + (x/50|0)];
+  }
+  
+  if(x > 950 || x < -50){
+    //hitx = (x/50|0) * 50 + 25;
+    //hity = (y/50|0) * 50 + 25;
+    //if(log) console.log(hity);
+    return 1;
+  }
+  return 0;
+}
+
+// Draw one frame (and run the physics)
+draw = () => {
+
+  //console.log(1, hero.hold);
+  
+  var i,j, k;
+  //console.log(pause);
+  if(pause){ pause--; if(pause < 18 && pause > 5) return }
+  if(pause2){ pause2--; return }
+  if(R) restart();
+  
+  time++;
+  
+  if(hero.inverted) present--;
+  else present++;
+  //document.title = present;
+  present_abs = Math.abs(present);
+  time_array = present < 0 ? past : future;
+  if(!time_array[present_abs]) time_array[present_abs] = {hero: [], cubes: []};
+  
+  //if(time < 100){
+    
+    // Save hero in time
+    time_array[present_abs].hero[current_self] = JSON.parse(JSON.stringify(hero));
+  
+    //console.log(time_array[present_abs].hero[current_self]);
+    
+    // Load cubes from time array plus eventual cubes that have been created since
+    if(time_array[present_abs].cubes.length){
+      
+      for(i in time_array[present_abs].cubes){
+        if(cubes[i].holding == current_self || cubes[i].last_grab == current_self) continue;
+        // if(time_array[present_abs].cubes[i].holding != current_self && hero.hold == i && cubes[i].last_grab != current_self) continue;
+        if(cubes[i].last_grab && cubes[i].last_grab < current_self){
+          cubes[i] = JSON.parse(JSON.stringify(time_array[present_abs].cubes[i]));
+        }
+        else {
+          cubes[i] = JSON.parse(JSON.stringify(time_array[present_abs].cubes[i]));
+          cubes[i].holding = 0;
+        }
+      }
+    }
+    
+    // Save cubes in time
+    time_array[present_abs].cubes = JSON.parse(JSON.stringify(cubes));
+    
+    cubes = time_array[present_abs].cubes;
+    //console.log(present, JSON.stringify(cubes.filter((i,j)=>j>1)));
+    
+    //console.log(time_array);
+  //}
+  
+  
+  canvas.width ^= 0;
+  
+  //console.log(2, hero.hold);
+  
+  
+  // map
+  for(x = 0; x < 16; x++){
+    for(y = 0; y < 12; y++){
+    
+      // 0: air (not drawn)
+    
+      // 1: Solid wall
+      if(map[y*16+x] == 1) ctx.fillRect(x*50,y*50,50,50);
+      
+      // 2: cube (not drawn here)
+      
+      // 3: gravity reverser (not drawn here)
+      
+      // 4: time reverser (not drawn here)
+      
+      
+      
+    }
+  }
+  
+  // Hell
+  if(current_level == 13 || current_level == 14) {
+    ctx.save();
+    ctx.scale(2,2);
+    ctx.translate(300,180);
+    ctx.fill(new Path2D("M10 99L10 25Q41 0 75 25L75 99Z"));
+    ctx.restore();
+    ctx.font="40px Times New Roman";
+    ctx.fillStyle="red";
+    ctx.fillText("HELL",635,470);
+    if(current_level == 13 && !outro){
+      ctx.fillText("🔥",635 + Math.random() * 5,550);
+      ctx.fillText("🔥",655 + Math.random() * 5,550);
+      ctx.fillText("🔥",675 + Math.random() * 5,550);
+    }
+    else if(current_level == 14 || outro){
+      ctx.fillText("  NO.",635,510);
+    }
+    ctx.fillStyle="#000";
+    
+  }
+  
+  // Heaven
+  if(current_level == 28) {
+    ctx.save();
+    ctx.scale(2,2);
+    ctx.translate(-5,50);
+    ctx.fillStyle="#def";
+    ctx.fill(new Path2D("M10 99L10 25Q41 0 75 25L75 99Z"));
+    ctx.restore();
+    ctx.font="30px Times New Roman";
+    ctx.fillStyle="#00f";
+    ctx.fillText("HEAVEN",12,180);
+    if(current_level == 28){
+      ctx.font="50px Times New Roman";
+      ctx.fillText("👼",35,250);
+    }
+    ctx.fillStyle="#000";
+    
+  }
+  
+  // Gravity inverters
+  for(i in gravity_inverters){
+    ctx.save();
+    ctx.beginPath();
+    if(gravity_inverters[i].active){
+      ctx.fillStyle = "#fc0";
+      ctx.strokeStyle = "#fc0";
+    }
+    ctx.lineWidth = 3;
+    ctx.setLineDash([5, 3]);
+    ctx.arc(gravity_inverters[i].x,gravity_inverters[i].y,22,0,7);
+    ctx.stroke();
+    ctx.translate(gravity_inverters[i].x-50,gravity_inverters[i].y-50);
+    ctx.scale(.9,.9);
+    ctx.translate(5,5);
+    ctx.fill(new Path2D("M53 60L53 40L57 40L50 30L43 40L47 40L47 60L42 60L50 70L58 60Z"));
+    ctx.restore();
+  }
+  
+  // Cubes slots
+  for(i in cube_slots){
+  
+    // Normal
+    if(!cube_slots[i].inverted) {
+      ctx.save();
+      if(cube_slots[i].active) {
+        ctx.fillStyle = "#fc0";
+        ctx.strokeStyle = "#fc0";
+      }
+      else {
+        ctx.fillStyle = "#000";
+        ctx.strokeStyle = "#000";
+      }
+      ctx.translate(cube_slots[i].x - 25, cube_slots[i].y - 25);
+      ctx.beginPath();
+      ctx.lineWidth = 4;
+      ctx.setLineDash([6, 5]);
+      ctx.rect(0,0,50,50);
+      ctx.stroke();
+      ctx.translate(0,0);
+      ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+      ctx.restore();
+    }
+      
+    // Inverted
+    else {
+      ctx.save();
+      
+      if(cube_slots[i].active) {
+        ctx.fillStyle = "#fc0";
+        ctx.strokeStyle = "#fc0";
+      }
+      else {
+        ctx.fillStyle = "#bbb";
+        ctx.strokeStyle = "#bbb";
+      }
+      ctx.translate(cube_slots[i].x - 25, cube_slots[i].y - 25);
+      ctx.beginPath();
+      ctx.lineWidth = 3;
+      ctx.setLineDash([6, 5]);
+      ctx.rect(0,0,50,50);
+      ctx.stroke();
+      ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+      ctx.restore();
+    }
+  }
+  
+  
+  // Time inverters
+  for(i in time_inverters){
+    ctx.save();
+    if(time_inverters[i].active) {
+      ctx.fillStyle = "#fc0";
+      ctx.strokeStyle = "#fc0";
+    }
+    else {
+      ctx.fillStyle = "hsl(0deg 0% " + (Math.cos(time/15)*30 + 30) + "%)";
+      ctx.strokeStyle = "hsl(0deg 0% " + (Math.cos(time/15)*30 + 30) + "%)";
+    }
+    ctx.beginPath();
+    ctx.lineWidth = 3;
+    ctx.setLineDash([5, 5]);
+    ctx.translate(time_inverters[i].x, time_inverters[i].y);
+    ctx.arc(0,0,22,0,7);
+    ctx.stroke();
+    
+    ctx.translate(-30,-30);
+    ctx.scale(.7,.7);
+    ctx.translate(-7,-7);
+    ctx.fill(new Path2D("M45 40L55 51L55 42A4 4 0 0 1 60 57L60 61A6 6 0 0 0 55 37L55 30ZM55 61L45 50L45 57A2 2 0 1 1 40 44L40 39A8 8 0 0 0 45 62L45 70Z"));
+    ctx.restore();
+  }
+  
+    
+  
+  // Non-held cubes
+  for(i in cubes){
+    if(cubes[i].holding) continue;
+    ctx.save();
+    if(cubes[i].inverted){
+      ctx.fillStyle = "#ddd";
+    }
+    else {
+      ctx.fillStyle = "#000";
+    }
+    ctx.translate(cubes[i].x, cubes[i].y);
+    if(cubes[i].mirror_v){
+      ctx.rotate(Math.PI);
+      ctx.translate(0,-.5);
+    }
+    ctx.translate(-25,-25);
+    
+    ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+    ctx.fillStyle = "#7008";
+    ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+    ctx.fillStyle = "#000";
+    //ctx.fillText(i, 60, 30);
+    ctx.restore();
+  }
+  
+  
+  // Previous selves
+  for(i in time_array[present_abs]?.hero){
+    //console.log(i, current_self);
+    if(i != current_self){
+      j = time_array[present_abs].hero[i];
+      if(!j) continue;
+      //if(i == 1) console.log(j.walk);
+      draw_hero(
+        j.x,
+        j.y,
+        j.hold ? "hold" : (j.grounded ? (j.walking ? "walk" + (~~(j.walk / 5) % 3) : "idle") : "jump"),
+        j.grounded ? (j.walking ? "walk" + (~~(j.walk / 4) % 3) : "idle") : "jump",
+        j.mirror_h,
+        j.mirror_v,
+        j.inverted,
+        j
+      );
+      
+      // Detect paradox (past self standing on non existing cube)
+      if(j.stand_on_cube){
+        //ctx.save();
+        //ctx.fillStyle = "#fc0";
+        //ctx.fillRect(j.x - 40, j.mirror_v ? j.y - 85 : j.y + 45, 80, 50);
+        //ctx.restore();
+        paradox[i] ++;
+        for(k in cubes){
+          //if(k == 2) console.log(cubes[k], j, cubes[k].x - 25 > j.x - 55, cubes[k].x + 25 < j.x + 55, cubes[k].y - 25 > j.y + 20, cubes[k].y - 25 < j.y + 80);
+          if(cubes[k].x - 25 > j.x - 57 && cubes[k].x + 25 < j.x + 57 && Math.abs(cubes[k].y - j.y) < 80){
+            paradox[i] = 0;
+          }
+        }
+        //console.log(paradox[i]);
+        if(paradox[i] > 2 && !pause2){
+        
+          pause2 = 150;
+          ctx.save();
+          if(hero.mirror_v){
+            v.style.transform = "";
+          }
+          ctx.beginPath();
+          ctx.fillStyle = "#fff";
+          ctx.lineWidth = 10;
+          ctx.strokeStyle = "#269";
+          ctx.rect(j.x - 30, j.y - 60, 60, 130);
+          ctx.stroke();
+          ctx.font = "130px Arial";
+          ctx.fillText("PARADOX", 100,300);
+          ctx.font = "30px Arial";
+          ctx.fillText("This guy walks on a cube that has ben removed", 100,350);
+          ctx.fillStyle = "#000";
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = "#000";
+          ctx.closePath();
+          ctx.restore();
+          setTimeout(()=>{ctx.fillRect(0,0,800,600)},4500);
+          setTimeout(restart, 5000);
+      
+        }
+      }
+    
+      //if(i==1)console.log(j, j.stand_on_cube);
+      
+      if(j.hold){
+        
+        // Previous self cube
+        ctx.save();
+        if(cubes[j.hold].inverted){
+          ctx.fillStyle = "#ddd";
+        }
+        else {
+          ctx.fillStyle = "#000";
+        }
+        ctx.translate(cubes[j.hold].x, cubes[j.hold].y);
+        if(cubes[j.hold].mirror_v){
+          ctx.rotate(Math.PI);
+          ctx.translate(0,-.5);
+        }
+        ctx.translate(-25,-25);
+        
+        ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+        ctx.fillStyle = "#7008";
+        ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+        ctx.fillStyle = "#000";
+        //ctx.fillText(i, 60, 30);
+        ctx.restore();
+    
+        // Previous self arms
+        j = time_array[present_abs].hero[i];
+        //if(i == 1) console.log(j.walk);
+        draw_hero(
+          j.x,
+          j.y,
+          j.hold ? "hold" : (j.grounded ? (j.walking ? "walk" + (~~(j.walk / 5) % 3) : "idle") : "jump"),
+          j.grounded ? (j.walking ? "walk" + (~~(j.walk / 4) % 3) : "idle") : "jump",
+          j.mirror_h,
+          j.mirror_v,
+          j.inverted,
+          j,
+          true
+        );
+      }
+    }
+  }
+  
+  // current hero
+  draw_hero(
+    hero.x,
+    hero.y,
+    hero.hold ? "hold" : (hero.grounded ? (hero.walking ? "walk" + (~~(hero.walk / 5) % 3) : "idle") : "jump"),
+    hero.grounded ? (hero.walking ? "walk" + (~~(hero.walk / 4) % 3) : "idle") : "jump",
+    hero.mirror_h,
+    hero.mirror_v,
+    hero.inverted,
+    current_self
+  );
+  
+  //console.log(3, hero.hold);
+  
+  if(hero.hold){
+  
+    // Hero's cube
+    ctx.save();
+    if(cubes[hero.hold].inverted){
+      ctx.fillStyle = "#ddd";
+    }
+    else {
+      ctx.fillStyle = "#000";
+    }
+    ctx.translate(cubes[hero.hold].x, cubes[hero.hold].y);
+    if(cubes[hero.hold].mirror_v){
+      ctx.rotate(Math.PI);
+      ctx.translate(0,-.5);
+    }
+    ctx.translate(-25,-25);
+    
+    ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+    ctx.fillStyle = "#7008";
+    ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20"));
+    ctx.fillStyle = "#000";
+    //ctx.fillText(i, 60, 30);
+    ctx.restore();
+
+    // hero's arms
+    draw_hero(
+      hero.x,
+      hero.y,
+      hero.hold ? "hold" : (hero.grounded ? (hero.walking ? "walk" + (~~(hero.walk / 5) % 3) : "idle") : "jump"),
+      hero.grounded ? (hero.walking ? "walk" + (~~(hero.walk / 4) % 3) : "idle") : "jump",
+      hero.mirror_h,
+      hero.mirror_v,
+      hero.inverted,
+      current_self,
+      true
+    );
+  }
+  
+  //console.log(3.5, hero.hold);
+  
+
+  if(hero.mirror_v){
+    hero_physics_v();
+  }
+  else {
+    hero_physics();
+  }
+  
+  // Die by falling
+  if(hero.y > 700 || hero.y < -100){
+    pause2 = Infinity;
+    ctx.save();
+    if(hero.mirror_v){
+      v.style.transform = "";
+    }
+    restart();
+  }
+  
+  //console.log(3.6, hero.hold);
+  
+  // Win level
+  win = 0;
+  //console.log(exit_open);
+  if(exit_open > 10 && Math.hypot(hero.x - exit_x, hero.y - exit_y) < 50){
+    win = 1;
+  }
+  
+  // Apply physics to non-held cubes
+  for(i in cubes){
+  
+    // reversed gravity
+    if(cubes[i].mirror_v){
+      
+      // Cube fall
+      if(!cubes[i].holding){
+        //console.log(+hit(cubes[i].x, cubes[i].y - 26, 1));
+        if(
+          (hit(cubes[i].x  -20, cubes[i].y - 26, 1) == 0 || hit(cubes[i].x + -20, cubes[i].y - 26, 1) > 2)
+          &&
+          (hit(cubes[i].x + 22, cubes[i].y - 26, 1) == 0 || hit(cubes[i].x + 22, cubes[i].y - 26, 1) > 2)
+        ){
+          cubes[i].vy += gravity; // vy
+          cubes[i].vy = Math.min(cubes[i].vy, 15);
+          cubes[i].y -= cubes[i].vy; // y -= vy
+        }
+        
+        /*// cube grounded on another cube
+        else if((obstacle1 = hit(cubes[i].x  -22, cubes[i].y - 26, 1)) == 2){
+          cubes[obstacle1].y = cubes[i].y - 50;
+        }
+        
+        else if((obstacle1 = hit(cubes[i].x + 22, cubes[i].y - 26, 1)) == 2){
+          cubes[obstacle1].y = cubes[i].y - 50;
+        }*/
+        
+        
+        // Cube grounded
+        else {
+          cubes[i].y = (~~(cubes[i].y / 50)) * 50+25;
+          cubes[i].vy = 0;
+        }
+      }
+    
+    }
+    
+    else {
+    
+      // Cube fall
+      if(!cubes[i].holding){
+        //if(i == 1) console.log(+hit(cubes[i].x  -22, cubes[i].y + 26, 1));
+        if(
+          (hit(cubes[i].x  -20, cubes[i].y + 26, 1) == 0 || hit(cubes[i].x + -20, cubes[i].y + 26, 1) > 2)
+          &&
+          (hit(cubes[i].x + 22, cubes[i].y + 26, 1) == 0 || hit(cubes[i].x + 22, cubes[i].y + 26, 1) > 2)
+        ){
+          cubes[i].vy += gravity; // vy
+          cubes[i].vy = Math.min(cubes[i].vy, 15);
+          cubes[i].y += cubes[i].vy; // y += vy
+        }
+        
+        /*// cube grounded on another cube
+        else if((obstacle1 = hit(cubes[i].x  -22, cubes[i].y + 26, 1)) == 2){
+          cubes[obstacle1].y = cubes[i].y + 50;
+        }
+        
+        else if((obstacle1 = hit(cubes[i].x + 22, cubes[i].y + 26, 1)) == 2){
+          cubes[obstacle1].y = cubes[i].y + 50;
+        }*/
+        
+        // Cube grounded
+        else {
+          cubes[i].y = (~~(cubes[i].y / 50)) * 50+25;
+          cubes[i].vy = 0;
+        }
+      }
+
+    }
+  }
+  
+  //console.log(3.7, hero.hold);
+  
+  
+  // gravity inverter for hero
+  if(herogravitydelay == 0) {
+    for(i in gravity_inverters){
+      if(gravity_inverters[i].x + 25 > bl[0] && gravity_inverters[i].x - 25 < br[0] && gravity_inverters[i].y + 25 > tl[1] && gravity_inverters[i].y - 25 < bl[1]){
+        gravity_inverters[i].active = 1;
+        gravity_inversions ++;
+        sound(gravity_sound);
+        if(current_level == 2 && gravity_inversions == 3){
+          timeouts.forEach(clearTimeout);
+          timeouts = [];
+          timeouts.push(setTimeout(()=>{
+            dialog3.style.textAlign='right';
+            dialog3.style.fontSize="35px";
+            dialog3.style.color='#fff"';
+            dialog3.innerHTML = "<br><br><br><br><br>I THINK I'M GONNA PUKE..."/*"<br>LIKE IN TENET?!"*/
+          }, 1000));
+          timeouts.push(setTimeout(()=>{
+            dialog3.innerHTML = "";
+          }, 5000));
+          
+        }
+        hero.mirror_v = 1 - hero.mirror_v;
+        if(hero.hold){
+          cubes[hero.hold].mirror_v = 1 - cubes[hero.hold].mirror_v;
+          hero.vy = 0;
+        }
+        herogravitydelay = 15;
+        pause = 20;
+      }
+      else {
+        gravity_inverters[i].active = 0;
+      }
+    }
+  }
+  else {
+    herogravitydelay --;
+    if(herogravitydelay == 13) v.style.transform = "rotateX(" + (canvasrx = 180 - canvasrx) + "deg)";
+  }
+  
+  //console.log(3.8, hero.hold);
+  
+  
+  // gravity inverter for cubes
+  for(j in cubes){
+    if(cubes[j].gravitydelay == 0 && !cubes[j].holding) {
+      for(i in gravity_inverters){
+        //if(i == 5 && j == 8) console.log(gravity_inverters[i], cubes[j])
+        if(gravity_inverters[i].x + 25 > cubes[j].x - 25 && gravity_inverters[i].x - 25 < cubes[j].x + 25 && gravity_inverters[i].y + 25 > cubes[j].y - 25 && gravity_inverters[i].y - 25 < cubes[j].y + 25){
+          gravity_inverters[i].active = 1;
+          cubes[j].mirror_v = 1 - cubes[j].mirror_v;
+          cubes[j].gravitydelay = 1;
+        }
+        else {
+          //gravity_inverters[i].active = 0;
+        }
+      }
+    }
+    else {
+      if(cubes[j].gravitydelay) cubes[j].gravitydelay --;
+    }
+  }
+  
+  //console.log(4, hero.hold);
+  
+  
+  // time inverter for hero
+  for(i in time_inverters){
+    if(!time_inverters[i].active && time_inverters[i].x + 25 > bl[0] && time_inverters[i].x - 25 < br[0] && time_inverters[i].y + 25 > tl[1] && time_inverters[i].y - 30 < bl[1]){
+      time_inverters[i].active = 1;
+      lightning();
+      hero.inverted = 1 - hero.inverted;
+      sound(time_sound);
+      time_travels ++;
+      current_self++;
+      if(hero.hold){
+      
+        // Make cube disappear "after" the time inversion (before if time is reversed)
+
+        // after
+        if(hero.inverted){
+          
+          if(!time_array[Math.abs(present + 1)]){
+            time_array[Math.abs(present + 1)] = JSON.parse(JSON.stringify(time_array[present_abs]));
+          }
+          time_array[Math.abs(present + 1)].cubes[hero.hold].x = 9999;
+        }
+        
+        // before
+        else {
+          if(!time_array[Math.abs(present - 1)]){
+            time_array[Math.abs(present - 1)] = JSON.parse(JSON.stringify(time_array[present_abs]));
+          }
+          //time_array[Math.abs(present - 1)].cubes[hero.hold].x = 9999;
+        }
+        
+        
+        // New cube is created in the opposite direction and attached to the new self
+        cubes[cubes.length] = JSON.parse(JSON.stringify(cubes[hero.hold]));
+        //console.log(JSON.stringify(cubes));
+        hero.hold = cubes.length - 1;
+        cubes[hero.hold].holding = current_self;
+        cubes[hero.hold].inverted = 1 - cubes[hero.hold].inverted;
+        
+      }
+      //herogravitydelay = 9;
+      //pause = 20;
+    }
+    else if(!(time_inverters[i].x + 25 > bl[0] && time_inverters[i].x - 25 < br[0] && time_inverters[i].y + 25 > tl[1] && time_inverters[i].y - 30 < bl[1])){
+      time_inverters[i].active = 0;
+    }
+  }
+  
+  //console.log(5, hero.hold);
+  
+  // cube slots
+  if(current_level < 14 || current_level == 99) exit_open++;
+  for(i in cube_slots){
+    cube_slots[i].active = 0;
+  }
+  for(j in cubes){
+    if(!cubes[j].holding) {
+      for(i in cube_slots){
+        if(cube_slots[i].inverted == cubes[j].inverted){
+          //if(i == 5 && j == 8) console.log(cube_slots[i], cubes[j])
+          if(cube_slots[i].x + 25 > cubes[j].x - 25 && cube_slots[i].x - 25 < cubes[j].x + 25 && cube_slots[i].y + 25 > cubes[j].y - 25 && cube_slots[i].y - 25 < cubes[j].y + 25){
+            cube_slots[i].active = 1;
+          }
+        }
+      }
+    }
+    else {
+      if(cubes[j].gravitydelay) cubes[j].gravitydelay --;
+    }
+  }
+  if((current_level < 14  || current_level == 99) && cube_slots.length == 0) exit_open = 0;
+  for(i in cube_slots){
+    if(!cube_slots[i].active && (current_level < 14  || current_level == 99)) exit_open = 0;
+  }
+  if((current_level < 14  || current_level == 99) && force_exit_open) exit_open = 99;
+  //console.log(force_exit_open, exit_open);
+  exit.style.opacity = exit_open > 10 ? 1 : 0.5;
+  exit.style.transform = exit_open > 10 ? "scale(1)" : "scale(.2)";
+  
+  ctx.fillStyle = "#000";
+  
+  if(win){
+    hero.x = hero.x + ((exit_x - hero.x) / 2);
+    hero.y = hero.y + ((exit_y - hero.y) / 2);
+  }
+  
+  if(win && !level_transition){
+  
+    sound(win_sound);
+    //console.log("win");
+    timeouts.forEach(clearTimeout);
+    dialog3.innerHTML = "";
+    timeouts = [];
+    
+    pause = 50;
+    setTimeout(()=>{
+      clearInterval(interval);
+      start.style.opacity = 0;
+      exit.style.opacity = 0;
+      canvas.width ^= 0;
+      ctx.fillRect(0,0,800,600);
+      start.style.display = "none";
+      exit.style.display = "none";
+      
+    },300);
+    
+    setTimeout(()=>{
+      if(current_level == 28) { draw_screen(0); audio = 0; }
+      else if(current_level == 99) { draw_screen(0); audio = 0; }
+      else play(...levels[++current_level]);
+      if(window.start)start.style.display = "block";
+      if(window.exit)exit.style.display = "block";
+      level_transition = 0;
+      if(current_level < 99) localStorage["puzzlatory_continue"] = current_level;
+      
+    },600);
+    
+    level_transition = 1;
+    
+  }
+  
+  if(current_level == 6 && time_travels == 1){
+    timeouts.forEach(clearTimeout);
+    timeouts = [];
+    timeouts.push(setTimeout(()=>{
+      dialog3.style.textAlign='left';
+      dialog3.style.fontSize="35px";
+      dialog3.style.color='#fff"';
+      dialog3.innerHTML = "<br><br>WOW, THE TIME IS REVERSED?"/*"<br>LIKE IN TENET?!"*/
+    }, 1000));
+    timeouts.push(setTimeout(()=>{
+      if(current_level!=6) return;
+      dialog3.style.textAlign='center';
+      dialog3.style.fontSize="40px";
+      dialog3.style.color='#F00';
+      dialog3.innerHTML = "YEP. THE WHITE ITEMS<br>MOVE BACKWARDS IN TIME!";
+    }, 5000));
+    timeouts.push(setTimeout(()=>{
+      if(current_level!=6) return;
+      dialog3.innerHTML = "ONLY THE REVERSED CUBES<br>CAN ACTIVATE THE WHITE SLOTS.";
+    }, 9000));
+    timeouts.push(setTimeout(()=>{
+      if(current_level!=6) return;
+      dialog3.innerHTML = "";
+    }, 13000));
+    time_travels ++;
+  }
+  if(current_level > 13 && current_level != 28 && current_level != 99){
+    if(timer){
+      timerdiv.style.top = "-20px";
+      timerdiv.style.fontSize = "100px";
+      timerdiv.innerHTML = timer/1100|0, 10,50;
+      timer -= 30;
+    }
+    if(timer < 0) timer = 0
+    if(timer == 0){
+      exit_open = 0;
+      timerdiv.style.top = "10px";
+      timerdiv.style.fontSize = "50px";
+      timerdiv.innerHTML = "RETRY?";
+    }
+    else {
+      exit_open = 99;
+    }
+  }
+  else {
+    timerdiv.innerHTML = "";
+  }
+  
+  if(current_level == 28){
+    ctx.fillStyle = "#fff";
+    ctx.fillText("THE END.", 300, 50)
+    ctx.fillText("SPECIAL THANKS:", 300, 150-20)
+    ctx.fillText("SALVATORE PREVITI", 300, 200-20)
+    ctx.fillText("ADRIEN GUERET", 300, 250-20)
+    ctx.fillText("ANDERS KAARE", 300, 300-20)
+    ctx.fillText("KANG SEONGHOON", 300, 350-20)
+    ctx.fillText("ANDRZEJ MAZUR", 300, 400-20)
+    ctx.fillText("AND YOU!", 300, 450-20)
+  }
+}
+
+timer = 0;
+
+// Launch the game
+play = (m, dialogs = [], script = ()=>{}, restart = 0, start_offset = 2000) => {
+
+
+  if(!restart) {
+    dialog3.innerHTML = "";
+      timeouts.forEach(clearTimeout);
+      timeouts = [];
+    
+  }
+  v.style.transform = "";
+  
+  exit_open = 0;
+  map_backup = m;
+  dialogs_backup = dialogs;
+  script_backup = script;
+
+  
+  if((current_level < 14 || current_level == 99)){exit_open = 0;}
+  
+  if(current_level > 13 && current_level != 99){
+    document.body.classList.add("outro");
+    timer = 11999;
+    exit_open = 99;
+  }
+  else {
+    document.body.classList.remove("outro");
+  }
+  
+  if(current_level == 14) start.style.display = "none";
+  else start.style.display = "block";
+
+  if(current_level == 28){
+    exit.style.display = "none";
+  }
+  var i, j;
+  
+  script();
+  //console.log(dialogs);
+  if(current_level < 14  || current_level == 99){
+    for(i in dialogs_backup){
+      //if(dialogs_backup[i].length){
+        timeouts.push(setTimeout("dialog3.style.textAlign='" + ((+i)%2 ? "center" : "left") + "';dialog3.style.fontSize='" + ((+i)%2 ? "40px" : "35px") + "';dialog3.style.color='" + ((+i)%2 ? "#f00" : "#fff") + "';dialog3.innerHTML = `" + ((+i)%2 || current_level == 13 ? "":"<br><br>") + dialogs_backup[i] + "`", +i*4000 + start_offset));
+      //}
+    }
+  }
+  
+  // BG
+  if(current_level == 28) v.style.background = "linear-gradient(rgb(143 119 255), rgb(192 0 0)) 0% 0% / 200% 200%";
+  else if(current_level > 13  && current_level != 99) v.style.background = "linear-gradient(rgb(56 95 167), rgb(2 8 15)) 0% 0% / 200% 200%";
+  else v.style.background = "linear-gradient(#300,#a00)";
+  v.style.backgroundSize = "200% 200%";
+  v.style.animation = "fire infinite 2s";
+  if(current_level > 13 && current_level != 99){
+    devil.style.display = "none";
+    angel.style.display = "block";
+    angel.style.opacity = ".1";
+    angel.style.left = "350px";
+    angel.style.top = "200px";
+  }
+  else {
+    devil.style.opacity = .05;
+    angel.style.display = "none";
+    devil.style.display = "block";
+    devil.style.transform = "translateX(385px) translateY(225px) scale(7)";
+  }
+  
+  // Canvas
+  ctx = canvas.getContext("2d");
+  
+  // Map
+  // 0: sky
+  // 1: wall/ground
+  // 2: cube 
+  // 3: gravity reverser
+  // 4: time reverser
+  // 5: cube slot
+  // 6: exit
+  // 7: time-inverted cube
+  // 8: reversed cube
+  // 9: reversed cube slot
+  // $: start
+  map = m.split("");
+
+  // Gameplay data:
+  // At each frame, save:
+  // - heros id, positions, orientation (left/right), gravity (up/down), time (forward/backward), if it's the current one, and what they're holding.
+  // - for each cube: id, position, gravity, time, who holds it
+  // - for each button: if it's pressed
+  // The data is saved in "past" if time < 0 and in "future" if time >= 0
+  past = [];
+
+  future = [];
+
+  present = 0; // frame number
+  present_abs = 0; // same but absolute value
+  
+  current_self = 1;
+
+  cubes = [{x: 999, y: 999, vy: 0, grounded: 0, holding: 0, mirror_v: 0, gravitydelay: 0, last_grab: 0}, ]; // x, y, vy, grounded. cube 0 doesn't exist
+  
+  gravity_inverters = [];
+  
+  cube_slots = [];
+  
+  time_inverters = [];
+  level_transition = 0;
+  time_travels = 0;
+  gravity_inversions = 0;
+  
+  win = 0;
+  if(current_level < 14  || current_level == 99) exit_open = 0;
+  force_exit_open = 0;
+  exit_x = 0;
+  exit_y = 0;
+  
+    hero = {
+    x: 0,
+    y: 0,
+    vy: 0,
+    grounded: 0,
+    walk: 0,
+    hold: 0,
+    mirror_v: 0,
+    mirror_h: 0,
+    inverted: 0,
+  };
+  
+  
+  // Set cubes and inverters
+  for(i in map){
+    
+    if(map[i] == 2) {
+      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 0, inverted: 0, gravitydelay: 0, last_grab: 0});
+      map[i] = 0;
+    }
+    
+    if(map[i] == 3) {
+      gravity_inverters.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, active: 0});
+      map[i] = 0;
+    }
+    
+    if(map[i] == 4) {
+      time_inverters.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, active: 0});
+      map[i] = 0;
+    }
+    
+    if(map[i] == 5) {
+      cube_slots.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, active: 0, inverted: 0});
+      map[i] = 0;
+    }
+    
+    if(map[i] == 6){
+      exit.style.left = (~~(i%16) * 50 + 25 - 75) + "px";
+      exit.style.top = (~~(i/16) * 50+25 - 75) + "px";
+      exit_x = ~~(i%16) * 50+25;
+      exit_y = ~~(i/16) * 50+25;
+    }
+    
+    if(map[i] == 7) {
+      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 0, inverted: 1, gravitydelay: 0, last_grab: 0});
+      map[i] = 0;
+    }
+  
+    if(map[i] == 8) {
+      cubes.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, vy: 0, grounded: 0, holding: 0,mirror_v: 1, inverted: 0, gravitydelay: 0, last_grab: 0});
+      map[i] = 0;
+    }
+    
+    if(map[i] == 9) {
+      cube_slots.push({x: ~~(i%16) * 50+25, y: ~~(i/16) * 50+25, active: 0, inverted: 1});
+      map[i] = 0;
+    }
+    
+    if(map[i] == '$') {
+      start.style.left = (~~(i%16) * 50 + 25 - 75) + "px";
+      start.style.top = (~~(i/16) * 50+25 - 75) + "px";
+      start.style.opacity = .5;
+      setTimeout(()=>start.style.transform = "scale(.2)", 100);
+      hero.x = ~~(i%16) * 50+25;
+      hero.y = ~~(i/16) * 50+25;
+      map[i] = 0;
+    }
+    
+  }
+  
+  paradox = Array(99).fill(0);
+  //console.log(cubes[1]);
+  //console.log(cubes);
+  
+
+  
+  //hero.x = 300;
+  //hero.y = 200;
+  //hero.vy = 0;
+  gravity = 2;
+  //hero.grounded = 0;
+  //hero.h = 0;
+  //hero.walk = 0;
+  //hero.hold = 0;
+  hold_timer = 0;
+  canextendhitbox = 1;
+  obstacle1 = obstacle2 = null;
+  obstacle3 = obstacle4 = null;
+  herogravitydelay = 0;
+  hitx = hity = 0;
+  //hero.mirror_v = 0;
+  canvasrx = 0;
+  pause = 0;
+  pause2 = 0;
+  time = 0;
+  
+  
+  // hitbox
+  tl = tr = bl = br = ml = mr = [];
+  
+  // Game loop
+  clearInterval(interval);
+  interval = setInterval(draw, 30);
+  
+}
+
+restart = () => {
+  start.style.transform = "scale(1)";
+  v.style.transform = "";
+  play(...levels[current_level]);
+}
+
+outro = 0;
+
+hero_physics = () => {
+
+  var i, j;
+  
+  if(!outro && current_level == 13 && hero.x > 500 && hero.y > 300){
+    
+    //console.log("ha");
+    lightning();
+    pause2 = 1000;
+    outro = 1;
+    devil.style.transition = "all 1s";
+    angel.style.transition = "all 1s";
+    angel.style.display = "block";
+    devil.style.left = "1000px";
+    angel.style.left = "350px";
+    angel.style.top = "200px";
+    v.style.background = "linear-gradient(rgb(56 95 167), rgb(2 8 15)) 0% 0% / 200% 200%";
+    hero.walk = 0;
+    timeouts.forEach(clearTimeout);
+    timeouts = [];
+    dialog3.innerHTML = "";
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.style.fontWeight = "bold";
+      dialog3.style.fontSize = "48px";
+      dialog3.style.textAlign = "center";
+      dialog3.style.textShadow = "0 0 15px #fff,0 0 10px #fff";
+      dialog3.innerHTML = "FEAR NOT, MY CHILD!";
+    }, 500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "I AM SALVATORE,<br>THE ANGEL OF SALVATION.";
+    }, 3500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "I AM HERE TO HELP YOU!";
+    }, 7500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "THE HEAVEN'S ENTRANCE IS<br>IN THE INTRO!";
+    }, 11500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "YOU NEED TO GO THROUGH<br>ALL THE LEVELS IN REVERSE.";
+    }, 15500);
+    setTimeout(()=>{
+      dialog3.style.color = "#00F";
+      dialog3.innerHTML = "I CAN ONLY MAINTAIN THE PORTAL<br>OPEN FOR 10 SECONDS. RUN!";
+    }, 15500);
+    setTimeout(()=>{
+      dialog3.style.color = "#fff";
+      dialog3.innerHTML = "";
+      pause = 0;
+    }, 19500);
+    setTimeout(()=>{
+      play(...levels[current_level=14]);this.blur()
+    }, 20000);
+  }
+
+  if(pause2) return;
+  
+  // Ascend
+  if(hero.vy < 0){
+    if(hit(tl[0] +5, tl[1]) != 1 && hit(tr[0]-5, tr[1]) != 1){
+      //console.log("ascend");
+      hero.grounded = 0;
+      hero.vy += gravity;
+      hero.vy = Math.min(hero.vy, 30);
+      hero.y += hero.vy;
+    }
+    else {
+      //console.log("hit ceiling");
+      hero.vy = 0;
+      hero.y = ~~(hero.y / 50) * 50 + (hero.hold ? 30 : 10);
+    }
+  }
+  
+  // Fall
+  hero.stand_on_cube = 0;
+  
+  if(hero.vy >= 0){
+    obstacle1 = hit(bl[0] + 5, bl[1] + 5, 0, 1);
+    //console.log(hit1y = hity);
+    obstacle2 = hit(br[0] - 5, br[1] + 5);
+    //console.log(hit2y = hity);
+    obstacle3 = hit(ml[0] + 5, ml[1] + 5, 1);
+    //console.log(hit3y = hity);
+    obstacle4 = hit(mr[0] - 5, mr[1] + 5, 1);
+    //console.log(hit4y = hity);
+    
+    // solid block
+    if(obstacle3 == 1 || obstacle4 == 1){
+      //console.log("land2");
+      //console.log(hero.y, hity);
+      hero.grounded = 1;
+      hero.y = hity - 30;
+      //console.log(hero.y);
+      hero.vy = 0;
+    }
+    else if(obstacle1 == 1 || obstacle2 == 1){
+      //console.log("land1");
+      //console.log(hero.y, hity);
+      
+      hero.grounded = 1;
+      hero.y = hity - 25;
+      //console.log(hero.y);
+      hero.vy = 0;
+    }
+    
+    // cube
+    else if((obstacle1 == 2 || obstacle2 == 2) && hit(tl[0] + 5, tl[1] - 15) != 1 && hit(tr[0] + 5, tr[1] - 15) != 1){
+      //console.log("land", obstacle1, obstacle2);
+      
+      //console.log(
+      hero.stand_on_cube = 1
+      //);
+      hero.grounded = 1;
+      //hero.y = ~~(hero.y + 5 / 50) * 50 -50 + 5;
+      hero.vy = 0;
+    }
+    
+    // fall
+    else {
+      //console.log("fall");
+      hero.grounded = 0;
+      hero.vy += gravity;
+      hero.vy = Math.min(hero.vy, 25);
+      hero.y += hero.vy;
+    }
+  }
+  
+  
+  
+  // Left
+  hero.walking = 0;
+  if(l){
+    if(hero.x > 10 && hit(...tl) != 1 && hit(...ml) != 1 && hit(bl[0], bl[1] - 10) != 1){
+      hero.x -= 5;
+    }
+    else{
+      //if(!hero.hold) hero.x = ~~(hero.x / 50) * 50  + 50 - 15;
+    }
+    hero.mirror_h = 1;
+    hero.walk++;
+    hero.walking = 1;
+  }
+  
+  // Right
+  if(r){
+    if(hero.x < 790 && hit(...tr) != 1 && hit(...mr) != 1 && hit(br[0], br[1] - 10) != 1){
+      hero.x += 5;
+    }
+    else{
+      //if(!hero.hold) hero.x = ~~(hero.x / 50) * 50  + 50 - 15;
+    }
+    hero.mirror_h = 0;
+    hero.walk++;
+    hero.walking = 1;
+  }
+  
+  // Jump
+  if(!u) u_release = 1;
+  if(u && hero.grounded && u_release) {
+    hero.vy += -13;
+    hero.y += -13;
+    hero.grounded = 0;
+    u_release = 0;
+    hero.walking = 0;
+    hero.stand_on_cube = 0;
+  }
+  
+  //console.log(3.55, hero.hold, s);
+  
+  // Hold a cube
+  if(!s) s_release = 1;
+  if(s && s_release) {
+    s_release = 0;
+    if(hero.hold) {
+      //console.log("release " + hero.hold);
+      if(hero.mirror_h) cubes[hero.hold].x -= (hit(cubes[hero.hold].x - 40, cubes[hero.hold].y - 25) == 1 || hit(cubes[hero.hold].x - 40, cubes[hero.hold].y + 25) == 1) ? -5 : 15;
+      else cubes[hero.hold].x += (hit(cubes[hero.hold].x + 40, cubes[hero.hold].y - 25) == 1 || hit(cubes[hero.hold].x + 40, cubes[hero.hold].y + 25) == 1) ? -5 : 15;
+      cubes[hero.hold].holding = 0;
+      hero.hold = 0;
+    }
+    else{
+      for(i in cubes){
+        //console.log(i, Math.abs(hero.x-cubes[i].x), Math.abs(hero.y + 30 -cubes[i].y));
+        if(!cubes[i].holding && Math.abs(hero.x-cubes[i].x) < 50 && Math.abs(hero.y + 30 -cubes[i].y) < 80) {
+          if(Math.abs(hero.y-cubes[i].y) > 40 || (hero.mirror_h ? (hero.x > cubes[i].x - 25) : (hero.x < cubes[i].x + 25))){
+            if(hero.y < cubes[i].y - 25){
+              obstacle1 = hit(tl[0] - 40, tl[1]);
+              obstacle2 = hit(ml[0] - 40, ml[1]);
+              //console.log(1);
+              if(obstacle1 == 1 || obstacle2 == 1){
+                hero.x = hitx + 80;
+              }
+              
+              obstacle1 = hit(tr[0] + 40, tr[1]);
+              obstacle2 = hit(mr[0] + 40, mr[1]);
+              //console.log(1);
+              if(obstacle1 == 1 || obstacle2 == 1){
+                hero.x = hitx - 80;
+              }
+            }
+            //console.log("grab " + i);
+            hero.stand_on_cube = 0;
+            hero.hold = +i;
+            cubes[i].holding = current_self;
+            cubes[i].last_grab = current_self;
+            break;
+          }
+        }
+      }
+    }
+    hold_timer = 10;
+  }
+  //console.log(3.56, hero.hold);
+  
+  if(hero.hold) {
+    time_array[present_abs].cubes[hero.hold].holding = cubes[hero.hold].holding = current_self;
+    time_array[present_abs].cubes[hero.hold].x = cubes[hero.hold].x = hero.x + (canextendhitbox ? (hero.mirror_h ? -25 : 25) : 0);
+    time_array[present_abs].cubes[hero.hold].y = cubes[hero.hold].y = hero.y - 20;
+    //console.log(cubes[hero.hold].y, hero.y - 20, JSON.stringify(cubes[hero.hold]));
+  }
+  
+  //console.log(cubes[2]);
+}
+
+
+hero_physics_v = () => {
+
+  var i, j;
+
+  if(pause2) return;
+  
+  // Ascend
+  if(hero.vy < 0){
+    if(hit(bl[0] +5, bl[1]) != 1 && hit(br[0]-5, br[1]) != 1){
+      //console.log("ascend");
+      hero.grounded = 0;
+      hero.vy += gravity;
+      hero.vy = Math.min(hero.vy, 30);
+      hero.y -= hero.vy;
+    }
+    else {
+      //console.log("hit ceiling");
+      hero.vy = 0;
+      hero.y = ~~(hero.y / 50) * 50 + (hero.hold ? 30 : 10);
+    }
+  }
+  
+  // Fall
+  hero.stand_on_cube = 0;
+  if(hero.vy >= 0){
+    obstacle1 = hit(tl[0] + 5, tl[1] - 5, 0, 1);
+    //console.log(hit1y = hity);
+    obstacle2 = hit(tr[0] - 5, tr[1] - 5);
+    //console.log(hit2y = hity);
+    obstacle3 = hit(ml[0] + 5, ml[1] - 5, 1);
+    //console.log(hit3y = hity);
+    obstacle4 = hit(mr[0] - 5, mr[1] - 5, 1);
+    //console.log(hit4y = hity);
+    
+    // solid block
+    if(obstacle3 == 1 || obstacle4 == 1){
+      //console.log("land2");
+      //console.log(hero.y, hity);
+      hero.grounded = 1;
+      hero.y = hity + (hero.hold ? 25 : 20);
+      
+      //console.log(hero.y);
+      hero.vy = 0;
+    }
+    else if(obstacle1 == 1 || obstacle2 == 1){
+      //console.log("land1");
+      //console.log(hero.y, hity);
+      
+      hero.grounded = 1;
+      hero.y = hity + (hero.hold ? 20 : 12);
+      //console.log(hero.y);
+      hero.vy = 0;
+    }
+    
+    // cube
+    else if((obstacle1 == 2 || obstacle2 == 2) && hit(bl[0] + 5, bl[1] + 15) != 1 && hit(br[0] + 5, br[1] + 15) != 1){
+      //console.log("land");
+      hero.stand_on_cube = 1;
+      hero.grounded = 1;
+      //hero.y = ~~(hero.y + 5 / 50) * 50 -50 + 5;
+      hero.vy = 0;
+    }
+    
+    // fall
+    else {
+      //console.log("fall");
+      hero.grounded = 0;
+      hero.vy += gravity;
+      hero.vy = Math.min(hero.vy, 25);
+      hero.y -= hero.vy;
+    }
+  }
+  
+  // Left
+  hero.walking = 0;
+  if(l){
+  
+    if(hero.x > 10 && hit(...tl) != 1 && hit(...ml) != 1 && hit(bl[0], bl[1] - 10) != 1){
+      hero.x -= 5;
+    }
+    else{
+      //if(!hero.hold) hero.x = ~~(hero.x / 50) * 50  + 50 - 15;
+    }
+    hero.mirror_h = 1;
+    hero.walk++;
+    hero.walking = 1;
+  
+  }
+  
+  // Right
+  if(r){
+    if(hero.x < 790 && hit(...tr) != 1 && hit(...mr) != 1 && hit(br[0], br[1] - 10) != 1){
+      hero.x += 5;
+    }
+    else{
+      //if(!hero.hold) hero.x = ~~(hero.x / 50) * 50  + 50 - 15;
+    }
+    hero.mirror_h = 0;
+    hero.walk++;
+    hero.walking = 1;
+  }
+  
+  // Jump
+  if(!u) u_release = 1;
+  if(u && hero.grounded && u_release) {
+    hero.vy -= hero.mirror_h ? 14 : 13;
+    hero.y += 14;
+    hero.grounded = 0;
+    u_release = 0;
+    hero.walking = 0;
+    hero.stand_on_cube = 0;
+  }
+  
+  // Hold a cube
+  if(!s) s_release = 1;
+  if(s && s_release) {
+    s_release = 0;
+    if(hero.hold) {
+      //console.log("release " + hero.hold);
+      if(hero.mirror_h) cubes[hero.hold].x -= (hit(cubes[hero.hold].x - 40, cubes[hero.hold].y - 25) == 1 || hit(cubes[hero.hold].x - 40, cubes[hero.hold].y + 25) == 1) ? -5 : 15;
+      else cubes[hero.hold].x += (hit(cubes[hero.hold].x + 40, cubes[hero.hold].y - 25) == 1 || hit(cubes[hero.hold].x + 40, cubes[hero.hold].y + 25) == 1) ? -5 : 15;
+      cubes[hero.hold].holding = 0;
+      hero.hold = 0;
+    }
+    else{
+      for(i in cubes){
+        if(!cubes[i].holding && Math.abs(hero.x-cubes[i].x) < 50 && Math.abs(hero.y-cubes[i].y) < 80) {
+          if(Math.abs(hero.y-cubes[i].y) > 40 || (hero.mirror_h ? (hero.x > cubes[i].x - 25) : (hero.x < cubes[i].x + 25))){
+            if(hero.y > cubes[i].y + 25){
+              obstacle1 = hit(tl[0] - 40, tl[1]);
+              obstacle2 = hit(ml[0] - 40, ml[1]);
+              //console.log(1);
+              if(obstacle1 == 1 || obstacle2 == 1){
+                hero.x = hitx + 80;
+              }
+              
+              obstacle1 = hit(tr[0] + 40, tr[1]);
+              obstacle2 = hit(mr[0] + 40, mr[1]);
+              //console.log(1);
+              if(obstacle1 == 1 || obstacle2 == 1){
+                hero.x = hitx - 80;
+              }
+            }
+            //console.log("grab " + i);
+            hero.stand_on_cube = 0;
+            hero.hold = +i;
+            cubes[i].holding = current_self;
+            cubes[i].last_grab = current_self;
+            break;
+          }
+        }
+      }
+    }
+    hold_timer = 10;
+  }
+  if(hero.hold) {
+    time_array[present_abs].cubes[hero.hold].x = cubes[hero.hold].x = hero.x + (canextendhitbox ? (hero.mirror_h ? -25 : 25) : 0);
+    time_array[present_abs].cubes[hero.hold].y = cubes[hero.hold].y = hero.y + 25;
+    
+    //console.log(cubes[hero.hold].y, hero.y + 25, cubes[hero.hold]);
+  }
+}
+
+//onload = () => play();
+
+interval = 0;
+timeouts = [];
+
+
+levels = [
+
+  // 0 move
+  ["0000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000$00000000001100000000000001100000000000001120000000000001122000111111011111111111111101111111111111",["LET ME GUESS...<br>I CAN MOVE WITH WASD KEYS?","DUDE, I\'M THE DEVIL, NOT A MONSTER!<br>YOU CAN USE THE ARROW KEYS TOO...", ""],()=>{setTimeout(()=>{if(current_level==0)force_exit_open=1}, 6000)}, 0, 1000],
+
+  // 1 cubes
+  ["000000000000000000000000000000000000000000000000000000000000000000020202000000000$006000000000000000000000000000000000000100000000000000011000000005000001110500111111111111011111111111111101110",["","PRESS SPACE<br>TO GRAB AND DROP BOXES","ARE WE IN AN AMAZON WAREHOUSE?", "EW, NO!", "", "ACTIVATE ALL THE CUBE SLOTS<br>TO OPEN THE EXIT", ""], ()=>{}, 0, -2000],
+
+  // 2 gravity
+  ["00111111001111100011111100111110000000030005000300000000000000000000000000000000000000000000000000000000000000000$000000000000000000000000000000000300002000300611110011111110001111001111111000",["", "<br><br><br>THIS PLACE IS BEYOND LAWS OF PHYSICS,<br>SUCH AS GRAVITY..."/*,"<br><br>YOU'RE NOT SUPER ORIGINAL...<br>ALL PUZZLE PLATFORMERS INTRODUCE<br>REVERSE GRAVITY AT SOME POINT!"*/,""], ()=>{}, 0, -2000],
+  
+  // 3 cube gravity
+  ["00010000111111110005000011113111000000$011100111000000000000000000000000000000000000000000000000000000003000000000000020000000000000002000000060111001111000000011131111100050001111111110001000",["","<br><br><br>YOU CAN DROP CUBES<br>ON THE GRAVITY INVERTERS",""/* "<br><br>THE PORTAL REFERENCE<br>IS NOT SUBTLE AT ALL...", "<br><br><br>SHHH!"*/], ()=>{}, 0, 0],
+  
+  // 4 reset
+  ["00000001110000000000000030000000000000000000000000000000000000000000000000000000000000005000000000000000000000000$000000000000000006020000000000000002003000000011111111110000001111111111000000", ["","<br><br>PRESS R TO RESET.","<br>YOU MEAN, IF I MESS UP<br>SO BADLY THAT I GET STUCK?","<br><br>EXACTLY.",""],()=>{},0,-2000],
+  
+  // 5 Climb on reversed cubes
+  ["11110000011111110$000000080000060000000008000000110000000800300011000000000110011100000000011551110011110001111111000880000111111100088000111111110000000111111111111111111111111111111111111111",["","<br><br><br><br><br><br><br><br><br><br><br>YOU CAN RECOGNIZE REVERSED CUBES<br>BY THE HEART DRAWN ON THEM...","<br><br>AND BY THE FACT THAT<br>THEY FALL UPWARDS, NO?","<br><br><br><br><br><br><br><br><br><br><br><p>YES, THAT TOO.",""],()=>{},0,-2000],
+  
+  // 6 time
+  ["0000000000000001000000000000000100000000000000010000000000000041000000000000111100000000000111110$0060000011111100000000011111110000000011111111000000011111111100209011111111111111111111111111", ["","HERE, AT THE BRINK OF DEATH,<br>YOU CAN SEE YOUR LIFE FLASH<br>BEFORE YOUR EYES.",""],()=>{},0,-2000],
+  
+  
+  // 8 1 box 2 slots
+  ['00000000000000000000000000000000000000000000000000000000000000000000000$000000000000000000000000000000600000000002000000000000401110000000000111111100500900111111111111111111111111111111111111', ["", "REMEMBER, ALL SLOTS NEED TO BE<br>ACTIVATED SIMULTANEOUSLY!", "BUT I ONLY HAVE ONE CUBE!",""], ()=>{}, 0, -2000],
+  
+  // 7 Adrien
+  ["11111111111111111111111111111111181111111111113110011111111110011000111111110001100001111110000110000000000000011$000040040006011000000000000001100001111110000119001111111100311111111111111111"],
+  
+  // 9 Adrien
+  ["11130030030031111900000000000041100000000000000160000000000000000000000000000000000000000000000000000000000000000000000000000000$000000000000000120000000000000115000000000000011110303003030111"],
+  
+  
+  // 10 Adrien
+  ["00111000000111000190310000123010010001300310001000000000000000000000011100000000000010000000000000001$600000000000001000000001110100011110000010014000000000001000100000000031000001111111111000"],
+  
+  // 11 4 cubes
+  ["1111111111111111000000005090030000000000000000000000000000000000000000000000000000000000000000000220$0000000400002200000000000001111100000000000111110000000006011111050300090001111111111111111", /*["", "<br><br><br>LET'S SPICE THINGS UP A LITTLE...",""]*/, ()=>{}, 0, -2000],
+  
+  // 12 use the time machine twice to duplicate a black cube
+  ["22222222222222222222222222222222220000000000002222111111111111222210000000000122001$000000060100001000000000010088102050504001888811111111111188880000000000008888888888888888888888888888888888",["<br><br><br><center>WHAT?!",""],()=>{/*setTimeout(()=>{for(i in cubes)if(cubes[i].inverted && i > 44) cubes[i].mirror_v=1},16)*/}],
+  
+  // 13 hell
+  [
+    "11110000000000111110000000000001110000011111000$10000011111110000000011100011100000011100000111120000000000001111100000002000000111000000000000011110000111000001111100111110000111111111111111100000000000000000000000000000000000000000000000006",["","CONGRATS, YOU MAY NOW GO TO HELL.","WAIT! IN THE INTRO<br>YOU SAID I COULD<br>CHOOSE MY PATH!", "I LIED. MUAHAHAHAHA!",""],()=>{},0,-2000,
+  ],
+  
+  // 14 = 13
+  ["111100000000001111100000000000011100000111110006100000111111100000000111000111000000111000001111200000000000011111000000020$00001110000000000000111100001110000011111001111100001111111111111111"],
+  
+  // 15 = 12
+  ["2222222222222222220000000000002222111111111111222216000000000122221000000000012200100000000$0100001000000000010088102050504001888811111111111188880000000000008888888888888888888888888888888888"],
+  
+  // 16 = 11
+  ["11111111111111110000000050900300000000008070000000000000000000000000000000000000000000000000000000006000000040000000000000000000111110000000000011111020000070$011111050300090001111111111111111",[],()=>{setTimeout(()=>{cubes[2].mirror_v = 1},16)}],
+  
+  // 17 = 10
+  ["001110600001110001903100031230100100013000100010000000000000000000000111000000000000100000000000000010$00000000000001000000001110100011110000010014000000000001000100000000031000001111111111000"],
+  
+  // 18 = 9
+  ["1110303003030111150000000000000118000000000000010000000000000000600000000000000000000000000000001111111111111110$0000000000000000000000000000000170000000000000119000000000000411113003003003111"],
+  
+  // 20 = 7
+  ["11111111111111111111111111111111181111111111113110011111111110011000111111110001100001111110000110000000000000011600004004000$011000000000000001100001111110000119001111111100311111111111111111"],
+  
+  // 19 = 8
+  ["000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000$00000000000000000000000401110002007000111111100500900111111111111111111111111111111111111"],
+  
+  
+  // 21 = 6
+  ["0000000006000001000000000000000100000000000000010000000000000041000000000000111100000000000111110000$0000011111100000000011111110000000011111111000000011111111100209011111111111111111111111111"],
+  
+  // 22 = 5
+  ["1111000001111111060000000880000$0000000008000000110000000800300011000000000112211100000000011551110011110001111111000000000111111100000000111111110000000111111111111111111111111111111111111111",[]],
+  
+  // 23 = 4
+  ["00000001110000000000000030000000000600000000000000000000000000000000000020000000000000005000000000000000800000000000000000000000000$000000000000000000003000000011111111110000001111111111000000"],
+  
+  // 24 = 3
+  ["0001000011111111000500001111311100000000111001110000600000000000000000000000000000000000000000$0000000000000000000000000000080000000000000008000111001111000800011101111100030001111111110001000"],
+  
+  // 25 = 2
+  ["001111110011111000111111001111100300000300050003000000000008000000000000000000000000000000000000000000000000000$06000000000000000000000000000000000300000000300311110011111110011111001111111001"],
+  
+  // 26 = 1
+  ["000000000000000000000000000000000000000000000000000000000000000000020260000000000$00000000000000000000000000000000000000010000000000000001100200000500000111050011111111111101111111111111110111"],
+  
+  // 27 = 0
+  ["000000000000000000000000000000000000000000000000000000000000000000000000000000$00000000000000000060000000000100000000000000110000000000000112000000000000112200011111101111111111111110111111111"],
+  
+  // 28 = intro
+  ["00000000000000000000000000000000000000000000000000000000000000000000000000000000060000000000000011100000000000001111000000000000111110000000000011111100000000$011111111111111111111111111111111"],
+  
+  
+];
+
+</script>
+</div>
